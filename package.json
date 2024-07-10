@@ -1,0 +1,22 @@
+{
+  "name": "nuxt-app",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "dependencies": {
+    "@clerk/clerk-sdk-node": "^5.0.14",
+    "nuxt": "^3.12.3",
+    "vue": "latest",
+    "vue-clerk": "^0.4.8"
+  },
+  "devDependencies": {
+    "@nuxt/ui": "^2.17.0",
+    "@pinia/nuxt": "^0.5.1"
+  }
+}
