@@ -1,5 +1,8 @@
 <script lang="ts" setup>
-import { UserButton } from 'vue-clerk'
+import { UserButton, SignedIn, SignedOut } from 'vue-clerk'
+import { useModalsStore } from '~/stores/modals';
+
+const modalStore = useModalsStore()
 </script>
 
 <template>
@@ -9,14 +12,13 @@ import { UserButton } from 'vue-clerk'
       <span><b>Chismecito</b>.space</span>
     </div>
     <div class="app-topbar__actions">
-      <UButton
-        color="indigo"
-        label="Invitar gente"
-        icon="i-heroicons-user-plus-20-solid"
-        size="xs"
-        variant="ghost"
-      />
-      <UserButton />
+      <SignedIn>
+        <UserButton />
+      </SignedIn>
+      <SignedOut>
+        <UButton label="Ingresar" color="gray" variant="ghost" @click="modalStore.openSignInModal()" />
+        <UButton label="Crear mi cuenta" color="indigo" @click="modalStore.openSignUpModal()" />
+      </SignedOut>
     </div>
   </div>
 </template>

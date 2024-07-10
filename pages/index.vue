@@ -1,9 +1,49 @@
 <script lang="ts" setup>
+const route = useRoute()
+const router = useRouter()
+const modalsStore = useModalsStore()
+
+const { action } = route.query
+
+function removeActionParam() {
+  const query = { ...route.query };
+  delete query.action;
+  router.push({ query });
+};
+
+const isSignInModalOpen = computed(() => modalsStore.isSignInModalOpen)
+const isSignUpModalOpen = computed(() => modalsStore.isSignUpModalOpen)
+
+onMounted(() => {
+  if (action) {
+    switch (action){
+      case 'sign-in':
+        modalsStore.openSignInModal()
+        break;
+      case 'sign-up':
+        modalsStore.openSignUpModal()
+        break;
+    }
+  }
+})
+
+watch(isSignInModalOpen, (isOpen) => {
+  if (!isOpen && action === 'sign-in') {
+    removeActionParam()
+  }
+})
+
+watch(isSignUpModalOpen, (isOpen) => {
+  if (!isOpen && action === 'sign-up') {
+    removeActionParam()
+  }
+})
 </script>
 
 <template>
   <AppScrollbarWrapper class="scroll-bar">
     <div class="posts-wrapper">
+      <AppNewPost />
       <AppPost />
       <AppPost />
       <AppPost />

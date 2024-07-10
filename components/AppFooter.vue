@@ -1,5 +1,7 @@
 <script lang="ts" setup>
-import { UserButton } from 'vue-clerk'
+import { useModalsStore } from '~/stores/modals';
+
+const modalStore = useModalsStore()
 </script>
 
 <template>
@@ -8,7 +10,7 @@ import { UserButton } from 'vue-clerk'
       Desarrollado por <a href="https://fecocode.com" target="_blank">Feco</a>
     </span>
     <span>
-      <a>Políticas de privacidad</a> · <a>Términos y condiciones</a> · <a>Ayuda</a> · <a>Botón de arrepentimiento</a>
+      <a @click="modalStore.openPrivacyPolicyModal()">Políticas de privacidad</a> · <a @click="modalStore.openTermsAndConditionsModal()">Términos y condiciones</a> · <a @click="modalStore.openHelpModal()">Ayuda</a> · <a @click="modalStore.openHelpModal()">Botón de arrepentimiento</a>
     </span>
   </div>
 </template>

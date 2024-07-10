@@ -13,12 +13,12 @@
           <IconParkOutlinePopcorn />
         </template>
       </UButton>
-      <UButton color="gray" label="Comentar" disabled>
+      <!--<UButton color="gray" label="Comentar" disabled>
         <template #leading>
           <IconamoonComment />
         </template>
-      </UButton>
-      <UButton color="gray" label="Compartir" disabled>
+      </UButton>-->
+      <UButton color="gray" label="Compartir">
         <template #leading>
           <IconPhShareBold />
         </template>

@@ -1,15 +1,24 @@
 <template>
   <div class="app-main-banner">
-    <p>
-      Buenas, buenas! La App va a estar disponible a partir de las <b>00:00hs del 1° de Agosto del 2024</b>.<br><br>
-      Mientras tanto, la idea es sumar gente. <b>El que más gente trae, gana 10.000 pesitos</b>. Más información <a>acá</a>.<br>
-      <br>
-      Con cariño, Feco.
-    </p>
+    <UAlert
+      v-if="show"
+      icon="i-material-symbols-rocket-launch"
+      :close-button="{ icon: 'i-heroicons-x-mark-20-solid', color: 'white', variant: 'link', padded: false }"
+      title="Próximo lanzamiento (17/07/2024)"
+      description="Hilos, respuestas y comentarios"
+      color="white"
+      variant="soft"
+      @close="show = false"
+    >
+      <template #icon="{ icon }">
+        <IconMaterialSymbolsRocketLaunch />
+      </template>
+    </UAlert>
   </div>
 </template>
 
 <script lang="ts" setup>
+const show = ref(true)
 
 </script>
 

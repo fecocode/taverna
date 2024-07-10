@@ -1,5 +1,6 @@
 <template>
   <div class="default-layout">
+    <AppModalsManager />
     <div class="default-layout__wrapper">
       <AppTopbar />
       <AppMainBanner />

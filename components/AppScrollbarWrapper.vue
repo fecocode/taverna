@@ -69,7 +69,7 @@ export default {
       transition: opacity 200ms ease-out;
     }
     .simplebar-scrollbar::before {
-      background-color: var(--light-gray);
+      background-color: #333;
       opacity: 1 !important;
       width: 4px;
       border-radius: 4px;

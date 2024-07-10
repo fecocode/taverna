@@ -10,3 +10,15 @@ body {
 :root {
   --max-layout-width: 748px;
 }
+
+.tiptap:focus-visible {
+  outline: none !important;
+}
+
+.tiptap p:first-of-type.is-empty::before {
+  color: #777;
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
