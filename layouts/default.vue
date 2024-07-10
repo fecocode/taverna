@@ -2,6 +2,7 @@
   <div class="default-layout">
     <div class="default-layout__wrapper">
       <AppTopbar />
+      <AppMainBanner />
       <div class="default-layout__wrapper__main">
         <slot />
       </div>
