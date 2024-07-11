@@ -1,6 +1,7 @@
 <template>
   <div class="default-layout">
     <AppModalsManager />
+    <AppMenu />
     <div class="default-layout__wrapper">
       <AppTopbar />
       <AppMainBanner />
@@ -19,9 +20,8 @@
 <style lang="scss" scoped>
 .default-layout {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
+  align-items: flex-start;
+  justify-content: center;
   padding: 1rem;
   box-sizing: border-box;
   height: 100vh;

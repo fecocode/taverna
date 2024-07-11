@@ -15,6 +15,9 @@
     <UModal v-model="modalsStore.isSignUpModalOpen" :ui="{ background: 'bg-transparent dark:bg-transparent', width: '' }">
       <AppSignUpModal />
     </UModal>
+    <UModal v-model="modalsStore.isNewPostModalOpen" :ui="{ background: 'bg-transparent dark:bg-transparent', width: 'var(--max-layout-width)' }">
+      <AppNewPost />
+    </UModal>
   </div>
 </template>
 

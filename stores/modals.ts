@@ -6,7 +6,7 @@ export const useModalsStore = defineStore({
     isTermsAndConditionsModalOpen: false,
     isPrivacyPolicyModalOpen: false,
     isHelpModalOpen: false,
-    isRankingModalOpen: false,
+    isNewPostModalOpen: false,
     isSignInModalOpen: false,
     isSignUpModalOpen: false,
   }),
@@ -20,8 +20,8 @@ export const useModalsStore = defineStore({
     openHelpModal() {
       this.isHelpModalOpen = true
     },
-    openRankingModal() {
-      this.isRankingModalOpen = true
+    openNewPostModal() {
+      this.isNewPostModalOpen = true
     },
     openSignInModal() {
       this.isSignInModalOpen = true
@@ -38,8 +38,8 @@ export const useModalsStore = defineStore({
     closeHelpModal(){
       this.isHelpModalOpen = false
     },
-    closeRankingModal(){
-      this.isRankingModalOpen = false
+    closeNewPostModal(){
+      this.isNewPostModalOpen = false
     },
     closeSignInModal(){
       this.isSignInModalOpen = false
