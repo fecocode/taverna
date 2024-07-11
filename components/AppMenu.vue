@@ -11,7 +11,7 @@
         />
       </NuxtLink>
     </UTooltip>
-    <UTooltip :popper="{ placement: 'right' }" text="Pochocleados">
+    <UTooltip :popper="{ placement: 'right' }" text="Mis pochoclos">
       <NuxtLink :to="{ name: 'users-fav' }">
         <UButton
           size="xl"
