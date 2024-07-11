@@ -5,7 +5,7 @@ import { STOREABLE_POST } from "~/types/entities.types.js";
 
 
 
-export default eventHandler(defineEventHandler(async (event) => {
+export default defineEventHandler(async (event) => {
   const runtimeConfig = useRuntimeConfig()
 
   const request = toWebRequest(event);
@@ -36,7 +36,9 @@ export default eventHandler(defineEventHandler(async (event) => {
 
     const { userId } = verifiedSession.toAuth()
 
-    const firestore = getFirestoreClient(runtimeConfig.FIREABASE_ADMIN_KEY)
+    const author = await clerk.users.getUser(userId)
+
+    const firestore = getFirestoreClient(runtimeConfig.FIREBASE_ADMIN_KEY, runtimeConfig.FIREBASE_DATABASE_ID)
 
     const newPostId = crypto.randomUUID()
     const createdAt = new Date()
@@ -57,15 +59,19 @@ export default eventHandler(defineEventHandler(async (event) => {
       created_at: createdAt,
       user_id: userId,
       fav_count: 0,
+      author: {
+        username: author.username!,
+        avatar: author.imageUrl,
+      }
     }
   
     setResponseStatus(event, 201)
 
     return response
   } catch(error) {
-    console.error(error)
+    setResponseStatus(event, 500)
     return {
       error
     }
   }
-}))
+})

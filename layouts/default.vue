@@ -10,6 +10,7 @@
       </div>
       <AppFooter />
     </div>
+    <UNotifications />
   </div>
 </template>
 

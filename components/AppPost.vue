@@ -1,12 +1,10 @@
 <template>
   <div class="app-post">
     <div class="app-post__profile">
-      <UAvatar src="/chicha-bot.png" size="xs" />
-      <span><b>@chichabot</b> · Hace 1 hora</span>
+      <UAvatar :src="authorAvatar" size="xs" />
+      <span><b>@{{authorUsername}}</b> · Hace 1 hora</span>
     </div>
-    <p>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates, explicabo pariatur minima doloribus illo dicta quam laborum quae, molestias cupiditate quod esse nihil veniam, inventore aliquam modi. Dignissimos, quis quibusdam!
-    </p>
+    <p v-html="text"></p>
     <UButtonGroup size="xs" orientation="horizontal" class="app-post__actions">
       <UButton color="gray" label="Pochoclear">
         <template #leading>
@@ -28,7 +26,15 @@
 </template>
 
 <script lang="ts" setup>
-
+const props = defineProps<{
+  id: string,
+  userId: string,
+  text: string,
+  authorAvatar: string,
+  authorUsername: string,
+  createdAt?: Date,
+  updatedAt?: Date,
+}>()
 </script>
 
 <style lang="scss" scoped>

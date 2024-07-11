@@ -15,6 +15,8 @@
         color="indigo"
         label="Publicar"
         size="sm"
+        :disabled="!canSave"
+        :loading="publishing"
         @click="publishPost"
       >
       </UButton>
@@ -29,13 +31,21 @@ import Placeholder from '@tiptap/extension-placeholder'
 import CharacterCount from '@tiptap/extension-character-count'
 
 import { useSession } from 'vue-clerk'
+import type { RAW_CREATE_USER_POST_REQUEST_BODY, RAW_GET_POSTS_RESPONSE_DATA, RAW_USER_POST_RESPONSE_DATA } from '~/types/api-spec.types'
+import { Post } from '~/classes/post.class'
 
 const { session } = useSession()
+const toast = useToast()
+const modalStore = useModalsStore()
 
 const userImage = computed(() => session.value?.user.imageUrl || '')
 const userName = computed(() => session.value?.user.username || '')
 
+const publishing = ref(false)
+
 const limit = 5000;
+
+const postsStore = usePostsStore()
 
 const editor = useEditor({
   extensions: [
@@ -56,23 +66,59 @@ const characterCount = computed(() => {
   return `${characters} / ${limit}`
 })
 
+const canSave = computed(() => {
+  return editor.value?.storage.characterCount.characters() > 0
+})
+
 onUnmounted(() => {
   editor.value?.destroy()
 })
 
 async function publishPost() {
-  await useFetch('/api/posts', {
-    method: 'POST',
-    body: {
-      test: 'test'
-    },
-  })
+  if(!canSave) {
+    return
+  }
+
+  if (editor.value) {
+    try {
+      publishing.value = true
+      const requestBody: RAW_CREATE_USER_POST_REQUEST_BODY = {
+        text: editor.value.getHTML()
+      }
+  
+      const response = await useFetch<RAW_USER_POST_RESPONSE_DATA>('/api/posts', {
+        method: 'POST',
+        body: requestBody,
+      })
+
+      const newPost = new Post(response.data.value!)
+
+      postsStore.addNewCreatedPost(newPost)
+      editor.value.commands.clearContent()
+
+      toast.add({
+        color: 'green',
+        icon: 'i-heroicons-check',
+        title: 'Se publicó tu chisme',
+      })
+
+      modalStore.closeNewPostModal()
+    } catch (_) {
+      console.error('error')
+      toast.add({
+        color: 'red',
+        icon: 'i-heroicons-x-mark',
+        title: 'Ocurrió un error al publicar',
+        description: 'Intentalo nuevamente en unos minutos'
+      })
+    } finally {
+      publishing.value = false
+    }
+  }
 }
 </script>
 
 <style lang="scss" scoped>
-
-
 .editor-content {
   outline: none;
 

@@ -2,6 +2,7 @@
 const route = useRoute()
 const router = useRouter()
 const modalsStore = useModalsStore()
+const postsStore = usePostsStore()
 
 const { action } = route.query
 
@@ -13,6 +14,9 @@ function removeActionParam() {
 
 const isSignInModalOpen = computed(() => modalsStore.isSignInModalOpen)
 const isSignUpModalOpen = computed(() => modalsStore.isSignUpModalOpen)
+
+const posts = computed(() => postsStore.mainFeed)
+
 
 onMounted(() => {
   if (action) {
@@ -44,15 +48,16 @@ watch(isSignUpModalOpen, (isOpen) => {
   <AppScrollbarWrapper class="scroll-bar">
     <div class="posts-wrapper">
       <AppNewPost />
-      <AppPost />
-      <AppPost />
-      <AppPost />
-      <AppPost />
-      <AppPost />
-      <AppPost />
-      <AppPost />
-      <AppPost />
-      <AppPost />
+      <AppPost
+        v-for="post in posts"
+        :key="post.id"
+        :id="post.id"
+        :author-avatar="post.author.avatar"
+        :author-username="post.author.username"
+        :user-id="post.user_id"
+        :created-at="post.created_at"
+        :text="post.text"
+      />
     </div>
   </AppScrollbarWrapper>
 </template>

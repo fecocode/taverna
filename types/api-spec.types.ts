@@ -25,6 +25,10 @@ export type RAW_USER_POST_RESPONSE_DATA = {
   updated_at?: Date;
   text: string;
   user_id: string;
+  author: {
+    username: string;
+    avatar: string;
+  };
   fav_count: number;
 }
 
