@@ -10,6 +10,7 @@ export default defineNuxtConfig({
       CLERK_PUBLISHABLE_KEY: process.env.CLERK_PUBLISHABLE_KEY!,
     },
     CLERK_SECRET_KEY: process.env.CLERK_SECRET_KEY!,
+    FIREABASE_ADMIN_KEY: process.env.FIREABASE_ADMIN_KEY!,
   },
 
   css: ['~/assets/styles/main.css'],
