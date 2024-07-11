@@ -12,11 +12,11 @@
       </NuxtLink>
     </UTooltip>
     <UTooltip :popper="{ placement: 'right' }" text="Mis pochoclos">
-      <NuxtLink :to="{ name: 'users-fav' }">
+      <NuxtLink :to="{ name: 'pochoclos' }">
         <UButton
           size="xl"
           :ui="{ rounded: 'rounded-full' }"
-          :color="isHighlighted('users-fav') ? 'indigo' : 'gray'"
+          :color="isHighlighted('pochoclos') ? 'indigo' : 'gray'"
           variant="ghost"
         >
           <template #leading>
@@ -26,12 +26,12 @@
       </NuxtLink>
     </UTooltip>
     <UTooltip :popper="{ placement: 'right' }" text="Mis chismes">
-      <NuxtLink :to="{ name: 'users-posts' }">
+      <NuxtLink :to="{ name: 'mis-chismes' }">
         <UButton
           icon="i-heroicons-user"
           size="xl"
           :ui="{ rounded: 'rounded-full' }"
-          :color="isHighlighted('users-posts') ? 'indigo' : 'gray'"
+          :color="isHighlighted('mis-chismes') ? 'indigo' : 'gray'"
           variant="ghost"
         />
       </NuxtLink>
