@@ -19,14 +19,18 @@
             <IconPhShareBold />
           </template>
         </UButton>
-        <UButton color="red" icon="i-heroicons-trash" label="Eliminar" >
+        <UButton color="gray" icon="i-heroicons-pencil" label="Editar" >
         </UButton>
       </UButtonGroup>
+
+      <UButton size="xs" color="red" icon="i-heroicons-trash" label="Eliminar" >
+      </UButton>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
+import type { _backgroundColor } from '#tailwind-config/theme';
 import { useSession } from 'vue-clerk'
 
 const { session } = useSession()

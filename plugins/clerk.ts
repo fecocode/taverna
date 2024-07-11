@@ -13,7 +13,7 @@ export default defineNuxtPlugin((nuxtApp) => {
   }
 
   nuxtApp.vueApp.use(clerkPlugin, {
-    publishableKey: runtimeConfig.public.PUBLISHABLE_KEY,
+    publishableKey: runtimeConfig.public.CLERK_PUBLISHABLE_KEY,
     localization: extendedSpanishLocales,
     appearance: {
       baseTheme: dark,

@@ -35,6 +35,7 @@ const modalStore = useModalsStore()
     display: flex;
     align-items: center;
     gap: 1rem;
+    font-size: 0.85rem;
   }
   &__actions {
     display: flex;

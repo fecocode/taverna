@@ -13,7 +13,7 @@
           <IconParkOutlinePopcorn />
         </template>
       </UButton>
-      <!--<UButton color="gray" label="Comentar" disabled>
+      <!--<UButton color="gray" label="Comentar" disabled variant="soft">
         <template #leading>
           <IconamoonComment />
         </template>

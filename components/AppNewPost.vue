@@ -15,6 +15,7 @@
         color="indigo"
         label="Publicar"
         size="sm"
+        @click="publishPost"
       >
       </UButton>
     </div>
@@ -22,7 +23,7 @@
 </template>
 
 <script lang="ts" setup>
-import { EditorContent, useEditor } from '@tiptap/vue-3'
+import { EditorContent, getText, useEditor } from '@tiptap/vue-3'
 import StarterKit from '@tiptap/starter-kit'
 import Placeholder from '@tiptap/extension-placeholder'
 import CharacterCount from '@tiptap/extension-character-count'
@@ -59,7 +60,14 @@ onUnmounted(() => {
   editor.value?.destroy()
 })
 
-
+async function publishPost() {
+  await useFetch('/api/posts', {
+    method: 'POST',
+    body: {
+      test: 'test'
+    },
+  })
+}
 </script>
 
 <style lang="scss" scoped>

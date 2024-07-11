@@ -7,8 +7,9 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     public: {
-      PUBLISHABLE_KEY: process.env.PUBLISHABLE_KEY
-    }
+      CLERK_PUBLISHABLE_KEY: process.env.CLERK_PUBLISHABLE_KEY!,
+    },
+    CLERK_SECRET_KEY: process.env.CLERK_SECRET_KEY!,
   },
 
   css: ['~/assets/styles/main.css'],
@@ -17,5 +18,5 @@ export default defineNuxtConfig({
     families: {
       Poppins: [400, 500, 600, 700],
     }
-  }
+  },
 })

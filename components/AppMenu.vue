@@ -68,7 +68,7 @@ function isHighlighted(routeName: string) {
   gap: 1rem;
   justify-content: flex-start;
   align-items: center;
-  background-color: #0e0e11;
+  background-color: #0c0b22;
   padding: 1rem;
   padding-right: 2rem;
   height: 100%;
