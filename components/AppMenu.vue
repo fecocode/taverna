@@ -36,20 +36,34 @@
         />
       </NuxtLink>
     </UTooltip>
-    <UTooltip :popper="{ placement: 'right' }" text="Nuevo chisme">
-      <UButton
-        icon="i-heroicons-pencil-square"
-        size="xl"
-        :ui="{ rounded: 'rounded-full' }"
-        color="indigo"
-        @click="modalsStore.openNewPostModal()"
-      />
-    </UTooltip>
+    <SignedIn>
+      <UTooltip :popper="{ placement: 'right' }" text="Nuevo chisme">
+        <UButton
+          icon="i-heroicons-pencil-square"
+          size="xl"
+          :ui="{ rounded: 'rounded-full' }"
+          color="indigo"
+          @click="modalsStore.openNewPostModal()"
+        />
+      </UTooltip>
+    </SignedIn>
+    <SignedOut>
+      <UTooltip :popper="{ placement: 'right' }" text="Ingresar">
+        <UButton
+          icon="i-heroicons-key"
+          size="xl"
+          :ui="{ rounded: 'rounded-full' }"
+          color="indigo"
+          @click="modalsStore.openSignInModal()"
+        />
+      </UTooltip>
+    </SignedOut>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { useModalsStore } from '~/stores/modals';
+import { SignedIn, SignedOut} from 'vue-clerk'
 
 const modalsStore = useModalsStore()
 const route = useRoute()

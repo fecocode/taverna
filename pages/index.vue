@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { SignedIn } from 'vue-clerk'
+
 const route = useRoute()
 const router = useRouter()
 const modalsStore = useModalsStore()
@@ -16,9 +18,9 @@ const isSignInModalOpen = computed(() => modalsStore.isSignInModalOpen)
 const isSignUpModalOpen = computed(() => modalsStore.isSignUpModalOpen)
 
 const posts = computed(() => postsStore.mainFeed)
+const isLoading = computed(() => postsStore.loadingMainFeed)
 
-
-onMounted(() => {
+onMounted(async () => {
   if (action) {
     switch (action){
       case 'sign-in':
@@ -29,6 +31,8 @@ onMounted(() => {
         break;
     }
   }
+
+  await postsStore.fetchMainFeed()
 })
 
 watch(isSignInModalOpen, (isOpen) => {
@@ -47,7 +51,14 @@ watch(isSignUpModalOpen, (isOpen) => {
 <template>
   <AppScrollbarWrapper class="scroll-bar">
     <div class="posts-wrapper">
-      <AppNewPost />
+      <SignedIn>
+        <AppNewPost />
+      </SignedIn>
+      <template v-if="isLoading">
+        <AppSkeletonPost />
+        <AppSkeletonPost />
+        <AppSkeletonPost />
+      </template>
       <AppPost
         v-for="post in posts"
         :key="post.id"

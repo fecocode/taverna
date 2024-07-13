@@ -12,6 +12,7 @@ export default defineNuxtConfig({
     CLERK_SECRET_KEY: process.env.CLERK_SECRET_KEY!,
     FIREBASE_ADMIN_KEY: process.env.FIREBASE_ADMIN_KEY!,
     FIREBASE_DATABASE_ID: process.env.FIREBASE_DATABASE_ID!,
+    REDIS_URL: process.env.REDIS_URL!,
   },
 
   css: ['~/assets/styles/main.css'],
