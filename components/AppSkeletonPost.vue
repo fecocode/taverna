@@ -1,13 +1,13 @@
 <template>
   <div class="app-skeleton-post">
     <div class="app-skeleton-post__profile">
-      <USkeleton class="h-8 w-8" :ui="{ rounded: 'rounded-full' }" />
-      <USkeleton class="h-4 w-[200px]" />
+      <USkeleton class="h-8 w-8" :ui="{ rounded: 'rounded-full', background: 'bg-gray-100 dark:bg-gray-900' }" />
+      <USkeleton class="h-4 w-[200px]" :ui="{ background: 'bg-gray-100 dark:bg-gray-900' }" />
     </div>
-    <USkeleton class="h-6 w-full" />
+    <USkeleton class="h-5 w-full" :ui="{ background: 'bg-gray-100 dark:bg-gray-900' }" />
     <UButtonGroup size="xs" orientation="horizontal" class="app-skeleton-post__actions">
-      <USkeleton class="h-4 w-[100px]" />
-      <USkeleton class="h-4 w-[100px]" />
+      <USkeleton class="h-4 w-[100px]" :ui="{ background: 'bg-gray-100 dark:bg-gray-900' }" />
+      <USkeleton class="h-4 w-[100px]" :ui="{ background: 'bg-gray-100 dark:bg-gray-900' }" />
     </UButtonGroup>
   </div>
 </template>

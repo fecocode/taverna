@@ -2,7 +2,7 @@
   <div class="app-post">
     <div class="app-post__profile">
       <UAvatar :src="authorAvatar" size="xs" />
-      <span><b>@{{authorUsername}}</b> · Hace 1 hora</span>
+      <span><b>@{{authorUsername}}</b> <span v-show="timeAgo">· {{ timeAgo }}</span></span>
     </div>
     <p v-html="text"></p>
     <UButtonGroup size="xs" orientation="horizontal" class="app-post__actions">
@@ -16,7 +16,7 @@
           <IconamoonComment />
         </template>
       </UButton>-->
-      <UButton color="gray" label="Compartir">
+      <UButton v-if="showShareButton" color="gray" label="Compartir" @click="handleShareClick">
         <template #leading>
           <IconPhShareBold />
         </template>
@@ -26,6 +26,10 @@
 </template>
 
 <script lang="ts" setup>
+import moment from 'moment'
+
+const toast = useToast()
+
 const props = defineProps<{
   id: string,
   userId: string,
@@ -35,6 +39,97 @@ const props = defineProps<{
   createdAt?: Date,
   updatedAt?: Date,
 }>()
+
+const timeAgo = ref('')
+const timeAgoRefreshInterval = ref()
+
+function getTimeAgo(date: Date) {
+  const now = moment();
+  const duration = moment.duration(now.diff(date));
+  const seconds = duration.asSeconds();
+  const minutes = duration.asMinutes();
+  const hours = duration.asHours();
+  const days = duration.asDays();
+  const months = duration.asMonths();
+  const years = duration.asYears();
+
+  if (seconds < 60) {
+    return 'Ahora';
+  } else if (minutes < 60) {
+      return `${Math.floor(minutes)} ${Math.floor(minutes) === 1 ? 'minuto' : 'minutos'}`;
+  } else if (hours < 24) {
+      return `${Math.floor(hours)} ${Math.floor(hours) === 1 ? 'hora' : 'horas'}`;
+  } else if (days < 30) {
+      return `${Math.floor(days)} ${Math.floor(days) === 1 ? 'día' : 'días'}`;
+  } else if (months < 12) {
+      return `${Math.floor(months)} ${Math.floor(months) === 1 ? 'mes' : 'meses'}`;
+  } else {
+      return `${Math.floor(years)} ${Math.floor(years) === 1 ? 'año' : 'años'}`;
+  }
+}
+
+onMounted(() => {
+  if (props.createdAt) {
+    timeAgo.value = getTimeAgo(props.createdAt)
+    timeAgoRefreshInterval.value = setInterval(() => {
+      if (props.createdAt) {
+        timeAgo.value = getTimeAgo(props.createdAt)
+      } else {
+        timeAgo.value = ''
+      }
+    }, 60000);
+  }
+})
+
+onUnmounted(() => {
+  if (timeAgoRefreshInterval.value) {
+    clearInterval(timeAgoRefreshInterval.value)
+  }
+})
+
+const shareUrl = computed(() => `${window.location.host}/?shared=${props.id}`)
+
+
+const navigatorHasClipboard = computed(() => {
+  return !!navigator.clipboard
+})
+
+const navigatorCanShare = computed(() => {
+  return !!navigator.canShare && navigator.canShare({ url: shareUrl.value })
+})
+
+const showShareButton = computed(() => {
+  return navigatorHasClipboard.value || navigatorCanShare.value
+})
+
+
+function handleShareClick() {
+  if (navigatorCanShare.value) {
+    navigator.share({ url: shareUrl.value })
+  } else {
+    copyUrlToClipboard()
+  }
+}
+
+function copyUrlToClipboard() {
+  navigator.clipboard
+    .writeText(shareUrl.value)
+    .then(() => {
+      toast.add({
+        color: 'green',
+        icon: 'i-heroicons-check',
+        title: 'Se copió la URL al portapapeles',
+      })
+    })
+    .catch((err) => {
+      toast.add({
+        color: 'red',
+        icon: 'i-heroicons-x-mark',
+        title: 'No se pudo copiar la url del chisme',
+        description: 'Intentalo nuevamente en unos minutos'
+      })
+    })
+}
 </script>
 
 <style lang="scss" scoped>

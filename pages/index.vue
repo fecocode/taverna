@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { SignedIn } from 'vue-clerk'
+import { SignedIn, useAuth } from 'vue-clerk'
 
 const route = useRoute()
 const router = useRouter()
@@ -7,6 +7,8 @@ const modalsStore = useModalsStore()
 const postsStore = usePostsStore()
 
 const { action } = route.query
+
+const auth = useAuth()
 
 function removeActionParam() {
   const query = { ...route.query };
@@ -24,10 +26,18 @@ onMounted(async () => {
   if (action) {
     switch (action){
       case 'sign-in':
-        modalsStore.openSignInModal()
+        if (!auth.isSignedIn) {
+          modalsStore.openSignInModal()
+        } else {
+          removeActionParam()
+        }
         break;
       case 'sign-up':
-        modalsStore.openSignUpModal()
+        if (!auth.isSignedIn) {
+          modalsStore.openSignUpModal()
+        } else {
+          removeActionParam()
+        }
         break;
     }
   }
@@ -59,16 +69,18 @@ watch(isSignUpModalOpen, (isOpen) => {
         <AppSkeletonPost />
         <AppSkeletonPost />
       </template>
-      <AppPost
-        v-for="post in posts"
-        :key="post.id"
-        :id="post.id"
-        :author-avatar="post.author.avatar"
-        :author-username="post.author.username"
-        :user-id="post.user_id"
-        :created-at="post.created_at"
-        :text="post.text"
-      />
+      <template v-else>
+        <AppPost
+          v-for="post in posts"
+          :key="post.id"
+          :id="post.id"
+          :author-avatar="post.author.avatar"
+          :author-username="post.author.username"
+          :user-id="post.user_id"
+          :created-at="post.created_at"
+          :text="post.text"
+        />
+      </template>
     </div>
   </AppScrollbarWrapper>
 </template>
