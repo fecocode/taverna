@@ -7,12 +7,13 @@
     <p v-html="text"></p>
     <div class="app-post__fav-count-display">
       <IconParkOutlinePopcorn />
-      <span>Pochocleado 123 veces</span>
+      <span>{{ favCountText }}</span>
     </div>
     <UButtonGroup size="xs" orientation="horizontal" class="app-post__actions">
       <UButton :color="favButtonColor" :label="favButtonLabel" :loading="favLoading" @click="handleFavClick">
         <template #leading>
-          <IconParkOutlinePopcorn />
+          <IconSvgSpinners3DotsScale v-if="favLoading" />
+          <IconParkOutlinePopcorn v-else />
         </template>
       </UButton>
       <!--<UButton color="gray" label="Comentar" disabled variant="soft">
@@ -114,10 +115,25 @@ const isInUserFavList = computed(() => {
 })
 
 const favButtonLabel = computed(() => {
-  if (isInUserFavList.value) {
+  if (favLoading.value) {
+    return 'Pochocleando...'
+  } else if (isInUserFavList.value) {
     return 'Quitar de mis pochoclos'
   } else {
     return 'Pochoclear'
+  }
+})
+
+const favCountText = computed(() => {
+
+  if (props.favCount) {
+    if (props.favCount > 1) {
+      return `Pochocleado ${props.favCount} veces`
+    } else {
+      return `Pochocleado ${props.favCount} vez`
+    }
+  } else {
+    return 'Sin pochocleadas'
   }
 })
 
@@ -209,6 +225,8 @@ async function handleFavClick() {
     align-items: center;
     gap: 0.35rem;
     font-size: 0.75rem;
+    margin-top: 1rem;
+    color: #aaa;
   }
 }
 </style>

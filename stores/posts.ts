@@ -21,6 +21,9 @@ export const usePostsStore = defineStore({
       this.mainFeed.unshift(post)
       this.usersPosts.unshift(post)
     },
+    updateFavsOfPost(postId: string, favCount: number) {
+      const post = this.mainFeed.find((postOnStore) => postOnStore.fav_count = favCount)
+    },
     async fetchMainFeed(sharedPostId?: string) {
       const toast = useToast()
 

@@ -15,6 +15,10 @@ export const useFavsStore = defineStore({
       })
 
       this.userFavsIds.push(response.id)
+      
+      const postsStore = usePostsStore()
+
+      postsStore.updateFavsOfPost(postId, response.fav_count)
     },
     async unfavPost(postId: string) {
       const response = await $fetch<RAW_UNFAV_RESPONSE>(`/api/posts/${postId}/unfav`, {
@@ -22,6 +26,10 @@ export const useFavsStore = defineStore({
       })
 
       this.userFavsIds = this.userFavsIds.filter((favId) => favId !== response.id)
+
+      const postsStore = usePostsStore()
+
+      postsStore.updateFavsOfPost(postId, response.fav_count)
     }
   },
   getters: {
