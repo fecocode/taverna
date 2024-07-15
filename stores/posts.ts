@@ -7,13 +7,11 @@ export const usePostsStore = defineStore({
   id: 'postsStore',
   state: () => ({
     mainFeed: [] as IPost[],
-    usersFavPosts: [] as IPost[],
     usersPosts: [] as IPost[],
 
     highlightedPostId: null as string | null,
 
     loadingMainFeed: false,
-    loadingUsersFavPosts: false,
     loadingUsersPosts: false,
   }),
   actions: {
@@ -22,7 +20,10 @@ export const usePostsStore = defineStore({
       this.usersPosts.unshift(post)
     },
     updateFavsOfPost(postId: string, favCount: number) {
-      const post = this.mainFeed.find((postOnStore) => postOnStore.fav_count = favCount)
+      const post = this.mainFeed.find((postOnStore) => postOnStore.id === postId)
+      if (post) {
+        post.fav_count = favCount
+      }
     },
     async fetchMainFeed(sharedPostId?: string) {
       const toast = useToast()
@@ -55,9 +56,6 @@ export const usePostsStore = defineStore({
       } finally {
         this.loadingMainFeed = false
       }
-    },
-    fetchUsersFavPosts() {
-
     },
     fetchUsersPosts() {
 

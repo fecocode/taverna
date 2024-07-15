@@ -15,7 +15,11 @@
 </template>
 
 <script lang="ts" setup>
+const favsStore = useFavsStore()
 
+onMounted(async () => {
+  await favsStore.fetchUserFavsIds()
+})
 </script>
 
 <style lang="scss" scoped>

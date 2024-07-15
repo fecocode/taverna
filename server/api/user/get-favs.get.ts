@@ -49,7 +49,7 @@ async function getParsedPost(postId: string, redis: Redis, clerk: ClerkClient): 
   } else {
     postObject = JSON.parse(rawCatchedPost)
   }
-
+  // AUTHOR DATA
   let author = null
 
   const catchedAuthor = await redis.get(`author:${postObject.user_id}`)
@@ -66,13 +66,30 @@ async function getParsedPost(postId: string, redis: Redis, clerk: ClerkClient): 
   } else {
     author = JSON.parse(catchedAuthor)
   }
+  // FAVS DATA
+
+  let favCount = 0
+
+  const postCachedFavCountKey = `post:${postId}:favs`
+  const cachedFavCount = await redis.get(postCachedFavCountKey)
+
+  if (cachedFavCount) {
+    favCount = parseInt(cachedFavCount)
+  } else {
+    const querySnapshot = await admin.firestore().collection('fav-user-post-rel')
+    .where('post_id', '==', postId)
+    .get()
+
+    favCount = querySnapshot.size
+    await redis.set(postCachedFavCountKey, favCount)
+  }
 
   const postFormatedForFrontend: RAW_USER_POST_RESPONSE_DATA = {
     id: postObject.id,
     text: postObject.text,
     created_at: postObject.created_at,
     user_id: postObject.user_id,
-    fav_count: 0,
+    fav_count: favCount,
     author: {
       username: author.username!,
       avatar: author.imageUrl,

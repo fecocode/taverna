@@ -116,7 +116,7 @@ const isInUserFavList = computed(() => {
 
 const favButtonLabel = computed(() => {
   if (favLoading.value) {
-    return 'Pochocleando...'
+    return ''
   } else if (isInUserFavList.value) {
     return 'Quitar de mis pochoclos'
   } else {
