@@ -32,8 +32,15 @@ export type RAW_USER_POST_RESPONSE_DATA = {
   fav_count: number;
 }
 
-export type RAW_GET_POSTS_RESPONSE_DATA = {
-  cache_timestamp: Date;
-  request_timestamp: Date;
-  posts: RAW_USER_POST_RESPONSE_DATA[];
+export type RAW_NEW_FAV_STORED_RESPONSE = {
+  created_at: Date,
+  post_id: string,
+  fav_count: number,
+  id: string,
+}
+
+export type RAW_UNFAV_RESPONSE = {
+  post_id: string,
+  fav_count: number,
+  id: string,
 }

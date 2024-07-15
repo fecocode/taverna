@@ -79,6 +79,7 @@ watch(isSignUpModalOpen, (isOpen) => {
           :user-id="post.user_id"
           :created-at="post.created_at"
           :text="post.text"
+          :fav-count="post.fav_count"
         />
       </template>
     </div>

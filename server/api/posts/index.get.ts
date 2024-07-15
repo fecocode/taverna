@@ -20,8 +20,6 @@ export default defineEventHandler(async (event) => {
 
   const redis = RedisSingleton.getInstance(runtimeConfig)
 
-  const recentPostIds = await redis.lrange('recent_posts', 0, 99);
-
   if (!admin.apps.length) {  
     initializeApp({
       credential: admin.credential.cert(JSON.parse(runtimeConfig.FIREBASE_ADMIN_KEY)),
@@ -35,6 +33,7 @@ export default defineEventHandler(async (event) => {
   })
 
   try {
+    const recentPostIds = await redis.lrange('recent_posts', 0, 99);
     const recentPostsObjects = []
 
     for (let postId of recentPostIds) {
@@ -109,5 +108,4 @@ export default defineEventHandler(async (event) => {
       error
     }
   }
-  
 })

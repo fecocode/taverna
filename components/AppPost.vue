@@ -5,8 +5,12 @@
       <span><b>@{{authorUsername}}</b> <span v-show="timeAgo">· {{ timeAgo }}</span></span>
     </div>
     <p v-html="text"></p>
+    <div class="app-post__fav-count-display">
+      <IconParkOutlinePopcorn />
+      <span>Pochocleado 123 veces</span>
+    </div>
     <UButtonGroup size="xs" orientation="horizontal" class="app-post__actions">
-      <UButton color="gray" label="Pochoclear">
+      <UButton :color="favButtonColor" :label="favButtonLabel" :loading="favLoading" @click="handleFavClick">
         <template #leading>
           <IconParkOutlinePopcorn />
         </template>
@@ -29,6 +33,7 @@
 import moment from 'moment'
 
 const toast = useToast()
+const favsStore = useFavsStore()
 
 const props = defineProps<{
   id: string,
@@ -36,12 +41,14 @@ const props = defineProps<{
   text: string,
   authorAvatar: string,
   authorUsername: string,
+  favCount: number,
   createdAt?: Date,
   updatedAt?: Date,
 }>()
 
 const timeAgo = ref('')
 const timeAgoRefreshInterval = ref()
+const favLoading = ref(false)
 
 function getTimeAgo(date: Date) {
   const now = moment();
@@ -102,6 +109,25 @@ const showShareButton = computed(() => {
   return navigatorHasClipboard.value || navigatorCanShare.value
 })
 
+const isInUserFavList = computed(() => {
+  return favsStore.parsedUserFavsPostsIds.includes(props.id)
+})
+
+const favButtonLabel = computed(() => {
+  if (isInUserFavList.value) {
+    return 'Quitar de mis pochoclos'
+  } else {
+    return 'Pochoclear'
+  }
+})
+
+const favButtonColor = computed(() => {
+  if (isInUserFavList.value) {
+    return 'indigo'
+  } else {
+    return 'gray'
+  }
+})
 
 function handleShareClick() {
   if (navigatorCanShare.value) {
@@ -130,6 +156,26 @@ function copyUrlToClipboard() {
       })
     })
 }
+
+async function handleFavClick() {
+  try {
+    favLoading.value = true
+    if (isInUserFavList.value) {
+      await favsStore.unfavPost(props.id)
+    } else {
+      await favsStore.setAsFavPost(props.id)
+    }
+  } catch (_) {
+    toast.add({
+      color: 'red',
+      icon: 'i-heroicons-x-mark',
+      title: 'Ocurrió un error',
+      description: 'Intentalo nuevamente en unos minutos'
+    })
+  } finally {
+    favLoading.value = false
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -156,7 +202,13 @@ function copyUrlToClipboard() {
   }
 
   &__actions {
-    padding: 1rem 0;
+    padding-bottom: 1rem 0;
+  }
+  &__fav-count-display {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.75rem;
   }
 }
 </style>

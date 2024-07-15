@@ -10,6 +10,8 @@ export const usePostsStore = defineStore({
     usersFavPosts: [] as IPost[],
     usersPosts: [] as IPost[],
 
+    highlightedPostId: null as string | null,
+
     loadingMainFeed: false,
     loadingUsersFavPosts: false,
     loadingUsersPosts: false,
@@ -19,16 +21,27 @@ export const usePostsStore = defineStore({
       this.mainFeed.unshift(post)
       this.usersPosts.unshift(post)
     },
-    async fetchMainFeed() {
+    async fetchMainFeed(sharedPostId?: string) {
       const toast = useToast()
 
       try {
         this.loadingMainFeed = true
-        const response = await $fetch<RAW_USER_POST_RESPONSE_DATA[]>('/api/posts')
-  
-        this.mainFeed = response.map((rawPost) => {
-          return new Post(rawPost)
-        })
+
+        if (sharedPostId) {
+          const response = await $fetch<RAW_USER_POST_RESPONSE_DATA[]>(`/api/posts/${sharedPostId}`)
+
+          this.mainFeed = response.map((rawPost) => {
+            return new Post(rawPost)
+          })
+        } else {
+          if (this.mainFeed.length === 0) {
+            const response = await $fetch<RAW_USER_POST_RESPONSE_DATA[]>('/api/posts')
+    
+            this.mainFeed = response.map((rawPost) => {
+              return new Post(rawPost)
+            })
+          }
+        }
       } catch {
         toast.add({
           color: 'red',
