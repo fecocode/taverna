@@ -5,7 +5,7 @@
       <span class="brand"><strong>Chismecito</strong>.space</span>
       <span>Lanzamiento: Miércoles 17 de Julio del 2024</span>
     </div>
-    <UButton label="¿Un regalito de bienvenida?" color="indigo" icon="i-heroicons-gift" size="xl" @click="modalsStore.openRickRollModal()" />
+    <UButton label="¿Un regalito de bienvenida?" color="indigo" icon="i-heroicons-gift" size="xl" @click="handleGiftClick" />
   </div>
 </template>
 
@@ -13,6 +13,8 @@
 const modalsStore = useModalsStore()
 
 const checkLiveInterval = ref()
+
+const saEvent = inject('saEvent')
 
 onMounted(() => {
   setIntervalToCheckLive()
@@ -33,6 +35,12 @@ onUnmounted(() => {
     clearInterval(checkLiveInterval.value)
   }
 })
+
+function handleGiftClick() {
+  // @ts-ignore
+  saEvent('RICKROLLED')
+  modalsStore.openRickRollModal()
+}
 </script>
 
 <style lang="scss" scoped>

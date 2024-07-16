@@ -47,6 +47,9 @@ dependencies:
   sass:
     specifier: ^1.77.7
     version: 1.77.7
+  simple-analytics-vue:
+    specifier: ^3.0.2
+    version: 3.0.2(vue@3.4.31)
   simplebar-vue:
     specifier: ^2.3.5
     version: 2.3.5(vue@3.4.31)
@@ -7156,6 +7159,14 @@ packages:
   /signal-exit@4.1.0:
     resolution: {integrity: sha512-bzyZ1e88w9O1iNJbKnOlvYTrWPDl46O1bG0D3XInv+9tkPrxrN8jUUTiFlDkkmKWgn1M6CfIA13SuGqOa9Korw==}
     engines: {node: '>=14'}
+
+  /simple-analytics-vue@3.0.2(vue@3.4.31):
+    resolution: {integrity: sha512-YEKTvd8IlAxJcywFkdGyO8S+ZO5iL8GaX/RsPoRlQtWOV9F64HW+gYI6NL7T2/Bf3as0ucyBmXGou1q4Eq6F9A==}
+    peerDependencies:
+      vue: ^3.0.0
+    dependencies:
+      vue: 3.4.31
+    dev: false
 
   /simple-git@3.25.0:
     resolution: {integrity: sha512-KIY5sBnzc4yEcJXW7Tdv4viEz8KyG+nU0hay+DWZasvdFOYKeUZ6Xc25LUHHjw0tinPT7O1eY6pzX7pRT1K8rw==}
