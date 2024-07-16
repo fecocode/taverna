@@ -14,8 +14,6 @@ const modalsStore = useModalsStore()
 
 const checkLiveInterval = ref()
 
-const saEvent = inject('saEvent')
-
 onMounted(() => {
   setIntervalToCheckLive()
 })
@@ -38,7 +36,6 @@ onUnmounted(() => {
 
 function handleGiftClick() {
   // @ts-ignore
-  saEvent('RICKROLLED')
   modalsStore.openRickRollModal()
 }
 </script>
