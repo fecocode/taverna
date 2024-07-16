@@ -27,6 +27,9 @@ const runtimeConfig = useRuntimeConfig()
 
 const isLive = computed(() => parseInt(runtimeConfig.public.LIVE))
 
+definePageMeta({
+  colorMode: 'dark',
+})
 </script>
 
 <style lang="scss" scoped>
