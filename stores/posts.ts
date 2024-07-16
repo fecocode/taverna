@@ -7,9 +7,12 @@ export const usePostsStore = defineStore({
   id: 'postsStore',
   state: () => ({
     mainFeed: [] as IPost[],
+    newPosts: [] as IPost[],
     usersPosts: [] as IPost[],
 
     highlightedPostId: null as string | null,
+
+    refreshPostsInterval: null as NodeJS.Timeout | null,
 
     loadingMainFeed: false,
     loadingUsersPosts: false,
@@ -26,10 +29,17 @@ export const usePostsStore = defineStore({
       }
     },
     async fetchMainFeed(sharedPostId?: string) {
+      if (this.loadingMainFeed) {
+        return
+      }
+
       const toast = useToast()
+      const favsStore = useFavsStore()
 
       try {
         this.loadingMainFeed = true
+
+        await favsStore.fetchUserFavsIds()
 
         if (sharedPostId) {
           const response = await $fetch<RAW_USER_POST_RESPONSE_DATA[]>(`/api/posts/${sharedPostId}`)
@@ -46,6 +56,9 @@ export const usePostsStore = defineStore({
             })
           }
         }
+
+        this.setRefreshInterval()
+
       } catch {
         toast.add({
           color: 'red',
@@ -57,8 +70,40 @@ export const usePostsStore = defineStore({
         this.loadingMainFeed = false
       }
     },
+    async refreshMainFeed() {
+      const toast = useToast()
+
+      try {
+        const response = await $fetch<RAW_USER_POST_RESPONSE_DATA[]>('/api/posts')
+
+        const parsedPosts = response.map((rawPost) => new Post(rawPost))
+
+        const currentPostsIds = this.mainFeed.map((post) => post.id)
+
+        this.newPosts = parsedPosts.filter((newPost) => !currentPostsIds.includes(newPost.id))
+      } catch (_) {}
+    },
+    updateMainFeedPostList() {
+      this.mainFeed = [...this.newPosts, ...this.mainFeed]
+      this.newPosts = []
+    },
     fetchUsersPosts() {
 
+    },
+
+    setRefreshInterval() {
+      if (!!this.refreshPostsInterval) {
+        return
+      }
+
+      this.refreshPostsInterval = setInterval(async () => {
+        await this.refreshMainFeed()
+      }, 1000*60) // One minute
+    },
+    clearRefreshInterval() {
+      if (this.refreshPostsInterval) {
+        clearInterval(this.refreshPostsInterval)
+      }
     }
   }
 })

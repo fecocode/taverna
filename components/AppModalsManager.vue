@@ -18,6 +18,9 @@
     <UModal v-model="modalsStore.isNewPostModalOpen" :ui="{ background: 'bg-transparent dark:bg-transparent', width: 'var(--max-layout-width)' }">
       <AppNewPost />
     </UModal>
+    <UModal v-model="modalsStore.isRickRollModalOpen" :ui="{ background: 'bg-transparent dark:bg-transparent', width: 'var(--max-layout-width)' }">
+      <AppRickRoll />
+    </UModal>
   </div>
 </template>
 
@@ -27,6 +30,8 @@ import { useModalsStore } from '~/stores/modals';
 const modalsStore = useModalsStore()
 </script>
 
-<style>
-
+<style lang="scss" scoped>
+.app-modals-manager {
+  z-index: 101;
+}
 </style>

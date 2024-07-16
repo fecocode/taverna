@@ -1,25 +1,32 @@
 <template>
   <div class="default-layout">
     <AppModalsManager />
-    <AppMenu />
-    <div class="default-layout__wrapper">
+    <AppWaitingOverlay v-if="!isLive"/>
+    <ClerkLoading v-if="isLive">
+      <AppLoadingOverlay />
+    </ClerkLoading>
+    <AppMenu v-if="isLive"/>
+    <div class="default-layout__wrapper" v-if="isLive">
       <AppTopbar />
       <AppMainBanner />
-      <div class="default-layout__wrapper__main">
-        <slot />
-      </div>
+        <div class="default-layout__wrapper__main">
+          <ClerkLoaded>
+            <slot />
+          </ClerkLoaded>
+        </div>
       <AppFooter />
     </div>
-    <UNotifications />
+    <UNotifications v-if="isLive"/>
   </div>
 </template>
 
 <script lang="ts" setup>
-const favsStore = useFavsStore()
+import { ClerkLoading, ClerkLoaded } from 'vue-clerk'
 
-onMounted(async () => {
-  await favsStore.fetchUserFavsIds()
-})
+const runtimeConfig = useRuntimeConfig()
+
+const isLive = computed(() => parseInt(runtimeConfig.public.LIVE))
+
 </script>
 
 <style lang="scss" scoped>

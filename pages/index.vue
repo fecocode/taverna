@@ -21,19 +21,22 @@ const isSignUpModalOpen = computed(() => modalsStore.isSignUpModalOpen)
 
 const posts = computed(() => postsStore.mainFeed)
 const isLoading = computed(() => postsStore.loadingMainFeed)
+const thereAreNewPosts = computed(() => postsStore.newPosts.length > 0)
+
+const scrollbarKey = computed(() => postsStore.mainFeed[0]?.id || 'scrollbar')
 
 onMounted(async () => {
   if (action) {
     switch (action){
       case 'sign-in':
-        if (!auth.isSignedIn) {
+        if (!auth.isSignedIn.value) {
           modalsStore.openSignInModal()
         } else {
           removeActionParam()
         }
         break;
       case 'sign-up':
-        if (!auth.isSignedIn) {
+        if (!auth.isSignedIn.value) {
           modalsStore.openSignUpModal()
         } else {
           removeActionParam()
@@ -43,6 +46,10 @@ onMounted(async () => {
   }
 
   await postsStore.fetchMainFeed()
+})
+
+onUnmounted(() => {
+  postsStore.clearRefreshInterval()
 })
 
 watch(isSignInModalOpen, (isOpen) => {
@@ -59,7 +66,7 @@ watch(isSignUpModalOpen, (isOpen) => {
 </script>
 
 <template>
-  <AppScrollbarWrapper class="scroll-bar">
+  <AppScrollbarWrapper class="scroll-bar" :key="scrollbarKey">
     <div class="posts-wrapper">
       <SignedIn>
         <AppNewPost />
@@ -84,6 +91,14 @@ watch(isSignUpModalOpen, (isOpen) => {
       </template>
     </div>
   </AppScrollbarWrapper>
+  <UButton
+    v-if="thereAreNewPosts"
+    label="Ver nuevos chismes"
+    color="indigo"
+    class="refresh-button"
+    icon="i-heroicons-arrow-small-up"
+    @click="postsStore.updateMainFeedPostList()"
+  />
 </template>
 
 <style lang="scss" scoped>
@@ -95,9 +110,17 @@ watch(isSignUpModalOpen, (isOpen) => {
   right: 0;
 }
 
+.refresh-button {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
 .posts-wrapper {
   display: flex;
   flex-direction: column;
   padding: 0 1rem;
+  position: relative;
 }
 </style>

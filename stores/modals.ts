@@ -9,8 +9,12 @@ export const useModalsStore = defineStore({
     isNewPostModalOpen: false,
     isSignInModalOpen: false,
     isSignUpModalOpen: false,
+    isRickRollModalOpen: false,
   }),
   actions: {
+    openRickRollModal() {
+      this.isRickRollModalOpen = true
+    },
     openTermsAndConditionsModal() {
       this.isTermsAndConditionsModalOpen = true
     },

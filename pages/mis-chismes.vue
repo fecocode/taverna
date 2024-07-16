@@ -2,21 +2,32 @@
   <AppScrollbarWrapper class="scroll-bar">
     <div class="users-posts">
       <h3><span class="text-indigo-500">#</span> Tus chismes</h3>
-      <AppUsersPost />
-      <AppUsersPost />
-      <AppUsersPost />
-      <AppUsersPost />
-      <AppUsersPost />
-      <AppUsersPost />
-      <AppUsersPost />
-      <AppUsersPost />
-      <AppUsersPost />
+      <SignedIn>
+        <AppUsersPost />
+        <AppUsersPost />
+        <AppUsersPost />
+        <AppUsersPost />
+        <AppUsersPost />
+        <AppUsersPost />
+        <AppUsersPost />
+        <AppUsersPost />
+        <AppUsersPost />
+      </SignedIn>
+      <SignedOut>
+        <div class="users-posts__signed-out">
+          <IconLineMdAlertCircle class="icon" />
+          <p>Para crear, borrar y editar tus chismes, necesitás una cuenta de <strong>Chismecito</strong></p>
+          <UButton color="indigo" size="xl" label="Crear cuenta" @click="modalStore.openSignUpModal()" />
+        </div>
+      </SignedOut>
     </div>
   </AppScrollbarWrapper>
 </template>
 
 <script lang="ts" setup>
+import { SignedOut, SignedIn } from 'vue-clerk'
 
+const modalStore = useModalsStore()
 </script>
 
 <style lang="scss" scoped>
@@ -39,6 +50,25 @@
     color: #777;
     margin: 1.5rem 0;
     padding: 0 1rem;
+  }
+
+  &__empty, &__signed-out {
+    color: #777;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 3rem 0;
+    gap: 1rem;
+
+    p {
+      max-width: 350px;
+      text-align: center;
+    }
+
+    .icon {
+      font-size: 5rem;
+    }
   }
 }
 </style>

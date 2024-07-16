@@ -1,9 +1,10 @@
 import { ClerkClient, createClerkClient } from "@clerk/clerk-sdk-node"
-import {  } from "~/types/api-spec.types.js";
+import { RAW_CREATE_USER_POST_REQUEST_BODY, RAW_NEW_FAV_STORED_RESPONSE, RAW_USER_POST_RESPONSE_DATA } from "~/types/api-spec.types.js";
 import admin from 'firebase-admin';
 import { initializeApp } from 'firebase-admin/app';
 import RedisSingleton from "~/classes/redis-singletone.class"
-
+import { STORABLE_FAV_USER_POST_RELATIONSHIP } from "~/types/entities.types";
+import { Redis } from "ioredis";
 
 export default defineEventHandler(async (event) => {
   const runtimeConfig = useRuntimeConfig()
@@ -36,26 +37,10 @@ export default defineEventHandler(async (event) => {
     }
 
     const { userId } = verifiedSession.toAuth()
-
-    const cachedUserFavs = await redis.lrange(`user:${userId}:favs`, 0, -1)
-
-    let userFavs: string[] = []
-
-    if (cachedUserFavs) {
-      console.log(cachedUserFavs)
-      userFavs = [...cachedUserFavs]
-    } else {
-      const querySnapshot = await admin.firestore().collection('fav-user-post-rel')
-        .where('user_id', '==', userId)
-        .get()
-      
-      userFavs = querySnapshot.docs.map((doc) => doc.id)
-    }
-
-    return userFavs
   } catch(error) {
     console.error(error)
     setResponseStatus(event, 500)
+
     return {
       error: 'Unexpected error'
     }

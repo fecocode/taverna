@@ -5,6 +5,12 @@ import { dark } from '@clerk/themes';
 export default defineNuxtPlugin((nuxtApp) => {
   const runtimeConfig = useRuntimeConfig()
 
+  const isLive = parseInt(runtimeConfig.public.LIVE)
+
+  if(!isLive) {
+    return
+  }
+
   const extendedSpanishLocales = { ...esES }
 
 

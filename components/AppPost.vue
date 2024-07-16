@@ -32,9 +32,12 @@
 
 <script lang="ts" setup>
 import moment from 'moment'
+import { useAuth } from 'vue-clerk'
 
 const toast = useToast()
 const favsStore = useFavsStore()
+const modalsStore = useModalsStore()
+const auth = useAuth()
 
 const props = defineProps<{
   id: string,
@@ -174,6 +177,10 @@ function copyUrlToClipboard() {
 }
 
 async function handleFavClick() {
+  if (!auth.isSignedIn.value) {
+    modalsStore.openSignUpModal()
+    return
+  }
   try {
     favLoading.value = true
     if (isInUserFavList.value) {

@@ -39,6 +39,10 @@ export const useFavsStore = defineStore({
       postsStore.updateFavsOfPost(postId, response.fav_count)
     },
     async fetchUserFavsIds() {
+      if (this.loadingFavsIds) {
+        return
+      }
+
       const auth = useAuth()
 
       if (!auth.isSignedIn.value) {
@@ -68,10 +72,19 @@ export const useFavsStore = defineStore({
         return
       }
 
+      if (this.loadingFavs) {
+        return
+      }
+
       const toast = useToast()
 
       try {
         this.loadingFavs = true
+
+        if (this.userFavsIds.length === 0) {
+          await this.fetchUserFavsIds()
+        }
+
         const response = await $fetch<RAW_USER_POST_RESPONSE_DATA[]>('/api/user/get-favs')
   
         this.userFavs = response.map((rawPost) => new Post(rawPost))

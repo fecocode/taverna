@@ -30,7 +30,7 @@
       <SignedOut>
         <div class="users-fav__signed-out">
           <IconLineMdAlertCircle class="icon" />
-          <p>Sección disponible solo para usuarios registrados</p>
+          <p>Si querés guardar chismes para pochoclear, necesitás una cuenta de <strong>Chismecito</strong></p>
           <UButton color="indigo" size="xl" label="Crear cuenta" @click="modalStore.openSignUpModal()" />
         </div>
       </SignedOut>
@@ -88,6 +88,11 @@ onMounted(async () => {
     justify-content: flex-start;
     padding: 3rem 0;
     gap: 1rem;
+
+    p {
+      max-width: 350px;
+      text-align: center;
+    }
 
     .icon {
       font-size: 5rem;
