@@ -5,6 +5,12 @@ export default defineNuxtConfig({
   telemetry: false,
   modules: ['@pinia/nuxt', '@nuxt/ui', '@nuxtjs/google-fonts'],
 
+  app: {
+    head: {
+      title: 'Chismecito.space | Nueva red social para chismosos'
+    }
+  },
+
   runtimeConfig: {
     public: {
       CLERK_PUBLISHABLE_KEY: process.env.CLERK_PUBLISHABLE_KEY!,
