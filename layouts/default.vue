@@ -1,5 +1,5 @@
 <template>
-  <div class="default-layout">
+  <div class="default-layout dark">
     <AppModalsManager />
     <AppWaitingOverlay v-if="!isLive"/>
     <ClerkLoading v-if="isLive">
