@@ -11,6 +11,28 @@
 
 <script lang="ts" setup>
 const modalsStore = useModalsStore()
+
+const checkLiveInterval = ref()
+
+onMounted(() => {
+  setIntervalToCheckLive()
+})
+
+function setIntervalToCheckLive() {
+  checkLiveInterval.value = setInterval(async () => {
+    const { live } = await $fetch('/api/live')
+
+    if(live) {
+      window.location.reload()
+    }
+  }, 1000*60)
+}
+
+onUnmounted(() => {
+  if (checkLiveInterval.value) {
+    clearInterval(checkLiveInterval.value)
+  }
+})
 </script>
 
 <style lang="scss" scoped>
