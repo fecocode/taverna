@@ -64,9 +64,10 @@
           <IconamoonComment />
         </template>
       </UButton>-->
-      <UButton v-if="showShareButton" color="gray" label="Compartir" @click="handleShareClick">
+      <UButton v-if="showShareButton" color="gray" :label="shareButtonText" @click="handleShareClick">
         <template #leading>
-          <IconPhShareBold />
+          <IconPhShareBold v-if="navigatorCanShare" />
+          <IconHeroiconsLink v-else />
         </template>
       </UButton>
     </UButtonGroup>
@@ -195,6 +196,14 @@ const favButtonColor = computed(() => {
     return 'indigo'
   } else {
     return 'gray'
+  }
+})
+
+const shareButtonText = computed(() => {
+  if (navigatorCanShare.value) {
+    return 'Compartir'
+  } else {
+    return 'Copiar link'
   }
 })
 
