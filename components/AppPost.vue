@@ -1,8 +1,51 @@
 <template>
   <div class="app-post">
+    <div class="app-post__ellipsis">
+      <UPopover :popper="{ placement: 'left-start' }">
+        <UButton
+          icon="i-heroicons-ellipsis-vertical"
+          size="2xs"
+          :ui="{ rounded: 'rounded-full' }"
+          color="gray"
+          variant="ghost"
+        />
+        <template #panel="{ close }">
+          <div class="ellipsis-menu">
+            <UButton
+              v-if="isCurrentUserPostOwner"
+              icon="i-heroicons-pencil"
+              size="2xs"
+              color="gray"
+              variant="link"
+              label="Editar chisme"
+            />
+            <UButton
+              v-if="isCurrentUserPostOwner"
+              icon="i-heroicons-trash"
+              size="2xs"
+              color="red"
+              variant="link"
+              label="Eliminar chisme"
+              @click="handleDeletePostClick(close)"
+            />
+            <UButton
+              v-if="!isCurrentUserPostOwner"
+              icon="i-heroicons-megaphone"
+              size="2xs"
+              color="gray"
+              variant="link"
+              label="Reportar"
+            />
+          </div>
+        </template>
+      </UPopover>
+    </div>
     <div class="app-post__profile">
       <UAvatar :src="authorAvatar" size="xs" />
-      <span><b>@{{authorUsername}}</b> <span v-show="timeAgo">· {{ timeAgo }}</span></span>
+      <span>
+        <b>@{{authorUsername}} <small v-if="isCurrentUserPostOwner" class="text-indigo-300">(vos)</small></b>
+        <span v-show="timeAgo"> · {{ timeAgo }}</span>
+      </span>
     </div>
     <p v-html="text"></p>
     <div class="app-post__fav-count-display">
@@ -33,11 +76,13 @@
 <script lang="ts" setup>
 import moment from 'moment'
 import { useAuth } from 'vue-clerk'
+import type { IPost } from '@/types/post.interface'
 
 const toast = useToast()
 const favsStore = useFavsStore()
 const modalsStore = useModalsStore()
 const auth = useAuth()
+const editStore = useEditStore()
 
 const props = defineProps<{
   id: string,
@@ -48,6 +93,7 @@ const props = defineProps<{
   favCount: number,
   createdAt?: Date,
   updatedAt?: Date,
+  post: IPost,
 }>()
 
 const timeAgo = ref('')
@@ -99,6 +145,10 @@ onUnmounted(() => {
 })
 
 const shareUrl = computed(() => `${window.location.host}/?shared=${props.id}`)
+
+const isCurrentUserPostOwner = computed(() => {
+  return props.userId === auth.userId.value
+})
 
 
 const navigatorHasClipboard = computed(() => {
@@ -199,6 +249,11 @@ async function handleFavClick() {
     favLoading.value = false
   }
 }
+
+function handleDeletePostClick(closePopoverFunction: Function) {
+  closePopoverFunction()
+  editStore.setPostToDelete(props.post)
+}
 </script>
 
 <style lang="scss" scoped>
@@ -209,6 +264,21 @@ async function handleFavClick() {
   border-bottom: 1px solid #333;
   padding: 1rem 1.5rem;
   gap: 1rem;
+  position: relative;
+
+  &__ellipsis {
+    position: absolute;
+    top: 1rem;
+    right: 0.5rem;
+    .ellipsis-menu {
+      display: flex;
+      padding: 0.5rem;
+      gap: 0.5rem;
+      flex-direction: column;
+      align-items: flex-start;
+      width: fit-content;
+    }
+  }
 
   @media (max-width: 768px) {
     padding: 1rem;

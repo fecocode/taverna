@@ -9,6 +9,7 @@ export const usePostsStore = defineStore({
     mainFeed: [] as IPost[],
     newPosts: [] as IPost[],
     usersPosts: [] as IPost[],
+    removedPosts: [] as IPost[],
 
     highlightedPostId: null as string | null,
 
@@ -21,6 +22,13 @@ export const usePostsStore = defineStore({
     addNewCreatedPost(post: IPost) {
       this.mainFeed.unshift(post)
       this.usersPosts.unshift(post)
+    },
+    removePost(removedPost: IPost) {
+      this.mainFeed = this.mainFeed.filter((storedPost) => {
+        return storedPost.id !== removedPost.id
+      })
+
+      this.removedPosts.push(removedPost)
     },
     updateFavsOfPost(postId: string, favCount: number) {
       const post = this.mainFeed.find((postOnStore) => postOnStore.id === postId)
@@ -79,8 +87,11 @@ export const usePostsStore = defineStore({
         const parsedPosts = response.map((rawPost) => new Post(rawPost))
 
         const currentPostsIds = this.mainFeed.map((post) => post.id)
+        const removedPostsIds = this.removedPosts.map((post) => post.id)
 
-        this.newPosts = parsedPosts.filter((newPost) => !currentPostsIds.includes(newPost.id))
+        this.newPosts = parsedPosts
+          .filter((newPost) => !currentPostsIds.includes(newPost.id))
+          .filter((newPost) => !removedPostsIds.includes(newPost.id))
       } catch (_) {}
     },
     updateMainFeedPostList() {

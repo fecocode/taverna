@@ -15,6 +15,11 @@ export const useFavsStore = defineStore({
     loadingFavs: false,
    }),
   actions: {
+    removeFavPost(removedPost: IPost) {
+      this.userFavs = this.userFavs.filter((storedPost) => {
+        return storedPost.id !== removedPost.id
+      })
+    },
     async setAsFavPost(postId: string) {
       const response = await $fetch<RAW_NEW_FAV_STORED_RESPONSE>(`/api/posts/${postId}/fav`, {
         method: 'POST'

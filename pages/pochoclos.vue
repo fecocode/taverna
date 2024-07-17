@@ -25,6 +25,7 @@
           :created-at="post.created_at"
           :text="post.text"
           :fav-count="post.fav_count"
+          :post="post"
         />
       </SignedIn>
       <SignedOut>

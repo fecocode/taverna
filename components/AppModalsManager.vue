@@ -21,6 +21,12 @@
     <UModal v-model="modalsStore.isRickRollModalOpen" :ui="{ background: 'bg-transparent dark:bg-transparent', width: 'var(--max-layout-width)' }">
       <AppRickRoll />
     </UModal>
+    <UModal v-model="modalsStore.isRickRollModalOpen" :ui="{ background: 'bg-transparent dark:bg-transparent', width: 'var(--max-layout-width)' }">
+      <AppRickRoll />
+    </UModal>
+    <UModal v-model="modalsStore.isDeletePostModalOpen" :ui="{ background: 'bg-transparent dark:bg-transparent', width: 'var(--max-layout-width)' }">
+      <AppDeletePostModal />
+    </UModal>
   </div>
 </template>
 

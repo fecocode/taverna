@@ -42,7 +42,6 @@ export default defineEventHandler(async (event) => {
     let userFavs: string[] = []
 
     if (cachedUserFavs) {
-      console.log(cachedUserFavs)
       userFavs = [...cachedUserFavs]
     } else {
       const querySnapshot = await admin.firestore().collection('fav-user-post-rel')

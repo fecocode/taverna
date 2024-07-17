@@ -10,10 +10,14 @@ export const useModalsStore = defineStore({
     isSignInModalOpen: false,
     isSignUpModalOpen: false,
     isRickRollModalOpen: false,
+    isDeletePostModalOpen: false,
   }),
   actions: {
     openRickRollModal() {
       this.isRickRollModalOpen = true
+    },
+    openDeletePostModal() {
+      this.isDeletePostModalOpen = true
     },
     openTermsAndConditionsModal() {
       this.isTermsAndConditionsModalOpen = true
@@ -50,6 +54,9 @@ export const useModalsStore = defineStore({
     },
     closeSignUpModal(){
       this.isSignUpModalOpen = false
+    },
+    closeDeletePostModal() {
+      this.isDeletePostModalOpen = false
     },
   },
 })
