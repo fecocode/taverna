@@ -16,11 +16,9 @@
     </template>
     <div class="app-repentance-modal">
       <p>
-        Presionaste el botón de arrepentimiento. Por favor, escribime a <a href="mailto:apps@fecocode.com">apps@fecocode.com</a> y dentro de las 24hs hábiles te daré el paso a paso para revertir tu acción en la App.
+        Presionaste el botón de arrepentimiento. Por favor, escribime a <a href="mailto:apps@fecocode.com">apps@fecocode.com</a> explicandome cual es la acción que querés revertir y dentro de las 24hs hábiles te daré el paso a paso para revertir tu acción en la App.
       </p>
-      <p>
-        Presionaste el botón de arrepentimiento. Por favor, escribime a <a href="mailto:apps@fecocode.com">apps@fecocode.com</a> y dentro de las 24hs hábiles te daré el paso a paso para revertir tu acción en la App.
-      </p>
+      <br>
       <p>
         <u>Importante:</u> La acción que quieras revertir debe estar dentro de lo técnicamente posible.
       </p>
