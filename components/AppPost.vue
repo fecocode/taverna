@@ -36,6 +36,7 @@
               color="gray"
               variant="link"
               label="Reportar"
+              @click="modalsStore.openReportModal()"
             />
           </div>
         </template>

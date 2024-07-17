@@ -36,6 +36,9 @@
     <UModal v-model="modalsStore.isRepentanceModalOpen" :ui="{ background: 'bg-transparent dark:bg-transparent', width: 'var(--max-layout-width)' }">
       <AppRepentanceModal @close="modalsStore.closeRepentanceModal()" />
     </UModal>
+    <UModal v-model="modalsStore.isReportModalOpen" :ui="{ background: 'bg-transparent dark:bg-transparent', width: 'var(--max-layout-width)' }">
+      <AppReportModal @close="modalsStore.closeReportModal()" />
+    </UModal>
   </div>
 </template>
 

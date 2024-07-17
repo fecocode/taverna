@@ -13,7 +13,8 @@ export const useModalsStore = defineStore({
     isRickRollModalOpen: false,
     isDeletePostModalOpen: false,
     isEditPostModalOpen: false,
-    isRepentanceModalOpen: false
+    isRepentanceModalOpen: false,
+    isReportModalOpen: false
   }),
   actions: {
     openRickRollModal() {
@@ -30,6 +31,9 @@ export const useModalsStore = defineStore({
     },
     openRepentanceModal() {
       this.isRepentanceModalOpen = true
+    },
+    openReportModal() {
+      this.isReportModalOpen = true
     },
     openRulesModal() {
       this.isRulesModalOpen = true
@@ -56,6 +60,9 @@ export const useModalsStore = defineStore({
       this.isRulesModalOpen = false
     },
     closeRepentanceModal(){
+      this.isRepentanceModalOpen = false
+    },
+    closeReportModal(){
       this.isRepentanceModalOpen = false
     },
     closePrivacyPolicyModal(){
