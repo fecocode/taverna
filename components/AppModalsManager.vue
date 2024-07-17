@@ -33,6 +33,9 @@
     <UModal v-model="modalsStore.isEditPostModalOpen" :ui="{ background: 'bg-transparent dark:bg-transparent', width: 'var(--max-layout-width)' }">
       <AppEditPost />
     </UModal>
+    <UModal v-model="modalsStore.isRepentanceModalOpen" :ui="{ background: 'bg-transparent dark:bg-transparent', width: 'var(--max-layout-width)' }">
+      <AppRepentanceModal @close="modalsStore.closeRepentanceModal()" />
+    </UModal>
   </div>
 </template>
 

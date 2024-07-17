@@ -33,7 +33,7 @@
         :ui="{ icon: { base: 'text-red-500' } }"
       >
         <template #description>
-          Sé que no es muy divertido, pero leé el <b>código de conducta</b>. Podés ahorrarte problemas vos, y lo más importante, me los ahorras a mí.
+          Sé que no es muy divertido, pero leé el <b>Código de conducta</b>, los <b>Términos y condiciones</b> y las <b>Políticas de privacidad</b>. Podés ahorrarte problemas vos, y lo más importante, me los ahorras a mí.
         </template>
       </UAlert>
 

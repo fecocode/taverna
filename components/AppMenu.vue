@@ -137,7 +137,7 @@ function handleShowPrivacyPolicyEllipsisMenuClick(closePopoverFunction: Function
 }
 function handleShowRepentanceEllipsisMenuClick(closePopoverFunction: Function) {
   closePopoverFunction()
-  modalsStore.openHelpModal()
+  modalsStore.openRepentanceModal()
 }
 
 function handleShowRulesEllipsisMenuClick(closePopoverFunction: Function) {

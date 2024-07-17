@@ -10,7 +10,7 @@ const modalStore = useModalsStore()
       Desarrollado por <a href="https://fecocode.com" target="_blank">Feco</a>
     </span>
     <span>
-      <a @click="modalStore.openPrivacyPolicyModal()">Políticas de privacidad</a> · <a @click="modalStore.openTermsAndConditionsModal()">Términos y condiciones</a> · <a @click="modalStore.openRulesModal()">Código de conducta</a> · <a @click="modalStore.openHelpModal()">Botón de arrepentimiento</a>
+      <a @click="modalStore.openPrivacyPolicyModal()">Políticas de privacidad</a> · <a @click="modalStore.openTermsAndConditionsModal()">Términos y condiciones</a> · <a @click="modalStore.openRulesModal()">Código de conducta</a> · <a @click="modalStore.openRepentanceModal()">Botón de arrepentimiento</a>
     </span>
   </div>
 </template>
