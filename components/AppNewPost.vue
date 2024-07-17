@@ -29,9 +29,10 @@ import { EditorContent, getText, useEditor } from '@tiptap/vue-3'
 import StarterKit from '@tiptap/starter-kit'
 import Placeholder from '@tiptap/extension-placeholder'
 import CharacterCount from '@tiptap/extension-character-count'
+import DOMPurify from 'dompurify'
 
 import { useSession } from 'vue-clerk'
-import type { RAW_CREATE_USER_POST_REQUEST_BODY, RAW_GET_POSTS_RESPONSE_DATA, RAW_USER_POST_RESPONSE_DATA } from '~/types/api-spec.types'
+import type { RAW_CREATE_USER_POST_REQUEST_BODY, RAW_USER_POST_RESPONSE_DATA } from '~/types/api-spec.types'
 import { Post } from '~/classes/post.class'
 
 const { session } = useSession()
@@ -82,6 +83,12 @@ async function publishPost() {
   if (editor.value) {
     try {
       publishing.value = true
+      
+      // const sanitizedContent = DOMPurify.sanitize(editor.value.getHTML(), {
+      //   ALLOWED_TAGS: ['b', 'i', 'em', 'strong', 'a', 'p', 'br'],
+      //   ALLOWED_ATTR: ['href', 'target'],
+      // });
+
       const requestBody: RAW_CREATE_USER_POST_REQUEST_BODY = {
         text: editor.value.getHTML()
       }
@@ -103,8 +110,8 @@ async function publishPost() {
       })
 
       modalStore.closeNewPostModal()
-    } catch (_) {
-      console.error('error')
+    } catch (error) {
+      console.error(error)
       toast.add({
         color: 'red',
         icon: 'i-heroicons-x-mark',

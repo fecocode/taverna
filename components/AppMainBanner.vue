@@ -1,30 +1,37 @@
 <template>
-  <div class="app-main-banner" :class="{ 'without-margin': !show }">
+  <div class="app-main-banner">
     <UAlert
       v-if="show"
-      icon="i-material-symbols-rocket-launch"
+      icon="i-heroicons-megaphone"
       :close-button="{ icon: 'i-heroicons-x-mark-20-solid', color: 'white', variant: 'link', padded: false }"
-      title="Próximo lanzamiento (17/07/2024)"
-      description="Hilos, respuestas y comentarios"
-      color="white"
-      variant="soft"
+      title="¡Eu, te doy la bienvenida a chismecito.app!"
+      description="Por favor, comenzá leyendo los detalles de uso de la App"
+      :actions="[{ variant: 'solid', color: 'white', label: 'Ver detalles', click: handleGoToDetails }]"
+      color="indigo"
       @close="show = false"
-    >
-      <template #icon="{ icon }">
-        <IconMaterialSymbolsRocketLaunch />
-      </template>
-    </UAlert>
+    ></UAlert>
+    <UButton
+      v-else
+      label="Ver mensaje del creador de la App"
+      color="indigo"
+      variant="ghost"
+      icon="i-heroicons-arrow-small-down-solid"
+      @click="show = true"
+    />
   </div>
 </template>
 
 <script lang="ts" setup>
 const show = ref(true)
+const router = useRouter()
 
+function handleGoToDetails() {
+  
+}
 </script>
 
 <style lang="scss" scoped>
 .app-main-banner {
-  background: #312e81;
   margin: 0.5rem;
   border-radius: 0.25rem;
   display: flex;

@@ -48,14 +48,14 @@
         <span v-show="timeAgo"> · {{ timeAgo }}</span>
       </span>
     </div>
-    <p v-html="text"></p>
+    <p v-html="sanitizedContent"></p>
     <div class="app-post__fav-count-display">
       <span v-if="updatedAt">Editado · </span>
       <IconParkOutlinePopcorn />
       <span>{{ favCountText }}</span>
     </div>
     <UButtonGroup size="xs" orientation="horizontal" class="app-post__actions">
-      <UButton :color="favButtonColor" :label="favButtonLabel" :loading="favLoading" @click="handleFavClick">
+      <UButton :color="favButtonColor" :variant="isInUserFavList ? 'soft' : 'solid'" :label="favButtonLabel" :loading="favLoading" @click="handleFavClick">
         <template #leading>
           <IconSvgSpinners3DotsScale v-if="favLoading" />
           <IconParkOutlinePopcorn v-else />
@@ -80,6 +80,7 @@
 import moment from 'moment'
 import { useAuth } from 'vue-clerk'
 import type { IPost } from '@/types/post.interface'
+import DOMPurify from 'dompurify'
 
 const toast = useToast()
 const favsStore = useFavsStore()
@@ -178,6 +179,13 @@ const favButtonLabel = computed(() => {
   } else {
     return 'Pochoclear'
   }
+})
+
+const sanitizedContent = computed(() => {
+  return DOMPurify.sanitize(props.text, {
+    ALLOWED_TAGS: ['b', 'i', 'em', 'strong', 'a', 'p', 'br'],
+    ALLOWED_ATTR: ['href', 'target'],
+  });
 })
 
 const favCountText = computed(() => {

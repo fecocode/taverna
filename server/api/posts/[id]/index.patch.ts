@@ -2,6 +2,8 @@ import { createClerkClient } from "@clerk/clerk-sdk-node"
 import admin from 'firebase-admin';
 import { initializeApp } from 'firebase-admin/app';
 import RedisSingleton from "~/classes/redis-singletone.class"
+import DOMPurify from 'dompurify'
+import { JSDOM } from 'jsdom'
 
 
 export default defineEventHandler(async (event) => {
@@ -72,9 +74,17 @@ export default defineEventHandler(async (event) => {
         error: 'Unauthorized'
       }
     }
+
+    const window = new JSDOM('').window
+    const purify = DOMPurify(window)
+
+    const sanitizedContent = purify.sanitize(body.text, {
+      ALLOWED_TAGS: ['b', 'i', 'em', 'strong', 'a', 'p', 'br'],
+      ALLOWED_ATTR: ['href', 'target'],
+    });
     
     await documentReference.update({
-      text: body.text,
+      text: sanitizedContent,
       updated_at: new Date(),
     })
 

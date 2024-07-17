@@ -4,6 +4,8 @@ import { STOREABLE_POST } from "~/types/entities.types.js";
 import admin from 'firebase-admin';
 import { initializeApp } from 'firebase-admin/app';
 import RedisSingleton from "~/classes/redis-singletone.class"
+import DOMPurify from 'dompurify'
+import { JSDOM } from 'jsdom'
 
 export default defineEventHandler(async (event) => {
   const runtimeConfig = useRuntimeConfig()
@@ -66,9 +68,17 @@ export default defineEventHandler(async (event) => {
     const newPostId = crypto.randomUUID()
     const createdAt = new Date()
 
+    const window = new JSDOM('').window
+    const purify = DOMPurify(window)
+
+    const sanitizedContent = purify.sanitize(requestBody.text, {
+      ALLOWED_TAGS: ['b', 'i', 'em', 'strong', 'a', 'p', 'br'],
+      ALLOWED_ATTR: ['href', 'target'],
+    });
+
     const newPost: STOREABLE_POST = {
       id: newPostId,
-      text: requestBody.text,
+      text: sanitizedContent,
       created_at: createdAt,
       updated_at: null,
       deleted_at: null,
@@ -100,9 +110,10 @@ export default defineEventHandler(async (event) => {
 
     return response
   } catch(error) {
+    console.error(error)
     setResponseStatus(event, 500)
     return {
-      error
+      error: 'unexpected error'
     }
   }
 })
