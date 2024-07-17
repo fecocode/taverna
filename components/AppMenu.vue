@@ -97,6 +97,14 @@
               @click="handleShowPrivacyPolicyEllipsisMenuClick(close)"
             />
             <UButton
+              icon="i-heroicons-book-open"
+              size="sm"
+              color="gray"
+              variant="link"
+              label="Código de conducta"
+              @click="handleShowRulesEllipsisMenuClick(close)"
+            />
+            <UButton
               icon="i-heroicons-question-mark-circle"
               size="sm"
               color="gray"
@@ -130,6 +138,11 @@ function handleShowPrivacyPolicyEllipsisMenuClick(closePopoverFunction: Function
 function handleShowRepentanceEllipsisMenuClick(closePopoverFunction: Function) {
   closePopoverFunction()
   modalsStore.openHelpModal()
+}
+
+function handleShowRulesEllipsisMenuClick(closePopoverFunction: Function) {
+  closePopoverFunction()
+  modalsStore.openRulesModal()
 }
 
 

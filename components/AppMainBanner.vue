@@ -4,9 +4,9 @@
       v-if="show"
       icon="i-heroicons-megaphone"
       :close-button="{ icon: 'i-heroicons-x-mark-20-solid', color: 'white', variant: 'link', padded: false }"
-      title="¡Eu, te doy la bienvenida a chismecito.app!"
+      title="¡Eu, te doy la bienvenida a Chismecito!"
       description="Por favor, comenzá leyendo los detalles de uso de la App"
-      :actions="[{ variant: 'solid', color: 'white', label: 'Ver detalles', click: handleGoToDetails }]"
+      :actions="[{ variant: 'solid', color: 'white', label: 'Ver detalles', click: modalsStore.openHelpModal }]"
       color="indigo"
       @close="show = false"
     ></UAlert>
@@ -23,11 +23,7 @@
 
 <script lang="ts" setup>
 const show = ref(true)
-const router = useRouter()
-
-function handleGoToDetails() {
-  
-}
+const modalsStore = useModalsStore()
 </script>
 
 <style lang="scss" scoped>

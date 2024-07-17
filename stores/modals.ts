@@ -4,6 +4,7 @@ export const useModalsStore = defineStore({
   id: 'modalsStore',
   state: () => ({
     isTermsAndConditionsModalOpen: false,
+    isRulesModalOpen: false,
     isPrivacyPolicyModalOpen: false,
     isHelpModalOpen: false,
     isNewPostModalOpen: false,
@@ -26,6 +27,9 @@ export const useModalsStore = defineStore({
     openTermsAndConditionsModal() {
       this.isTermsAndConditionsModalOpen = true
     },
+    openRulesModal() {
+      this.isRulesModalOpen = true
+    },
     openPrivacyPolicyModal() {
       this.isPrivacyPolicyModalOpen = true
     },
@@ -43,6 +47,9 @@ export const useModalsStore = defineStore({
     },
     closeTermsAndConditionsModal(){
       this.isTermsAndConditionsModalOpen = false
+    },
+    closeRulesModal(){
+      this.isRulesModalOpen = false
     },
     closePrivacyPolicyModal(){
       this.isPrivacyPolicyModalOpen = false

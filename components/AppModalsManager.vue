@@ -1,13 +1,16 @@
 <template>
   <div class="app-modals-manager">
-    <UModal v-model="modalsStore.isTermsAndConditionsModalOpen">
-      <h3>Terms and conditions</h3>
+    <UModal v-model="modalsStore.isRulesModalOpen" :ui="{ background: 'bg-transparent dark:bg-transparent', width: 'var(--max-layout-width)' }">
+      <AppRulesModal @close="modalsStore.closeRulesModal()"/>
     </UModal>
-    <UModal v-model="modalsStore.isPrivacyPolicyModalOpen">
-      <h3>Privacy policy</h3>
+    <UModal v-model="modalsStore.isTermsAndConditionsModalOpen" :ui="{ background: 'bg-transparent dark:bg-transparent', width: 'var(--max-layout-width)' }">
+      <AppTermsAndConditionsModal @close="modalsStore.closeTermsAndConditionsModal()"/>
     </UModal>
-    <UModal v-model="modalsStore.isHelpModalOpen">
-      <h3>Help</h3>
+    <UModal v-model="modalsStore.isPrivacyPolicyModalOpen" :ui="{ background: 'bg-transparent dark:bg-transparent', width: 'var(--max-layout-width)' }">
+      <AppPrivacyPolicyModal @close="modalsStore.closePrivacyPolicyModal()"/>
+    </UModal>
+    <UModal v-model="modalsStore.isHelpModalOpen" :ui="{ background: 'bg-transparent dark:bg-transparent', width: 'var(--max-layout-width)' }">
+      <AppHelpModal @close="modalsStore.closeHelpModal()" />
     </UModal>
     <UModal v-model="modalsStore.isSignInModalOpen" :ui="{ background: 'bg-transparent dark:bg-transparent', width: '' }">
       <AppSignInModal />
