@@ -140,6 +140,10 @@ async function publishPost() {
   background-color: #242429;
   border-radius: 0.5rem;
 
+  @media (max-width: 768px) {
+    border-radius: 0;
+  }
+
   &__profile {
     display: flex;
     align-items: center;

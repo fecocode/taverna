@@ -93,10 +93,11 @@ watch(isSignUpModalOpen, (isOpen) => {
   </AppScrollbarWrapper>
   <UButton
     v-if="thereAreNewPosts"
-    label="Ver nuevos chismes"
+    label="Nuevos chismes"
     color="indigo"
     class="refresh-button"
     icon="i-heroicons-arrow-small-up"
+    size="xs"
     @click="postsStore.updateMainFeedPostList()"
   />
 </template>
@@ -122,5 +123,8 @@ watch(isSignUpModalOpen, (isOpen) => {
   flex-direction: column;
   padding: 0 1rem;
   position: relative;
+  @media (max-width: 768px) {
+    padding: 0;
+  }
 }
 </style>

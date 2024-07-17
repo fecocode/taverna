@@ -5,7 +5,7 @@
     <ClerkLoading v-if="isLive">
       <AppLoadingOverlay />
     </ClerkLoading>
-    <AppMenu v-if="isLive"/>
+    <AppMenu v-if="isLive" class="default-layout__menu"/>
     <div class="default-layout__wrapper" v-if="isLive">
       <AppTopbar />
       <AppMainBanner />
@@ -14,7 +14,7 @@
             <slot />
           </ClerkLoaded>
         </div>
-      <AppFooter />
+      <AppFooter class="desktop-footer" />
     </div>
     <UNotifications v-if="isLive"/>
   </div>
@@ -40,7 +40,9 @@ definePageMeta({
   padding: 1rem;
   box-sizing: border-box;
   height: 100vh;
-
+  @media (max-width: 768px) {
+    padding: 0;
+  }
   &__wrapper {
     width: var(--max-layout-width);
     max-width: 100vw;
@@ -51,11 +53,20 @@ definePageMeta({
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    @media (max-width: 768px) {
+      border-radius: 0;
+    }
 
     &__main {
       padding: 0 1rem;
       flex: 1;
       position: relative;
+    }
+
+    @media (max-width: 768px) {
+      .desktop-footer {
+        display: none;
+      }
     }
   }
 }

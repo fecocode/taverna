@@ -121,7 +121,7 @@ const favButtonLabel = computed(() => {
   if (favLoading.value) {
     return ''
   } else if (isInUserFavList.value) {
-    return 'Quitar de mis pochoclos'
+    return 'Despochoclear'
   } else {
     return 'Pochoclear'
   }
@@ -209,6 +209,10 @@ async function handleFavClick() {
   border-bottom: 1px solid #333;
   padding: 1rem 1.5rem;
   gap: 1rem;
+
+  @media (max-width: 768px) {
+    padding: 1rem;
+  }
 
   &:last-of-type {
     border-bottom: none;

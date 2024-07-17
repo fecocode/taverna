@@ -1,5 +1,5 @@
 <template>
-  <div class="app-main-banner">
+  <div class="app-main-banner" :class="{ 'without-margin': !show }">
     <UAlert
       v-if="show"
       icon="i-material-symbols-rocket-launch"
@@ -39,6 +39,10 @@ const show = ref(true)
       text-decoration: underline;
       color: #fff;
     }
+  }
+
+  &.without-margin {
+    margin: 0;
   }
 }
 </style>
