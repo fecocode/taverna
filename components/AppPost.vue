@@ -18,6 +18,7 @@
               color="gray"
               variant="link"
               label="Editar chisme"
+              @click="handleEditPostClick(close)"
             />
             <UButton
               v-if="isCurrentUserPostOwner"
@@ -49,6 +50,7 @@
     </div>
     <p v-html="text"></p>
     <div class="app-post__fav-count-display">
+      <span v-if="updatedAt">Editado · </span>
       <IconParkOutlinePopcorn />
       <span>{{ favCountText }}</span>
     </div>
@@ -262,6 +264,10 @@ async function handleFavClick() {
 function handleDeletePostClick(closePopoverFunction: Function) {
   closePopoverFunction()
   editStore.setPostToDelete(props.post)
+}
+function handleEditPostClick(closePopoverFunction: Function) {
+  closePopoverFunction()
+  editStore.setPostToEdit(props.post)
 }
 </script>
 

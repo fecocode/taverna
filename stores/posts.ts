@@ -30,6 +30,13 @@ export const usePostsStore = defineStore({
 
       this.removedPosts.push(removedPost)
     },
+    updateRecentEditedPost(editedPost: IPost) {
+      const postIndex = this.mainFeed.findIndex((storedPost) => storedPost.id === editedPost.id)
+
+      if (postIndex !== -1) {
+        this.mainFeed[postIndex] = editedPost
+      }
+    },
     updateFavsOfPost(postId: string, favCount: number) {
       const post = this.mainFeed.find((postOnStore) => postOnStore.id === postId)
       if (post) {

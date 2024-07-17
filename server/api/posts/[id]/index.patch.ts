@@ -1,13 +1,14 @@
 import { createClerkClient } from "@clerk/clerk-sdk-node"
-import { RAW_CREATE_USER_POST_REQUEST_BODY, RAW_NEW_FAV_STORED_RESPONSE, RAW_USER_POST_RESPONSE_DATA } from "~/types/api-spec.types.js";
 import admin from 'firebase-admin';
 import { initializeApp } from 'firebase-admin/app';
 import RedisSingleton from "~/classes/redis-singletone.class"
-import { STORABLE_FAV_USER_POST_RELATIONSHIP } from "~/types/entities.types";
 
 
 export default defineEventHandler(async (event) => {
   const runtimeConfig = useRuntimeConfig()
+
+  const body = await readBody(event)
+  
 
   if (!admin.apps.length) {  
     initializeApp({
@@ -26,6 +27,7 @@ export default defineEventHandler(async (event) => {
   })
 
   try {
+    
     const verifiedSession = await clerk.authenticateRequest(request)
 
     if (!verifiedSession.isSignedIn) {
@@ -70,16 +72,16 @@ export default defineEventHandler(async (event) => {
         error: 'Unauthorized'
       }
     }
-
+    
     await documentReference.update({
-      deleted: true,
-      deleted_at: new Date()
+      text: body.text,
+      updated_at: new Date(),
     })
 
     await redis.del(`post:${postId}`)
-    await redis.lrem('recent_posts', 0, postId!);
-    
+
     return { ok: true }
+    
   } catch (error) {
     console.error(error)
     return {

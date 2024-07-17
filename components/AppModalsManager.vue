@@ -27,6 +27,9 @@
     <UModal v-model="modalsStore.isDeletePostModalOpen" :ui="{ background: 'bg-transparent dark:bg-transparent', width: 'var(--max-layout-width)' }">
       <AppDeletePostModal />
     </UModal>
+    <UModal v-model="modalsStore.isEditPostModalOpen" :ui="{ background: 'bg-transparent dark:bg-transparent', width: 'var(--max-layout-width)' }">
+      <AppEditPost />
+    </UModal>
   </div>
 </template>
 

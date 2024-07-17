@@ -85,6 +85,7 @@ watch(isSignUpModalOpen, (isOpen) => {
           :author-username="post.author.username"
           :user-id="post.user_id"
           :created-at="post.created_at"
+          :updated-at="post.updated_at"
           :text="post.text"
           :fav-count="post.fav_count"
           :post="post"

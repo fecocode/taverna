@@ -20,6 +20,13 @@ export const useFavsStore = defineStore({
         return storedPost.id !== removedPost.id
       })
     },
+    updateRecentEditedFavPost(editedPost: IPost) {
+      const postIndex = this.userFavs.findIndex((storedPost) => storedPost.id === editedPost.id)
+
+      if (postIndex !== -1) {
+        this.userFavs[postIndex] = editedPost
+      }
+    },
     async setAsFavPost(postId: string) {
       const response = await $fetch<RAW_NEW_FAV_STORED_RESPONSE>(`/api/posts/${postId}/fav`, {
         method: 'POST'

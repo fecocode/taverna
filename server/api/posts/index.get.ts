@@ -108,6 +108,7 @@ export default defineEventHandler(async (event) => {
         id: postObject.id,
         text: postObject.text,
         created_at: postObject.created_at,
+        updated_at: postObject.updated_at,
         user_id: postObject.user_id,
         fav_count: favCount,
         author: {
