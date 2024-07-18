@@ -83,6 +83,14 @@
         <template #panel="{ close }">
           <div class="ellipsis-menu">
             <UButton
+              icon="i-heroicons-question-mark-circle"
+              size="sm"
+              color="gray"
+              variant="link"
+              label="Botón de arrepentimiento"
+              @click="handleShowRepentanceEllipsisMenuClick(close)"
+            />
+            <UButton
               icon="i-heroicons-book-open"
               size="sm"
               color="gray"
@@ -105,14 +113,6 @@
               variant="link"
               label="Código de conducta"
               @click="handleShowRulesEllipsisMenuClick(close)"
-            />
-            <UButton
-              icon="i-heroicons-question-mark-circle"
-              size="sm"
-              color="gray"
-              variant="link"
-              label="Botón de arrepentimiento"
-              @click="handleShowRepentanceEllipsisMenuClick(close)"
             />
           </div>
         </template>
