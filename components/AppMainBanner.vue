@@ -12,7 +12,7 @@
     ></UAlert>
     <UButton
       v-else
-      label="Ver mensaje del creador de la App"
+      label="Ver mensaje del desarrollador"
       color="indigo"
       variant="ghost"
       icon="i-heroicons-arrow-small-down-solid"
