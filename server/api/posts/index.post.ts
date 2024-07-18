@@ -60,7 +60,7 @@ export default defineEventHandler(async (event) => {
         imageUrl: author.imageUrl
       }
 
-      await redis.set(`author:${userId}`, JSON.stringify(authorDataToSaveOnCache))
+      await redis.set(`author:${userId}`, JSON.stringify(authorDataToSaveOnCache), 'EX', 60*60)
     }
 
     const firestore = admin.firestore()

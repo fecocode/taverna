@@ -62,7 +62,7 @@ async function getParsedPost(postId: string, redis: Redis, clerk: ClerkClient): 
       avatar: authorClerkData.imageUrl,
     }
 
-    await redis.set(`author:${postObject.user_id}`, JSON.stringify(author))
+    await redis.set(`author:${postObject.user_id}`, JSON.stringify(author), 'EX', 60*60)
   } else {
     author = JSON.parse(catchedAuthor)
   }
