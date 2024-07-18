@@ -1,7 +1,9 @@
 <template>
   <div class="app-menu">
     <div class="app-menu__main">
-      <UAvatar src="/logo.png" alt="Logo de Chismecito" class="logo" />
+      <NuxtLink :to="{ name: 'index' }">
+        <UAvatar src="/logo.png" alt="Logo de Chismecito" class="logo" />
+      </NuxtLink>
       <UTooltip :popper="{ placement: 'right' }" text="Home">
         <NuxtLink :to="{ name: 'index' }">
           <UButton

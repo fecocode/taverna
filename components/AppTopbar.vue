@@ -8,7 +8,9 @@ const modalStore = useModalsStore()
 <template>
   <div class="app-topbar">
     <div class="app-topbar__brand">
-      <span class="name"><b>Chismecito</b>.space</span>
+      <NuxtLink :to="{ name: 'index' }">
+        <span class="name"><b>Chismecito</b>.space</span>
+      </NuxtLink>
     </div>
     <div class="app-topbar__actions">
       <SignedIn>

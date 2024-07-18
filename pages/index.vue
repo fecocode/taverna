@@ -6,7 +6,7 @@ const router = useRouter()
 const modalsStore = useModalsStore()
 const postsStore = usePostsStore()
 
-const { action } = route.query
+const { action, shared } = route.query
 
 const auth = useAuth()
 
@@ -45,7 +45,11 @@ onMounted(async () => {
     }
   }
 
-  await postsStore.fetchMainFeed()
+  if (shared) {
+    await postsStore.fetchMainFeed(`${shared}`)
+  } else {
+    await postsStore.fetchMainFeed()
+  }
 })
 
 onUnmounted(() => {

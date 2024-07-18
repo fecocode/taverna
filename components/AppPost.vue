@@ -1,5 +1,5 @@
 <template>
-  <div class="app-post">
+  <div class="app-post" :class="{ 'highlighted': isHighlighted }">
     <div class="app-post__ellipsis">
       <UPopover :popper="{ placement: 'left-start' }">
         <UButton
@@ -88,6 +88,8 @@ const favsStore = useFavsStore()
 const modalsStore = useModalsStore()
 const auth = useAuth()
 const editStore = useEditStore()
+const route = useRoute()
+
 
 const props = defineProps<{
   id: string,
@@ -170,6 +172,16 @@ const showShareButton = computed(() => {
 
 const isInUserFavList = computed(() => {
   return favsStore.parsedUserFavsPostsIds.includes(props.id)
+})
+
+const isHighlighted = computed(() => {
+  const { shared } = route.query
+
+  if (shared) {
+    return props.id === `${shared}`
+  }
+
+  return false
 })
 
 const favButtonLabel = computed(() => {
@@ -289,6 +301,10 @@ function handleEditPostClick(closePopoverFunction: Function) {
   padding: 1rem 1.5rem;
   gap: 1rem;
   position: relative;
+
+  &.highlighted {
+    background: #1e1b4b55;
+  }
 
   &__ellipsis {
     position: absolute;
