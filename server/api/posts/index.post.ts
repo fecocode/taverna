@@ -84,6 +84,7 @@ export default defineEventHandler(async (event) => {
       deleted_at: null,
       user_id: userId,
       deleted: false,
+      parent_post_id: requestBody.parent_post_id || null,
     }
 
     // Save on Database
@@ -91,8 +92,11 @@ export default defineEventHandler(async (event) => {
 
     // Save on cache
     await redis.set(`post:${newPostId}`, JSON.stringify(newPost), 'EX', 60*60*24) // One day of expiration on cache
-    await redis.lpush('recent_posts', newPostId)
-    await redis.ltrim('recent_posts', 0, 99)
+
+    if (!newPost.parent_post_id) {
+      await redis.lpush('recent_posts', newPostId)
+      await redis.ltrim('recent_posts', 0, 99)
+    }
 
     const response: RAW_USER_POST_RESPONSE_DATA = {
       id: newPostId,
@@ -100,6 +104,7 @@ export default defineEventHandler(async (event) => {
       created_at: createdAt,
       user_id: userId,
       fav_count: 0,
+      parent_post_id: newPost.parent_post_id || undefined,
       author: {
         username: author.username!,
         avatar: author.imageUrl,

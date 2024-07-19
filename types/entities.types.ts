@@ -6,6 +6,7 @@ export type STOREABLE_POST = {
   text: string;
   user_id: string;
   deleted: boolean;
+  parent_post_id: string | null;
 }
 
 export type STORABLE_FAV_USER_POST_RELATIONSHIP = {
