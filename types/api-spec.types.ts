@@ -31,6 +31,7 @@ export type RAW_USER_POST_RESPONSE_DATA = {
     avatar: string;
   };
   fav_count: number;
+  replies_count: number;
   parent_post_id?: string;
 }
 

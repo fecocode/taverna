@@ -39,6 +39,9 @@
     <UModal v-model="modalsStore.isReportModalOpen" :ui="{ background: 'bg-transparent dark:bg-transparent', width: 'var(--max-layout-width)' }">
       <AppReportModal @close="modalsStore.closeReportModal()" />
     </UModal>
+    <UModal v-model="modalsStore.isReplyModalOpen" :ui="{ background: 'bg-transparent dark:bg-transparent', width: 'var(--max-layout-width)' }">
+      <AppReplyPost />
+    </UModal>
   </div>
 </template>
 

@@ -93,7 +93,9 @@ export default defineEventHandler(async (event) => {
     // Save on cache
     await redis.set(`post:${newPostId}`, JSON.stringify(newPost), 'EX', 60*60*24) // One day of expiration on cache
 
-    if (!newPost.parent_post_id) {
+    if (newPost.parent_post_id) {
+      await redis.lpush(`post:${newPost.parent_post_id}:replies`, newPostId)
+    } else {
       await redis.lpush('recent_posts', newPostId)
       await redis.ltrim('recent_posts', 0, 99)
     }
@@ -104,6 +106,7 @@ export default defineEventHandler(async (event) => {
       created_at: createdAt,
       user_id: userId,
       fav_count: 0,
+      replies_count: 0,
       parent_post_id: newPost.parent_post_id || undefined,
       author: {
         username: author.username!,

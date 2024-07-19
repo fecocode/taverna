@@ -104,6 +104,28 @@ export default defineEventHandler(async (event) => {
         await redis.set(postCachedFavCountKey, favCount)
       }
 
+      // REPLIES DATA
+      let repliesCount = 0
+
+      const postCatchedRepliesCountKey = `post:${postId}:replies`
+      const existCatchedRepliesList = await redis.exists(postCatchedRepliesCountKey)
+
+      if (existCatchedRepliesList) {
+        repliesCount = await redis.llen(postCatchedRepliesCountKey)
+      } else {
+        const repliesQuerySnapshot = await admin.firestore()
+          .collection('users-post')
+          .where('parent_post_id', '==', postId)
+          .get()
+
+        repliesCount = repliesQuerySnapshot.size
+
+        if (repliesCount) {
+          const repliesIdsArray = repliesQuerySnapshot.docs.map((doc) => `${doc.id}`)
+          await redis.rpush(postCatchedRepliesCountKey, ...repliesIdsArray)
+        }
+      }
+
       const postFormatedForFrontend: RAW_USER_POST_RESPONSE_DATA = {
         id: postObject.id,
         text: postObject.text,
@@ -111,6 +133,7 @@ export default defineEventHandler(async (event) => {
         updated_at: postObject.updated_at,
         user_id: postObject.user_id,
         fav_count: favCount,
+        replies_count: repliesCount,
         author: {
           username: author.username!,
           avatar: author.imageUrl,
