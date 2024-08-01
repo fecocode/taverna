@@ -10,7 +10,7 @@
             icon="i-heroicons-home"
             size="xl"
             :ui="{ rounded: 'rounded-full' }"
-            :color="isHighlighted('index') ? 'indigo' : 'gray'"
+            :color="isHighlighted('index') ? 'blue' : 'gray'"
             variant="ghost"
           />
         </NuxtLink>
@@ -20,7 +20,7 @@
           <UButton
             size="xl"
             :ui="{ rounded: 'rounded-full' }"
-            :color="isHighlighted('pochoclos') ? 'indigo' : 'gray'"
+            :color="isHighlighted('pochoclos') ? 'blue' : 'gray'"
             variant="ghost"
           >
             <template #leading>
@@ -46,7 +46,7 @@
             icon="i-heroicons-pencil-square"
             size="xl"
             :ui="{ rounded: 'rounded-full' }"
-            color="indigo"
+            color="black"
             @click="modalsStore.openNewPostModal()"
           />
         </UTooltip>
@@ -57,7 +57,7 @@
             icon="i-heroicons-key"
             size="xl"
             :ui="{ rounded: 'rounded-full' }"
-            color="indigo"
+            color="black"
             @click="modalsStore.openSignInModal()"
           />
         </UTooltip>
@@ -161,7 +161,7 @@ function isHighlighted(routeName: string) {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  background-color: #0c0b22;
+  background-color: #070707;
   height: 100%;
   padding: 1rem;
   padding-right: 2rem;

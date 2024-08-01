@@ -8,12 +8,11 @@
     <AppMenu v-if="isLive" class="default-layout__menu"/>
     <div class="default-layout__wrapper" v-if="isLive">
       <AppTopbar />
-      <AppMainBanner />
-        <div class="default-layout__wrapper__main">
-          <ClerkLoaded>
-            <slot />
-          </ClerkLoaded>
-        </div>
+      <div class="default-layout__wrapper__main">
+        <ClerkLoaded>
+          <slot />
+        </ClerkLoaded>
+      </div>
       <AppFooter class="desktop-footer" />
     </div>
     <UNotifications v-if="isLive"/>
