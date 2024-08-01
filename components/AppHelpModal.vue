@@ -102,7 +102,7 @@
               Escribime a <a href="mailto:apps@fecocode.com">apps@fecocode.com</a> solicitando la eliminación de tus datos personales y borraré la totalidad de tus datos personales dentro de las 72hs hábiles.
             </p>
             <p class="mb-4">
-              <u>Importante:</u> Me tenés que escribir desde el correo electrónico con el que te registraste a Chismecito.space
+              <u>Importante:</u> Me tenés que escribir desde el correo electrónico con el que te registraste a Solopreneurs.space
             </p>
           </div>
           <div v-if="item.id === 3">

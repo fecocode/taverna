@@ -9,7 +9,7 @@ const modalStore = useModalsStore()
   <div class="app-topbar">
     <div class="app-topbar__brand">
       <NuxtLink :to="{ name: 'index' }">
-        <span class="name"><b>Chismecito</b>.space</span>
+        <span class="name"><b>Solopreneurs</b>.space</span>
       </NuxtLink>
     </div>
     <div class="app-topbar__actions">

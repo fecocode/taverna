@@ -16,7 +16,7 @@
       <SignedOut>
         <div class="users-posts__signed-out">
           <IconLineMdAlertCircle class="icon" />
-          <p>Para crear, borrar y editar tus chismes, necesitás una cuenta de <strong>Chismecito</strong></p>
+          <p>Para crear, borrar y editar tus chismes, necesitás una cuenta de <strong>Solopreneurs</strong></p>
           <UButton color="indigo" size="xl" label="Crear cuenta" @click="modalStore.openSignUpModal()" />
         </div>
       </SignedOut>

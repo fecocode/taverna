@@ -1,8 +1,8 @@
 <template>
   <div class="app-loading-overlay">
-    <UAvatar src="/logo.png" size="3xl" />
+    <UAvatar src="/logo.svg" size="3xl" />
     <div class="texts">
-      <span class="brand"><strong>Chismecito</strong>.space</span>
+      <span class="brand"><strong>Solopreneurs</strong>.space</span>
       <span>Cargando...</span>
     </div>
     <IconSvgSpinners3DotsScale />

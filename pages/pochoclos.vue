@@ -32,7 +32,7 @@
       <SignedOut>
         <div class="users-fav__signed-out">
           <IconLineMdAlertCircle class="icon" />
-          <p>Si querés guardar chismes para pochoclear, necesitás una cuenta de <strong>Chismecito</strong></p>
+          <p>Si querés guardar chismes para pochoclear, necesitás una cuenta de <strong>Solopreneurs</strong></p>
           <UButton color="indigo" size="xl" label="Crear cuenta" @click="modalStore.openSignUpModal()" />
         </div>
       </SignedOut>

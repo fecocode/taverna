@@ -1,8 +1,8 @@
 <template>
   <div class="app-loading-overlay">
-    <UAvatar src="/logo.png" size="3xl" />
+    <UAvatar src="/logo.svg" size="3xl" />
     <div class="texts">
-      <span class="brand"><strong>Chismecito</strong>.space</span>
+      <span class="brand"><strong>Solopreneurs</strong>.space</span>
       <span>Lanzamiento: Miércoles 17 de Julio del 2024</span>
     </div>
     <UButton label="¿Un regalito de bienvenida?" color="indigo" icon="i-heroicons-gift" size="xl" @click="handleGiftClick" />

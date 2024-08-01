@@ -4,7 +4,7 @@
       v-if="show"
       icon="i-heroicons-megaphone"
       :close-button="{ icon: 'i-heroicons-x-mark-20-solid', color: 'white', variant: 'link', padded: false }"
-      title="¡Eu, te doy la bienvenida a Chismecito!"
+      title="¡Eu, te doy la bienvenida a Solopreneurs!"
       description="Por favor, comenzá leyendo los detalles de uso de la App"
       :actions="[{ variant: 'solid', color: 'white', label: 'Ver detalles', click: modalsStore.openHelpModal }]"
       color="indigo"
