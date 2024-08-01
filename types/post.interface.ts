@@ -11,6 +11,7 @@ export interface IPost {
   created_at?: Date;
   updated_at?: Date;
   fav_count: number;
+  replies_count: number;
 
   toUpdate(): RAW_EDIT_USER_POST_REQUEST_BODY;
   toDelete(): RAW_DELETE_USER_POST_REQUEST_BODY;

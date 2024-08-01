@@ -8,6 +8,7 @@ export class Post implements IPost {
   created_at?: Date;
   updated_at?: Date;
   fav_count: number;
+  replies_count: number;
   author: { username: string; avatar: string; };
 
   constructor(rawPost: RAW_USER_POST_RESPONSE_DATA) {
@@ -17,6 +18,7 @@ export class Post implements IPost {
     this.created_at = rawPost.created_at
     this.updated_at = rawPost.updated_at
     this.fav_count = rawPost.fav_count
+    this.replies_count = rawPost.replies_count
     this.author = {
       username: rawPost.author.username,
       avatar: rawPost.author.avatar

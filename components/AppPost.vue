@@ -1,6 +1,6 @@
 <template>
-  <div class="app-post" :class="{ 'highlighted': isHighlighted }">
-    <div class="app-post__ellipsis">
+  <div class="app-post" :class="{ 'highlighted': isHighlighted }" @click="handleGoToPostPage">
+    <div class="app-post__ellipsis" v-if="!readonly">
       <UPopover :popper="{ placement: 'left-start' }">
         <UButton
           icon="i-heroicons-ellipsis-vertical"
@@ -49,31 +49,37 @@
         <span v-show="timeAgo"> · {{ timeAgo }}</span>
       </span>
     </div>
-    <p v-html="sanitizedContent"></p>
+    <p v-html="sanitizedContent" class="app-post__content"></p>
     <div class="app-post__fav-count-display">
       <span v-if="updatedAt">Editado · </span>
       <IconParkOutlinePopcorn />
       <span>{{ favCountText }}</span>
     </div>
-    <UButtonGroup size="xs" orientation="horizontal" class="app-post__actions">
-      <UButton :color="favButtonColor" :variant="isInUserFavList ? 'soft' : 'solid'" :label="favButtonLabel" :loading="favLoading" @click="handleFavClick">
-        <template #leading>
-          <IconSvgSpinners3DotsScale v-if="favLoading" />
-          <IconParkOutlinePopcorn v-else />
-        </template>
-      </UButton>
-      <!--<UButton color="gray" label="Comentar" disabled variant="soft">
-        <template #leading>
-          <IconamoonComment />
-        </template>
-      </UButton>-->
-      <UButton v-if="showShareButton" color="gray" :label="shareButtonText" @click="handleShareClick">
-        <template #leading>
-          <IconPhShareBold v-if="navigatorCanShare" />
-          <IconHeroiconsLink v-else />
-        </template>
-      </UButton>
-    </UButtonGroup>
+    <div v-if="!readonly" class="app-post__actions">
+      <UTooltip :popper="{ placement: 'bottom' }" :text="favButtonLabel">
+        <UButton :color="favButtonColor" :label="abbreviateFavCount" :variant="isInUserFavList ? 'solid' : 'ghost'" :loading="favLoading" @click.stop="handleFavClick" :ui="{ rounded: 'rounded-full' }" size="md">
+          <template #leading>
+            <IconSvgSpinners3DotsScale v-if="favLoading" />
+            <IconParkOutlinePopcorn v-else />
+          </template>
+        </UButton>
+      </UTooltip>
+      <UTooltip :popper="{ placement: 'bottom' }" text="Responder">
+        <UButton color="gray" :label="repliesCount" variant="ghost" :loading="favLoading" @click.stop="handleReplyClick" :ui="{ rounded: 'rounded-full' }" size="md">
+          <template #leading>
+            <IconamoonComment />
+          </template>
+        </UButton>
+      </UTooltip>
+      <UTooltip :popper="{ placement: 'bottom' }" :text="shareButtonText">
+        <UButton v-if="showShareButton" color="gray" variant="ghost" @click.stop="handleShareClick" :ui="{ rounded: 'rounded-full' }" size="md">
+          <template #leading>
+            <IconPhShareBold v-if="navigatorCanShare" />
+            <IconHeroiconsLink v-else />
+          </template>
+        </UButton>
+      </UTooltip>
+    </div>
   </div>
 </template>
 
@@ -89,7 +95,8 @@ const modalsStore = useModalsStore()
 const auth = useAuth()
 const editStore = useEditStore()
 const route = useRoute()
-
+const router = useRouter()
+const replyStore = useReplyStore()
 
 const props = defineProps<{
   id: string,
@@ -101,6 +108,7 @@ const props = defineProps<{
   createdAt?: Date,
   updatedAt?: Date,
   post: IPost,
+  readonly?: boolean,
 }>()
 
 const timeAgo = ref('')
@@ -157,6 +165,10 @@ const isCurrentUserPostOwner = computed(() => {
   return props.userId === auth.userId.value
 })
 
+const repliesCount = computed(() => {
+  return abbreviateNumber(props.post.replies_count)
+})
+
 
 const navigatorHasClipboard = computed(() => {
   return !!navigator.clipboard
@@ -183,6 +195,20 @@ const isHighlighted = computed(() => {
 
   return false
 })
+
+const abbreviateFavCount = computed(() => {
+  return abbreviateNumber(props.favCount)
+})
+
+function abbreviateNumber(value:number) {
+  if (value >= 1e6) {
+    return (value / 1e6).toFixed(1).replace(/\.0$/, '') + 'M';
+  }
+  if (value >= 1e3) {
+    return (value / 1e3).toFixed(1).replace(/\.0$/, '') + 'K';
+  }
+  return value?.toString() || '';
+}
 
 const favButtonLabel = computed(() => {
   if (favLoading.value) {
@@ -230,12 +256,29 @@ const shareButtonText = computed(() => {
   }
 })
 
+function handleGoToPostPage() {
+  if (props.readonly) {
+    return
+  }
+
+  router.push({
+    name: 'p-id',
+    params: {
+      id: props.id
+    }
+  })
+}
+
 function handleShareClick() {
   if (navigatorCanShare.value) {
     navigator.share({ url: shareUrl.value })
   } else {
     copyUrlToClipboard()
   }
+}
+
+function handleReplyClick() {
+  replyStore.setPostToReply(props.post)
 }
 
 function copyUrlToClipboard() {
@@ -298,9 +341,18 @@ function handleEditPostClick(closePopoverFunction: Function) {
   flex-direction: column;
   align-items: flex-start;
   border-bottom: 1px solid #333;
-  padding: 1rem 1.5rem;
+  padding: 1rem 2rem;
   gap: 1rem;
   position: relative;
+
+  &__content {
+    font-size: 0.9rem;
+  }
+
+  &:hover {
+    cursor: pointer;
+    background: #cccccc05;
+  }
 
   &.highlighted {
     background: #1e1b4b55;
@@ -309,7 +361,7 @@ function handleEditPostClick(closePopoverFunction: Function) {
   &__ellipsis {
     position: absolute;
     top: 1rem;
-    right: 0.5rem;
+    right: 1rem;
     .ellipsis-menu {
       display: flex;
       padding: 0.5rem;
@@ -339,7 +391,11 @@ function handleEditPostClick(closePopoverFunction: Function) {
   }
 
   &__actions {
-    padding-bottom: 1rem 0;
+    padding: 0.5rem 0;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    width: 100%;
   }
   &__fav-count-display {
     display: flex;

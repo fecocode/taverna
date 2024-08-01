@@ -14,11 +14,15 @@ export const useModalsStore = defineStore({
     isDeletePostModalOpen: false,
     isEditPostModalOpen: false,
     isRepentanceModalOpen: false,
-    isReportModalOpen: false
+    isReportModalOpen: false,
+    isReplyModalOpen: false,
   }),
   actions: {
     openRickRollModal() {
       this.isRickRollModalOpen = true
+    },
+    openReplyModal() {
+      this.isReplyModalOpen = true
     },
     openDeletePostModal() {
       this.isDeletePostModalOpen = true
@@ -85,6 +89,9 @@ export const useModalsStore = defineStore({
     },
     closeEditPostModal() {
       this.isEditPostModalOpen = false
+    },
+    closeReplyModal() {
+      this.isReplyModalOpen = false
     },
   },
 })

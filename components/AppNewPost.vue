@@ -13,7 +13,7 @@
       </div>
       <UButton
         color="indigo"
-        label="Publicar"
+        :label="publishButtonText"
         size="sm"
         :disabled="!canSave"
         :loading="publishing"
@@ -35,6 +35,10 @@ import { useSession } from 'vue-clerk'
 import type { RAW_CREATE_USER_POST_REQUEST_BODY, RAW_USER_POST_RESPONSE_DATA } from '~/types/api-spec.types'
 import { Post } from '~/classes/post.class'
 
+const props = defineProps<{
+  postToReply?: string,
+}>()
+
 const { session } = useSession()
 const toast = useToast()
 const modalStore = useModalsStore()
@@ -52,7 +56,7 @@ const editor = useEditor({
   extensions: [
     StarterKit,
     Placeholder.configure({
-      placeholder: 'Escribí tu chisme acá...',
+      placeholder: props.postToReply ? 'Escribí tu respuesta acá...' : 'Escribí tu chisme acá...',
     }),
     CharacterCount.configure({
       limit: limit,
@@ -69,6 +73,10 @@ const characterCount = computed(() => {
 
 const canSave = computed(() => {
   return editor.value?.storage.characterCount.characters() > 0
+})
+
+const publishButtonText = computed(() => {
+  return props.postToReply ? 'Responder' : 'Publicar'
 })
 
 onUnmounted(() => {
@@ -90,7 +98,8 @@ async function publishPost() {
       // });
 
       const requestBody: RAW_CREATE_USER_POST_REQUEST_BODY = {
-        text: editor.value.getHTML()
+        text: editor.value.getHTML(),
+        parent_post_id: props.postToReply || undefined,
       }
   
       const response = await useFetch<RAW_USER_POST_RESPONSE_DATA>('/api/posts', {
@@ -98,18 +107,27 @@ async function publishPost() {
         body: requestBody,
       })
 
-      const newPost = new Post(response.data.value!)
+      
+      if (!props.postToReply) {
+        const newPost = new Post(response.data.value!)
+        postsStore.addNewCreatedPost(newPost)
+        modalStore.closeNewPostModal()
+        toast.add({
+          color: 'green',
+          icon: 'i-heroicons-check',
+          title: 'Se publicó tu chisme',
+        })
+      } else {
+        modalStore.closeReplyModal()
+        toast.add({
+          color: 'green',
+          icon: 'i-heroicons-check',
+          title: 'Se publicó tu respuesta',
+        })
+      }
 
-      postsStore.addNewCreatedPost(newPost)
+      
       editor.value.commands.clearContent()
-
-      toast.add({
-        color: 'green',
-        icon: 'i-heroicons-check',
-        title: 'Se publicó tu chisme',
-      })
-
-      modalStore.closeNewPostModal()
     } catch (error) {
       console.error(error)
       toast.add({
@@ -133,7 +151,7 @@ async function publishPost() {
     outline: none;
   }
 
-  &::v-deep {
+  &:deep {
     outline: none;
   }
 }
@@ -145,11 +163,6 @@ async function publishPost() {
   gap: 1rem;
   padding: 1.5rem;
   background-color: #242429;
-  border-radius: 0.5rem;
-
-  @media (max-width: 768px) {
-    border-radius: 0;
-  }
 
   &__profile {
     display: flex;

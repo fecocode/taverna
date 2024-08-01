@@ -2,6 +2,7 @@
 
 export type RAW_CREATE_USER_POST_REQUEST_BODY = {
   text: string;
+  parent_post_id?: string,
 }
 
 export type RAW_EDIT_USER_POST_REQUEST_BODY = {
@@ -30,6 +31,8 @@ export type RAW_USER_POST_RESPONSE_DATA = {
     avatar: string;
   };
   fav_count: number;
+  replies_count: number;
+  parent_post_id?: string;
 }
 
 export type RAW_NEW_FAV_STORED_RESPONSE = {

@@ -127,10 +127,7 @@ watch(isSignUpModalOpen, (isOpen) => {
 .posts-wrapper {
   display: flex;
   flex-direction: column;
-  padding: 0 1rem;
+  padding: 0;
   position: relative;
-  @media (max-width: 768px) {
-    padding: 0;
-  }
 }
 </style>
