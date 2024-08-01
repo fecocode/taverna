@@ -65,7 +65,6 @@ onMounted(async () => {
 .users-fav {
   display: flex;
   flex-direction: column;
-  padding: 0 1rem;
 
   &__loading-indicator {
     font-size: 2rem;

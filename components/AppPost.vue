@@ -257,8 +257,15 @@ const shareButtonText = computed(() => {
 })
 
 function handleGoToPostPage() {
+  if (props.readonly) {
+    return
+  }
+
   router.push({
-    name: 'pochoclos',
+    name: 'p-id',
+    params: {
+      id: props.id
+    }
   })
 }
 

@@ -57,7 +57,7 @@ export default {
   --track-margin-top: 0;
   --track-margin-bottom: 0px;
 
-  ::v-deep {
+  :deep {
     .simplebar-track.simplebar-vertical {
       padding: 0;
       margin-top: calc(4px + var(--track-margin-top));

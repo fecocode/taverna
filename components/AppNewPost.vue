@@ -151,7 +151,7 @@ async function publishPost() {
     outline: none;
   }
 
-  &::v-deep {
+  &:deep {
     outline: none;
   }
 }
@@ -163,11 +163,6 @@ async function publishPost() {
   gap: 1rem;
   padding: 1.5rem;
   background-color: #242429;
-  border-radius: 0.5rem;
-
-  @media (max-width: 768px) {
-    border-radius: 0;
-  }
 
   &__profile {
     display: flex;

@@ -125,7 +125,7 @@ async function publishPost() {
     outline: none;
   }
 
-  &::v-deep {
+  &:deep {
     outline: none;
   }
 }
