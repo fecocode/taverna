@@ -12,7 +12,7 @@
         {{ characterCount }}
       </div>
       <UButton
-        color="yellow"
+        color="black"
         :label="publishButtonText"
         size="sm"
         :disabled="!canSave"
