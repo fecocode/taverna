@@ -48,6 +48,18 @@
           />
         </NuxtLink>
       </UTooltip>
+      <UTooltip :popper="{ placement: 'right' }" text="Inbox" :ui="{ background: 'dark:bg-black', color: 'dark:text-white', ring: 'dark:ring-black' }">
+        <NuxtLink :to="{ name: 'pochoclos' }">
+          <UButton
+            icon="i-heroicons-envelope"
+            size="xl"
+            :ui="{ rounded: 'rounded-full' }"
+            :color="isHighlighted('profile') ? 'yellow' : 'gray'"
+            variant="ghost"
+          />
+        </NuxtLink>
+      </UTooltip>
+      <UDivider class="mb-2"/>
       <SignedIn>
         <UTooltip :popper="{ placement: 'right' }" text="New post" :ui="{ background: 'dark:bg-black', color: 'dark:text-white', ring: 'dark:ring-black' }">
           <UButton
@@ -72,14 +84,6 @@
       </SignedOut>
     </div>
     <div class="app-menu__bottom">
-      <UButton
-        icon="i-heroicons-question-mark-circle"
-        size="xl"
-        :ui="{ rounded: 'rounded-full' }"
-        color="gray"
-        variant="ghost"
-        @click="modalsStore.openHelpModal()"
-      />
       <UPopover :popper="{ placement: 'right-end' }">
         <UButton
           icon="i-heroicons-ellipsis-vertical"
@@ -125,6 +129,14 @@
           </div>
         </template>
       </UPopover>
+      <UButton
+        icon="i-heroicons-question-mark-circle"
+        size="xl"
+        :ui="{ rounded: 'rounded-full' }"
+        color="gray"
+        variant="ghost"
+        @click="modalsStore.openHelpModal()"
+      />
     </div>
   </div>
 </template>

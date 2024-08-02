@@ -1,7 +1,10 @@
 <template>
   <AppScrollbarWrapper class="scroll-bar">
     <div class="users-fav">
-      <h3><span class="text-yellow-400">#</span> Saved posts</h3>
+      <h3 class="flex space-x-3 items-center">
+        <UIcon name="i-heroicons-bookmark" class="text-yellow-400" />
+        <span>Saved posts</span>
+      </h3>
       <SignedIn>
         <div class="users-fav__loading-indicator" v-if="favsStore.loadingFavs">
           <IconSvgSpinners3DotsScale />
@@ -75,11 +78,10 @@ onMounted(async () => {
   }
 
   h3 {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     font-weight: 600;
     color: #777;
-    margin: 1.5rem 0;
-    padding: 0 1rem;
+    padding: 1.5rem;
   }
   &__empty, &__signed-out {
     color: #777;

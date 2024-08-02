@@ -2,13 +2,35 @@
 import { UserButton, SignedIn, SignedOut } from 'vue-clerk'
 import { useModalsStore } from '~/stores/modals';
 
+const route = useRoute()
+const router = useRouter()
+
 const modalStore = useModalsStore()
+
+const showGoBackComponent = computed(() => {
+  return route.name === 'p-id'
+})
+
+function handleGoBackClick() {
+  router.back()
+}
 </script>
 
 <template>
   <div class="app-topbar">
     <div class="app-topbar__brand">
-      <NuxtLink :to="{ name: 'index' }">
+      <div v-if="showGoBackComponent" class="flex items-center space-x-4">
+        <UButton
+          icon="i-heroicons-arrow-left-solid"
+          size="sm"
+          :ui="{ rounded: 'rounded-full' }"
+          color="gray"
+          variant="ghost"
+          @click="handleGoBackClick"
+        />
+        <span class="h-fit text-lg font-semibold">Post</span>
+      </div>
+      <NuxtLink v-else :to="{ name: 'index' }">
         <span class="name"><b>Solopreneurs</b>.space</span>
       </NuxtLink>
     </div>

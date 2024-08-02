@@ -1,7 +1,10 @@
 <template>
   <AppScrollbarWrapper class="scroll-bar">
     <div class="users-posts">
-      <h3><span class="text-indigo-500">#</span> Tus chismes</h3>
+      <h3 class="flex space-x-3 items-center">
+        <UIcon name="i-heroicons-bookmark" class="text-yellow-400" />
+        <span>Saved posts</span>
+      </h3>
       <SignedIn>
         <AppUsersPost />
         <AppUsersPost />

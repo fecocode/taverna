@@ -1,6 +1,6 @@
 <template>
   <div class="app-post" :class="{ 'highlighted': isHighlighted }" @click="handleGoToPostPage">
-    <div class="app-post__ellipsis" v-if="!readonly">
+    <div class="app-post__ellipsis" v-if="showControls">
       <UPopover :popper="{ placement: 'left-start' }" @click.stop>
         <UButton
           icon="i-heroicons-ellipsis-vertical"
@@ -49,11 +49,12 @@
         <span v-show="timeAgo"> · {{ timeAgo }}</span>
       </span>
     </div>
-    <p v-html="sanitizedContent" class="app-post__content" @click.stop></p>
+    <p v-if="post.deleted" class="text-stone-400"><i>This post has been deleted.</i></p>
+    <p v-else v-html="sanitizedContent" class="app-post__content"></p>
     <div class="app-post__fav-count-display" v-if="updatedAt">
       <span>Edited</span>
     </div>
-    <div v-if="!readonly" class="app-post__actions">
+    <div v-if="showControls" class="app-post__actions">
       <UTooltip :popper="{ placement: 'bottom' }" :text="favButtonLabel">
         <UButton :color="favButtonColor" :label="abbreviateFavCount" :variant="isInUserFavList ? 'ghost' : 'ghost'" :loading="favLoading" @click.stop="handleFavClick" :ui="{ rounded: 'rounded-full' }" size="md">
           <template #leading>
@@ -107,6 +108,7 @@ const props = defineProps<{
   updatedAt?: Date,
   post: IPost,
   readonly?: boolean,
+  isHighlighted?: boolean,
 }>()
 
 const timeAgo = ref('')
@@ -184,18 +186,13 @@ const isInUserFavList = computed(() => {
   return favsStore.parsedUserFavsPostsIds.includes(props.id)
 })
 
-const isHighlighted = computed(() => {
-  const { shared } = route.query
-
-  if (shared) {
-    return props.id === `${shared}`
-  }
-
-  return false
-})
-
 const abbreviateFavCount = computed(() => {
   return abbreviateNumber(props.favCount)
+})
+
+
+const showControls = computed(() => {
+  return !props.readonly && !props.post.deleted
 })
 
 function abbreviateNumber(value:number) {
@@ -254,6 +251,12 @@ const shareButtonText = computed(() => {
 
 function handleGoToPostPage() {
   if (props.readonly) {
+    return
+  }
+
+  const textSelected = window.getSelection()?.toString()
+
+  if (textSelected && textSelected.length > 0) {
     return
   }
 
@@ -341,6 +344,10 @@ function handleEditPostClick(closePopoverFunction: Function) {
   gap: 1rem;
   position: relative;
 
+  &:first-of-type {
+    border-top: 1px solid #333;
+  }
+
   &__content {
     font-size: 0.9rem;
   }
@@ -351,7 +358,8 @@ function handleEditPostClick(closePopoverFunction: Function) {
   }
 
   &.highlighted {
-    background: #1e1b4b55;
+    background: #4b461b11;
+    border: 1px solid #eab30811;
   }
 
   &__ellipsis {
@@ -370,10 +378,6 @@ function handleEditPostClick(closePopoverFunction: Function) {
 
   @media (max-width: 768px) {
     padding: 1rem;
-  }
-
-  &:last-of-type {
-    border-bottom: none;
   }
 
   &__profile {

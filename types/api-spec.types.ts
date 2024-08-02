@@ -24,6 +24,8 @@ export type RAW_USER_POST_RESPONSE_DATA = {
   id: string;
   created_at: Date;
   updated_at?: Date;
+  deleted_at?: Date;
+  deleted?: boolean;
   text: string;
   user_id: string;
   author: {
@@ -33,6 +35,8 @@ export type RAW_USER_POST_RESPONSE_DATA = {
   fav_count: number;
   replies_count: number;
   parent_post_id?: string;
+  replies?: RAW_USER_POST_RESPONSE_DATA[],
+  parent_post?: RAW_USER_POST_RESPONSE_DATA,
 }
 
 export type RAW_NEW_FAV_STORED_RESPONSE = {

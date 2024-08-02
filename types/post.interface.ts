@@ -12,6 +12,10 @@ export interface IPost {
   updated_at?: Date;
   fav_count: number;
   replies_count: number;
+  replies?: IPost[];
+  parent_post?: IPost;
+  deleted?: boolean;
+  deleted_at?: Date;
 
   toUpdate(): RAW_EDIT_USER_POST_REQUEST_BODY;
   toDelete(): RAW_DELETE_USER_POST_REQUEST_BODY;

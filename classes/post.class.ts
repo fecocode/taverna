@@ -1,4 +1,4 @@
-import type { RAW_EDIT_USER_POST_REQUEST_BODY, RAW_DELETE_USER_POST_REQUEST_BODY, RAW_GET_POSTS_RESPONSE_DATA, RAW_USER_POST_RESPONSE_DATA } from "~/types/api-spec.types";
+import type { RAW_EDIT_USER_POST_REQUEST_BODY, RAW_DELETE_USER_POST_REQUEST_BODY, RAW_USER_POST_RESPONSE_DATA } from "~/types/api-spec.types";
 import type { IPost } from "~/types/post.interface";
 
 export class Post implements IPost {
@@ -7,9 +7,12 @@ export class Post implements IPost {
   text: string;
   created_at?: Date;
   updated_at?: Date;
+  deleted?: boolean | undefined;
+  deleted_at?: Date | undefined;
   fav_count: number;
   replies_count: number;
   author: { username: string; avatar: string; };
+  replies?: IPost[] | undefined;
 
   constructor(rawPost: RAW_USER_POST_RESPONSE_DATA) {
     this.id = rawPost.id
@@ -22,6 +25,12 @@ export class Post implements IPost {
     this.author = {
       username: rawPost.author.username,
       avatar: rawPost.author.avatar
+    }
+    this.deleted = rawPost.deleted
+    this.deleted_at = rawPost.deleted_at
+
+    if (rawPost.replies) {
+      this.replies = rawPost.replies.map((rawReply) => new Post(rawReply))
     }
   }
 

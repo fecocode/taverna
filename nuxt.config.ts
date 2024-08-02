@@ -7,7 +7,7 @@ export default defineNuxtConfig({
 
   app: {
     head: {
-      title: 'Solopreneurs.space | Nueva red social para chismosos'
+      title: 'Solopreneurs.space | Lets build together'
     }
   },
 
