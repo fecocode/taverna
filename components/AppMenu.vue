@@ -4,7 +4,7 @@
       <NuxtLink :to="{ name: 'index' }">
         <UAvatar src="/logo.svg" alt="Logo de Solopreneurs" class="logo" />
       </NuxtLink>
-      <UTooltip :popper="{ placement: 'right' }" text="Home">
+      <UTooltip :popper="{ placement: 'right'}" text="Home" :ui="{ background: 'dark:bg-black', color: 'dark:text-white', ring: 'dark:ring-black' }">
         <NuxtLink :to="{ name: 'index' }">
           <UButton
             icon="i-heroicons-home"
@@ -15,7 +15,18 @@
           />
         </NuxtLink>
       </UTooltip>
-      <UTooltip :popper="{ placement: 'right' }" text="Saved posts">
+      <UTooltip :popper="{ placement: 'right' }" text="Notifications" :ui="{ background: 'dark:bg-black', color: 'dark:text-white', ring: 'dark:ring-black' }">
+        <NuxtLink :to="{ name: 'index' }">
+          <UButton
+            icon="i-heroicons-bell"
+            size="xl"
+            :ui="{ rounded: 'rounded-full' }"
+            :color="isHighlighted('notifications') ? 'yellow' : 'gray'"
+            variant="ghost"
+          />
+        </NuxtLink>
+      </UTooltip>
+      <UTooltip :popper="{ placement: 'right' }" text="Saved posts" :ui="{ background: 'dark:bg-black', color: 'dark:text-white', ring: 'dark:ring-black' }">
         <NuxtLink :to="{ name: 'pochoclos' }">
           <UButton
             icon="i-heroicons-bookmark"
@@ -26,19 +37,19 @@
           />
         </NuxtLink>
       </UTooltip>
-      <!-- <UTooltip :popper="{ placement: 'right' }" text="Mis chismes">
-        <NuxtLink :to="{ name: 'mis-chismes' }">
+      <UTooltip :popper="{ placement: 'right' }" text="Profile" :ui="{ background: 'dark:bg-black', color: 'dark:text-white', ring: 'dark:ring-black' }">
+        <NuxtLink :to="{ name: 'pochoclos' }">
           <UButton
             icon="i-heroicons-user"
             size="xl"
             :ui="{ rounded: 'rounded-full' }"
-            :color="isHighlighted('mis-chismes') ? 'indigo' : 'gray'"
+            :color="isHighlighted('profile') ? 'yellow' : 'gray'"
             variant="ghost"
           />
         </NuxtLink>
-      </UTooltip> -->
+      </UTooltip>
       <SignedIn>
-        <UTooltip :popper="{ placement: 'right' }" text="New post">
+        <UTooltip :popper="{ placement: 'right' }" text="New post" :ui="{ background: 'dark:bg-black', color: 'dark:text-white', ring: 'dark:ring-black' }">
           <UButton
             icon="i-heroicons-pencil-square"
             size="xl"
@@ -49,7 +60,7 @@
         </UTooltip>
       </SignedIn>
       <SignedOut>
-        <UTooltip :popper="{ placement: 'right' }" text="Sign In">
+        <UTooltip :popper="{ placement: 'right' }" text="Sign In" :ui="{ background: 'dark:bg-black', color: 'dark:text-white', ring: 'dark:ring-black' }">
           <UButton
             icon="i-heroicons-key"
             size="xl"
@@ -164,7 +175,7 @@ function isHighlighted(routeName: string) {
   padding-right: 2rem;
   margin-right: -1rem;
   border-radius: 1rem 0 0 1rem;
-  border: 1px solid #151515;
+  border: 1px solid #121212;
   @media (max-width: 768px) {
     padding: 0.75rem 0.5rem;
     padding-right: 1.5rem;

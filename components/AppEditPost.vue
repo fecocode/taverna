@@ -1,14 +1,5 @@
 <template>
   <div class="app-edit-post">
-    <UAlert
-      title="Estás editando tu chisme"
-      variant="soft"
-      color="yellow"
-      icon="i-heroicons-exclamation-triangle"
-      size="xs"
-      class="mb-5"
-      :ui="{ title: 'text-xs' }"
-    />
     <div class="app-edit-post__profile">
       <UAvatar :src="userImage" size="xs" />
       <span><b>@{{ userName }}</b></span>
@@ -21,8 +12,8 @@
         {{ characterCount }}
       </div>
       <UButton
-        color="indigo"
-        label="Guardar"
+        color="black"
+        label="Save post"
         size="sm"
         :disabled="!canSave"
         :loading="publishing"

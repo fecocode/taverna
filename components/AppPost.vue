@@ -1,7 +1,7 @@
 <template>
   <div class="app-post" :class="{ 'highlighted': isHighlighted }" @click="handleGoToPostPage">
     <div class="app-post__ellipsis" v-if="!readonly">
-      <UPopover :popper="{ placement: 'left-start' }">
+      <UPopover :popper="{ placement: 'left-start' }" @click.stop>
         <UButton
           icon="i-heroicons-ellipsis-vertical"
           size="2xs"
@@ -49,7 +49,7 @@
         <span v-show="timeAgo"> · {{ timeAgo }}</span>
       </span>
     </div>
-    <p v-html="sanitizedContent" class="app-post__content"></p>
+    <p v-html="sanitizedContent" class="app-post__content" @click.stop></p>
     <div class="app-post__fav-count-display" v-if="updatedAt">
       <span>Edited</span>
     </div>
