@@ -1,7 +1,7 @@
 <template>
   <AppScrollbarWrapper class="scroll-bar">
     <div class="users-fav">
-      <h3><span class="text-indigo-500">#</span> Tus pochoclos</h3>
+      <h3><span class="text-yellow-400">#</span> Saved posts</h3>
       <SignedIn>
         <div class="users-fav__loading-indicator" v-if="favsStore.loadingFavs">
           <IconSvgSpinners3DotsScale />

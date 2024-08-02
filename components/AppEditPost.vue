@@ -63,7 +63,7 @@ const editor = useEditor({
   extensions: [
     StarterKit,
     Placeholder.configure({
-      placeholder: 'Escribí tu chisme acá...',
+      placeholder: 'Write your post here...',
     }),
     CharacterCount.configure({
       limit: limit,

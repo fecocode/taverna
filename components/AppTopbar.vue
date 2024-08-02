@@ -19,8 +19,8 @@ const modalStore = useModalsStore()
         </div>
       </SignedIn>
       <SignedOut>
-        <UButton label="Ingresar" color="gray" variant="ghost" @click="modalStore.openSignInModal()" class="sign-in-button" />
-        <UButton label="Crear mi cuenta" color="black" @click="modalStore.openSignUpModal()" />
+        <UButton label="Sign in" color="gray" variant="ghost" @click="modalStore.openSignInModal()" class="sign-in-button" />
+        <UButton label="Create my account" color="black" @click="modalStore.openSignUpModal()" />
       </SignedOut>
     </div>
   </div>

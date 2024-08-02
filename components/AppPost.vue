@@ -17,8 +17,8 @@
               size="2xs"
               color="gray"
               variant="link"
-              label="Editar chisme"
-              @click="handleEditPostClick(close)"
+              label="Edit post"
+              @click.stop="handleEditPostClick(close)"
             />
             <UButton
               v-if="isCurrentUserPostOwner"
@@ -26,8 +26,8 @@
               size="2xs"
               color="red"
               variant="link"
-              label="Eliminar chisme"
-              @click="handleDeletePostClick(close)"
+              label="Remove post"
+              @click.stop="handleDeletePostClick(close)"
             />
             <UButton
               v-if="!isCurrentUserPostOwner"
@@ -35,8 +35,8 @@
               size="2xs"
               color="gray"
               variant="link"
-              label="Reportar"
-              @click="modalsStore.openReportModal()"
+              label="Report post"
+              @click.stop="modalsStore.openReportModal()"
             />
           </div>
         </template>
@@ -45,26 +45,24 @@
     <div class="app-post__profile">
       <UAvatar :src="authorAvatar" size="xs" />
       <span>
-        <b>@{{authorUsername}} <small v-if="isCurrentUserPostOwner" class="text-indigo-300">(vos)</small></b>
+        <b>@{{authorUsername}} <small v-if="isCurrentUserPostOwner" class="text-stone-200">(you)</small></b>
         <span v-show="timeAgo"> · {{ timeAgo }}</span>
       </span>
     </div>
     <p v-html="sanitizedContent" class="app-post__content"></p>
-    <div class="app-post__fav-count-display">
-      <span v-if="updatedAt">Editado · </span>
-      <IconParkOutlinePopcorn />
-      <span>{{ favCountText }}</span>
+    <div class="app-post__fav-count-display" v-if="updatedAt">
+      <span>Edited</span>
     </div>
     <div v-if="!readonly" class="app-post__actions">
       <UTooltip :popper="{ placement: 'bottom' }" :text="favButtonLabel">
-        <UButton :color="favButtonColor" :label="abbreviateFavCount" :variant="isInUserFavList ? 'solid' : 'ghost'" :loading="favLoading" @click.stop="handleFavClick" :ui="{ rounded: 'rounded-full' }" size="md">
+        <UButton :color="favButtonColor" :label="abbreviateFavCount" :variant="isInUserFavList ? 'ghost' : 'ghost'" :loading="favLoading" @click.stop="handleFavClick" :ui="{ rounded: 'rounded-full' }" size="md">
           <template #leading>
             <IconSvgSpinners3DotsScale v-if="favLoading" />
-            <IconParkOutlinePopcorn v-else />
+            <UIcon v-else name="i-heroicons-bookmark" />
           </template>
         </UButton>
       </UTooltip>
-      <UTooltip :popper="{ placement: 'bottom' }" text="Responder">
+      <UTooltip :popper="{ placement: 'bottom' }" text="Reply">
         <UButton color="gray" :label="repliesCount" variant="ghost" :loading="favLoading" @click.stop="handleReplyClick" :ui="{ rounded: 'rounded-full' }" size="md">
           <template #leading>
             <IconamoonComment />
@@ -128,15 +126,15 @@ function getTimeAgo(date: Date) {
   if (seconds < 60) {
     return 'Ahora';
   } else if (minutes < 60) {
-      return `${Math.floor(minutes)} ${Math.floor(minutes) === 1 ? 'minuto' : 'minutos'}`;
+      return `${Math.floor(minutes)} ${Math.floor(minutes) === 1 ? 'minutes' : 'minutes'}`;
   } else if (hours < 24) {
-      return `${Math.floor(hours)} ${Math.floor(hours) === 1 ? 'hora' : 'horas'}`;
+      return `${Math.floor(hours)} ${Math.floor(hours) === 1 ? 'hour' : 'hours'}`;
   } else if (days < 30) {
-      return `${Math.floor(days)} ${Math.floor(days) === 1 ? 'día' : 'días'}`;
+      return `${Math.floor(days)} ${Math.floor(days) === 1 ? 'day' : 'days'}`;
   } else if (months < 12) {
-      return `${Math.floor(months)} ${Math.floor(months) === 1 ? 'mes' : 'meses'}`;
+      return `${Math.floor(months)} ${Math.floor(months) === 1 ? 'month' : 'months'}`;
   } else {
-      return `${Math.floor(years)} ${Math.floor(years) === 1 ? 'año' : 'años'}`;
+      return `${Math.floor(years)} ${Math.floor(years) === 1 ? 'year' : 'years'}`;
   }
 }
 
@@ -214,9 +212,9 @@ const favButtonLabel = computed(() => {
   if (favLoading.value) {
     return ''
   } else if (isInUserFavList.value) {
-    return 'Despochoclear'
+    return 'Unsave'
   } else {
-    return 'Pochoclear'
+    return 'Save'
   }
 })
 
@@ -231,18 +229,16 @@ const favCountText = computed(() => {
 
   if (props.favCount) {
     if (props.favCount > 1) {
-      return `Pochocleado ${props.favCount} veces`
+      return `Saved ${props.favCount} times`
     } else {
-      return `Pochocleado ${props.favCount} vez`
+      return `Saved ${props.favCount} time`
     }
-  } else {
-    return 'Sin pochocleadas'
   }
 })
 
 const favButtonColor = computed(() => {
   if (isInUserFavList.value) {
-    return 'indigo'
+    return 'yellow'
   } else {
     return 'gray'
   }
@@ -250,9 +246,9 @@ const favButtonColor = computed(() => {
 
 const shareButtonText = computed(() => {
   if (navigatorCanShare.value) {
-    return 'Compartir'
+    return 'Share'
   } else {
-    return 'Copiar link'
+    return 'Copy post link'
   }
 })
 

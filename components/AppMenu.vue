@@ -10,23 +10,20 @@
             icon="i-heroicons-home"
             size="xl"
             :ui="{ rounded: 'rounded-full' }"
-            :color="isHighlighted('index') ? 'blue' : 'gray'"
+            :color="isHighlighted('index') ? 'yellow' : 'gray'"
             variant="ghost"
           />
         </NuxtLink>
       </UTooltip>
-      <UTooltip :popper="{ placement: 'right' }" text="Mis pochoclos">
+      <UTooltip :popper="{ placement: 'right' }" text="Saved posts">
         <NuxtLink :to="{ name: 'pochoclos' }">
           <UButton
+            icon="i-heroicons-bookmark"
             size="xl"
             :ui="{ rounded: 'rounded-full' }"
-            :color="isHighlighted('pochoclos') ? 'blue' : 'gray'"
+            :color="isHighlighted('pochoclos') ? 'yellow' : 'gray'"
             variant="ghost"
-          >
-            <template #leading>
-              <IconParkOutlinePopcorn style="font-size: 1.5rem;"/>
-            </template>
-          </UButton>
+          />
         </NuxtLink>
       </UTooltip>
       <!-- <UTooltip :popper="{ placement: 'right' }" text="Mis chismes">
@@ -41,7 +38,7 @@
         </NuxtLink>
       </UTooltip> -->
       <SignedIn>
-        <UTooltip :popper="{ placement: 'right' }" text="Nuevo chisme">
+        <UTooltip :popper="{ placement: 'right' }" text="New post">
           <UButton
             icon="i-heroicons-pencil-square"
             size="xl"
@@ -52,7 +49,7 @@
         </UTooltip>
       </SignedIn>
       <SignedOut>
-        <UTooltip :popper="{ placement: 'right' }" text="Ingresar">
+        <UTooltip :popper="{ placement: 'right' }" text="Sign In">
           <UButton
             icon="i-heroicons-key"
             size="xl"

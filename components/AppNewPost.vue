@@ -12,7 +12,7 @@
         {{ characterCount }}
       </div>
       <UButton
-        color="indigo"
+        color="yellow"
         :label="publishButtonText"
         size="sm"
         :disabled="!canSave"
@@ -56,7 +56,7 @@ const editor = useEditor({
   extensions: [
     StarterKit,
     Placeholder.configure({
-      placeholder: props.postToReply ? 'Escribí tu respuesta acá...' : 'Escribí tu chisme acá...',
+      placeholder: props.postToReply ? 'Write your reply here...' : 'Write your post here...',
     }),
     CharacterCount.configure({
       limit: limit,
@@ -76,7 +76,7 @@ const canSave = computed(() => {
 })
 
 const publishButtonText = computed(() => {
-  return props.postToReply ? 'Responder' : 'Publicar'
+  return props.postToReply ? 'Reply' : 'Post'
 })
 
 onUnmounted(() => {
