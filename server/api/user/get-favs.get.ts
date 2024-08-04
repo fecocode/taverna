@@ -1,103 +1,9 @@
 import { ClerkClient, createClerkClient } from "@clerk/clerk-sdk-node"
-import { RAW_CREATE_USER_POST_REQUEST_BODY, RAW_NEW_FAV_STORED_RESPONSE, RAW_USER_POST_RESPONSE_DATA } from "~/types/api-spec.types.js";
+import { RAW_USER_POST_RESPONSE_DATA } from "~/types/api-spec.types.js";
 import admin from 'firebase-admin';
 import { initializeApp } from 'firebase-admin/app';
 import RedisSingleton from "~/classes/redis-singletone.class"
-import { STORABLE_FAV_USER_POST_RELATIONSHIP } from "~/types/entities.types";
-import { Redis } from "ioredis";
 
-
-function parseFirestoreTimeStampFormatToDate(firestoreFormatedDate: {_seconds: number, _nanoseconds: number} | null) {
-  if (firestoreFormatedDate) {
-    return new Date(
-      firestoreFormatedDate._seconds * 1000 + firestoreFormatedDate._nanoseconds / 1000000
-    )
-  } else {
-    return null
-  }
-}
-
-async function getParsedPost(postId: string, redis: Redis, clerk: ClerkClient): Promise<RAW_USER_POST_RESPONSE_DATA | null>{
-  const rawCatchedPost = await redis.get(`post:${postId}`)
-  let postObject = null
-
-  if (!rawCatchedPost) {
-    const querySnapshotOfPostSearch = await admin
-      .firestore()
-      .collection('user-posts')
-      .doc(postId)
-      .get()
-
-    const storedPostOnDatabase = querySnapshotOfPostSearch.data()
-
-    if (!storedPostOnDatabase || storedPostOnDatabase.deleted) {
-      return null
-    }
-
-    const parsedFoundedPost = {
-      id: storedPostOnDatabase.id,
-      text: storedPostOnDatabase.text,
-      created_at: parseFirestoreTimeStampFormatToDate(storedPostOnDatabase.created_at),
-      updated_at: parseFirestoreTimeStampFormatToDate(storedPostOnDatabase.updated_at),
-      deleted_at: parseFirestoreTimeStampFormatToDate(storedPostOnDatabase.deleted_at),
-      user_id: storedPostOnDatabase.user_id,
-      deleted: storedPostOnDatabase.deleted,
-    }
-
-    await redis.set(`post:${postId}`, JSON.stringify(parsedFoundedPost), 'EX', 60*60*24)
-    postObject = parsedFoundedPost
-  } else {
-    postObject = JSON.parse(rawCatchedPost)
-  }
-  // AUTHOR DATA
-  let author = null
-
-  const catchedAuthor = await redis.get(`author:${postObject.user_id}`)
-
-  if (!catchedAuthor) {
-    const authorClerkData = await clerk.users.getUser(postObject.user_id)
-
-    author = {
-      username: authorClerkData.username!,
-      avatar: authorClerkData.imageUrl,
-    }
-
-    await redis.set(`author:${postObject.user_id}`, JSON.stringify(author), 'EX', 60*60)
-  } else {
-    author = JSON.parse(catchedAuthor)
-  }
-  // FAVS DATA
-
-  let favCount = 0
-
-  const postCachedFavCountKey = `post:${postId}:favs`
-  const cachedFavCount = await redis.get(postCachedFavCountKey)
-
-  if (cachedFavCount) {
-    favCount = parseInt(cachedFavCount)
-  } else {
-    const querySnapshot = await admin.firestore().collection('fav-user-post-rel')
-    .where('post_id', '==', postId)
-    .get()
-
-    favCount = querySnapshot.size
-    await redis.set(postCachedFavCountKey, favCount)
-  }
-
-  const postFormatedForFrontend: RAW_USER_POST_RESPONSE_DATA = {
-    id: postObject.id,
-    text: postObject.text,
-    created_at: postObject.created_at,
-    user_id: postObject.user_id,
-    fav_count: favCount,
-    author: {
-      username: author.username!,
-      avatar: author.imageUrl,
-    }
-  }
-
-  return postFormatedForFrontend
-}
 
 export default defineEventHandler(async (event) => {
   const runtimeConfig = useRuntimeConfig()
@@ -143,9 +49,9 @@ export default defineEventHandler(async (event) => {
       })
 
       for (let catchedFavPostId of catchedFavsPostsIds) {
-        const parsedPost = await getParsedPost(catchedFavPostId, redis, clerk)
+        const parsedPost = await getPostById(catchedFavPostId, clerk, redis)
         
-        if (!parsedPost) {
+        if (!parsedPost || parsedPost.deleted) {
           continue
         }
 
@@ -166,9 +72,9 @@ export default defineEventHandler(async (event) => {
           continue
         }
 
-        const parsedPost = await getParsedPost(postId, redis, clerk)
+        const parsedPost = await getPostById(postId, clerk, redis)
 
-        if (!parsedPost) {
+        if (!parsedPost || parsedPost.deleted) {
           continue
         }
 

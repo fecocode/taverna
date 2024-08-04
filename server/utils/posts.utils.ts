@@ -74,7 +74,7 @@ async function getRepliesCountData(
     repliesCount = await redis.llen(postCatchedRepliesCountKey)
   } else {
     const repliesQuerySnapshot = await admin.firestore()
-      .collection('users-post')
+      .collection('user-posts')
       .where('parent_post_id', '==', postId)
       .get()
 
@@ -122,7 +122,7 @@ export async function populatePostReplies(
     }
   } else {
     const repliesQuerySnapshot = await admin.firestore()
-      .collection('users-post')
+      .collection('user-posts')
       .where('parent_post_id', '==', post.id)
       .get()
 
@@ -141,17 +141,29 @@ export async function populatePostReplies(
   return copyOfPost
 }
 
-// export async function populatePostParents(
-//   post: RAW_USER_POST_RESPONSE_DATA,
-//   clerkClient: ClerkClient,
-//   redis: Redis,
-// ): Promise<RAW_USER_POST_RESPONSE_DATA> {
-//   if (!admin.apps.length) {
-//     throw new Error('FirebaseAdmin not initialized')
-//   }
+export async function populatePostParent(
+  post: RAW_USER_POST_RESPONSE_DATA,
+  clerkClient: ClerkClient,
+  redis: Redis,
+): Promise<RAW_USER_POST_RESPONSE_DATA> {
+  if (!admin.apps.length) {
+    throw new Error('FirebaseAdmin not initialized')
+  }
 
-//   return
-// }
+  const copyOfPost = {...post}
+
+  if (!copyOfPost.parent_post_id) {
+    return copyOfPost
+  } else {
+    const parentPost = await getPostById(copyOfPost.parent_post_id, clerkClient, redis)
+
+    if (parentPost) {
+      copyOfPost.parent_post = await populatePostParent(parentPost, clerkClient, redis)
+    }
+  }
+
+  return copyOfPost
+}
 
 export async function getPostById(
   postId: string,
@@ -201,6 +213,7 @@ export async function getPostById(
       deleted_at: parseFirestoreTimeStampFormatToDate(storedPostOnDatabase.deleted_at),
       user_id: storedPostOnDatabase.user_id,
       deleted: storedPostOnDatabase.deleted,
+      parent_post_id: storedPostOnDatabase.parent_post_id,
     }
 
     await redis.set(`post:${postId}`, JSON.stringify(parsedFoundedPost), 'EX', 60*60*24)
@@ -217,6 +230,7 @@ export async function getPostById(
     user_id: postObject.user_id,
     fav_count: await getFavCountData(postId, redis),
     replies_count: await getRepliesCountData(postId, redis),
-    author: await getPostAuthorData(postObject.user_id, clerkClient, redis)
+    author: await getPostAuthorData(postObject.user_id, clerkClient, redis),
+    parent_post_id: postObject.parent_post_id
   }
 }

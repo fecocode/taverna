@@ -30,6 +30,7 @@
           :text="post.text"
           :fav-count="post.fav_count"
           :post="post"
+          enable-show-parent-post
         />
       </SignedIn>
       <SignedOut>
@@ -44,14 +45,18 @@
 </template>
 
 <script lang="ts" setup>
-import { SignedOut, SignedIn } from 'vue-clerk'
+import { SignedOut, SignedIn, useAuth } from 'vue-clerk'
 
 const favsStore = useFavsStore()
 const modalStore = useModalsStore()
 const isLoading = computed(() => favsStore.loadingFavs && favsStore.userFavs.length === 0)
 const posts = computed(() => favsStore.userFavs)
+const auth = useAuth()
 
 onMounted(async () => {
+  if (!auth.isSignedIn.value) {
+    return
+  }
   await favsStore.fetchUserFavPosts()
 })
 </script>

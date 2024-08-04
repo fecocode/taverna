@@ -1,5 +1,8 @@
 <template>
   <div class="app-post" :class="{ 'highlighted': isHighlighted }" @click="handleGoToPostPage">
+    <div v-if="enableThreadIndicator" class="app-post__thread-indicator">
+      <div class="circle"></div>
+    </div>
     <div class="app-post__ellipsis" v-if="showControls">
       <UPopover :popper="{ placement: 'left-start' }" @click.stop>
         <UButton
@@ -41,6 +44,10 @@
           </div>
         </template>
       </UPopover>
+    </div>
+    <div v-if="showParentPost" class="flex items-center space-x-2 text-xs py-1" @click.stop>
+      <IconamoonComment class="text-yellow-400" /> 
+      <span>Reply to <NuxtLink :to="{ name: 'p-id', params: { id: parentPostId } }" class="text-blue-400">This post</NuxtLink></span>
     </div>
     <div class="app-post__profile">
       <UAvatar :src="authorAvatar" size="xs" />
@@ -109,6 +116,8 @@ const props = defineProps<{
   post: IPost,
   readonly?: boolean,
   isHighlighted?: boolean,
+  enableShowParentPost?: boolean,
+  enableThreadIndicator?: boolean,
 }>()
 
 const timeAgo = ref('')
@@ -249,6 +258,14 @@ const shareButtonText = computed(() => {
   }
 })
 
+const parentPostId = computed(() => {
+  return props.post.parent_post_id
+})
+
+const showParentPost = computed(() => {
+  return props.enableShowParentPost && !!parentPostId.value
+})
+
 function handleGoToPostPage() {
   if (props.readonly) {
     return
@@ -309,8 +326,10 @@ async function handleFavClick() {
     favLoading.value = true
     if (isInUserFavList.value) {
       await favsStore.unfavPost(props.id)
+      props.post.fav_count--
     } else {
       await favsStore.setAsFavPost(props.id)
+      props.post.fav_count++
     }
   } catch (_) {
     toast.add({
@@ -359,7 +378,6 @@ function handleEditPostClick(closePopoverFunction: Function) {
 
   &.highlighted {
     background: #4b461b11;
-    border: 1px solid #eab30811;
   }
 
   &__ellipsis {
@@ -373,6 +391,46 @@ function handleEditPostClick(closePopoverFunction: Function) {
       flex-direction: column;
       align-items: flex-start;
       width: fit-content;
+    }
+  }
+
+  &__thread-indicator {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    position: absolute;
+    left: 0.75rem;
+    top: 0;
+    height: 100%;
+    background: #252525;
+    padding-top: 1.5rem;
+    width: 2px;
+
+    @media (max-width: 768px) {
+      display: none;
+    }
+
+    .circle {
+      width: 0.5rem;
+      height: 0.5rem;
+      border-radius: 0.5rem;
+      background: #eee;
+      position: absolute;
+    }
+  }
+
+  &:first-of-type {
+    .app-post__thread-indicator {
+      top: 1.5rem;
+      height: calc(100% - 1.5rem);
+      padding-top: 0;
+    }
+  }
+
+  &:last-of-type {
+    .app-post__thread-indicator {
+      top: 0rem;
+      height: 1.5rem;
     }
   }
 

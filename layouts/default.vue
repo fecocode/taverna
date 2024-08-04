@@ -20,14 +20,24 @@
 </template>
 
 <script lang="ts" setup>
-import { ClerkLoading, ClerkLoaded } from 'vue-clerk'
+import { ClerkLoading, ClerkLoaded, useAuth } from 'vue-clerk'
 
 const runtimeConfig = useRuntimeConfig()
 
 const isLive = computed(() => parseInt(runtimeConfig.public.LIVE))
+const auth = useAuth()
+const favsStore = useFavsStore()
 
 definePageMeta({
   colorMode: 'dark',
+})
+
+const isSignedIn = computed(() => auth.isSignedIn.value)
+
+watch(isSignedIn, async (value) => {
+  if (value) {
+    await favsStore.fetchUserFavsIds()
+  }
 })
 </script>
 

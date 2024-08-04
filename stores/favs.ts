@@ -3,7 +3,6 @@ import type { RAW_UNFAV_RESPONSE, RAW_USER_POST_RESPONSE_DATA } from '~/types/ap
 import type { RAW_NEW_FAV_STORED_RESPONSE } from '@/types/api-spec.types'
 import type { IPost } from '~/types/post.interface'
 import { Post } from '~/classes/post.class'
-import { useAuth } from 'vue-clerk'
 
 export const useFavsStore = defineStore({
   id: 'FavsStore',
@@ -33,10 +32,6 @@ export const useFavsStore = defineStore({
       })
 
       this.userFavsIds.push(response.id)
-      
-      const postsStore = usePostsStore()
-
-      postsStore.updateFavsOfPost(postId, response.fav_count)
     },
     async unfavPost(postId: string) {
       const response = await $fetch<RAW_UNFAV_RESPONSE>(`/api/posts/${postId}/unfav`, {
@@ -45,22 +40,11 @@ export const useFavsStore = defineStore({
 
       this.userFavsIds = this.userFavsIds.filter((favId) => favId !== response.id)
       this.userFavs = this.userFavs.filter((fav) => fav.id !== response.post_id)
-
-      const postsStore = usePostsStore()
-
-      postsStore.updateFavsOfPost(postId, response.fav_count)
     },
     async fetchUserFavsIds() {
       if (this.loadingFavsIds) {
         return
       }
-
-      const auth = useAuth()
-
-      if (!auth.isSignedIn.value) {
-        return
-      }
-
       const toast = useToast()
 
       try {
@@ -78,12 +62,6 @@ export const useFavsStore = defineStore({
       }
     },
     async fetchUserFavPosts() {
-      const auth = useAuth()
-
-      if (!auth.isSignedIn.value) {
-        return
-      }
-
       if (this.loadingFavs) {
         return
       }

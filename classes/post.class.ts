@@ -13,6 +13,8 @@ export class Post implements IPost {
   replies_count: number;
   author: { username: string; avatar: string; };
   replies?: IPost[] | undefined;
+  parent_post?: IPost | undefined;
+  parent_post_id?: string | undefined;
 
   constructor(rawPost: RAW_USER_POST_RESPONSE_DATA) {
     this.id = rawPost.id
@@ -28,9 +30,14 @@ export class Post implements IPost {
     }
     this.deleted = rawPost.deleted
     this.deleted_at = rawPost.deleted_at
+    this.parent_post_id = rawPost.parent_post_id
 
     if (rawPost.replies) {
       this.replies = rawPost.replies.map((rawReply) => new Post(rawReply))
+    }
+
+    if (rawPost.parent_post) {
+      this.parent_post = new Post(rawPost.parent_post)
     }
   }
 

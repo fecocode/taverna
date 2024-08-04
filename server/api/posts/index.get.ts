@@ -114,8 +114,9 @@ export default defineEventHandler(async (event) => {
         repliesCount = await redis.llen(postCatchedRepliesCountKey)
       } else {
         const repliesQuerySnapshot = await admin.firestore()
-          .collection('users-post')
+          .collection('user-posts')
           .where('parent_post_id', '==', postId)
+          .where('deleted', '!=', true)
           .get()
 
         repliesCount = repliesQuerySnapshot.size

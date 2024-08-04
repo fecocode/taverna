@@ -3,7 +3,7 @@ import RedisSingleton from "~/classes/redis-singletone.class"
 import admin from 'firebase-admin';
 import { initializeApp } from 'firebase-admin/app';
 import { createClerkClient } from "@clerk/clerk-sdk-node"
-import { getPostById, populatePostReplies } from "~/server/utils/posts.utils";
+import { getPostById, populatePostParent, populatePostReplies } from "~/server/utils/posts.utils";
 
 
 export default defineEventHandler(async (event) => {
@@ -45,8 +45,9 @@ export default defineEventHandler(async (event) => {
     }
 
     const postWithReplies = await populatePostReplies(requestedPost, clerk, redis)
+    const postWithParents = await populatePostParent(postWithReplies, clerk, redis)
 
-    return postWithReplies
+    return postWithParents
   } catch(error) {
     setResponseStatus(event, 500)
     return {

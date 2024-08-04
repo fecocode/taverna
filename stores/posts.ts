@@ -49,12 +49,9 @@ export const usePostsStore = defineStore({
       }
 
       const toast = useToast()
-      const favsStore = useFavsStore()
 
       try {
         this.loadingMainFeed = true
-
-        await favsStore.fetchUserFavsIds()
 
         if (sharedPostId) {
           const response = await $fetch<RAW_USER_POST_RESPONSE_DATA[]>(`/api/posts/${sharedPostId}`)

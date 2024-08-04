@@ -14,6 +14,7 @@ export interface IPost {
   replies_count: number;
   replies?: IPost[];
   parent_post?: IPost;
+  parent_post_id?: string;
   deleted?: boolean;
   deleted_at?: Date;
 
