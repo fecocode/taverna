@@ -175,7 +175,7 @@ const isCurrentUserPostOwner = computed(() => {
 })
 
 const repliesCount = computed(() => {
-  return abbreviateNumber(props.post.replies_count)
+  return abbreviateNumber(props.post.replies?.length || props.post.replies_count)
 })
 
 

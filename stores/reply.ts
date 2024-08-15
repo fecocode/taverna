@@ -16,8 +16,5 @@ export const useReplyStore = defineStore({
     resetPostToReply() {
       this.postToReply = null
     },
-    saveReply(text: string) {
-      
-    }
   }
 })

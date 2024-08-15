@@ -74,6 +74,7 @@ const route = useRoute()
 const router = useRouter()
 const post = ref()
 const showFullDiscussion = ref(false)
+const editStore = useEditStore()
 
 useAsyncData(async () => {
   const postId = route.params.id
@@ -86,6 +87,12 @@ useAsyncData(async () => {
       router.push({ name: 'index' })
     }
   }
+})
+
+onMounted(() => {
+  editStore.$subscribe((e) => {
+    console.log(e)
+  })
 })
 
 function getParentPostsArray(post: IPost): IPost[] {

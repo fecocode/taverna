@@ -7,7 +7,7 @@ export default defineNuxtConfig({
 
   app: {
     head: {
-      title: 'Solopreneurs.space | Lets build together'
+      title: 'Solopreneurs.space | Solo, Not Alone'
     }
   },
 
@@ -32,5 +32,8 @@ export default defineNuxtConfig({
 
   colorMode: {
     preference: 'dark',
+  },
+  devServer: {
+    port: 3030,
   }
 })

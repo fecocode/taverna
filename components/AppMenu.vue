@@ -27,31 +27,20 @@
         </NuxtLink>
       </UTooltip>
       <UTooltip :popper="{ placement: 'right' }" text="Saved posts" :ui="{ background: 'dark:bg-black', color: 'dark:text-white', ring: 'dark:ring-black' }">
-        <NuxtLink :to="{ name: 'pochoclos' }">
+        <NuxtLink :to="{ name: 'saved-posts' }">
           <UButton
             icon="i-heroicons-bookmark"
             size="xl"
             :ui="{ rounded: 'rounded-full' }"
-            :color="isHighlighted('pochoclos') ? 'yellow' : 'gray'"
+            :color="isHighlighted('saved-posts') ? 'yellow' : 'gray'"
             variant="ghost"
           />
         </NuxtLink>
       </UTooltip>
       <UTooltip :popper="{ placement: 'right' }" text="Profile" :ui="{ background: 'dark:bg-black', color: 'dark:text-white', ring: 'dark:ring-black' }">
-        <NuxtLink :to="{ name: 'pochoclos' }">
+        <NuxtLink :to="{ name: 'saved-posts' }">
           <UButton
             icon="i-heroicons-user"
-            size="xl"
-            :ui="{ rounded: 'rounded-full' }"
-            :color="isHighlighted('profile') ? 'yellow' : 'gray'"
-            variant="ghost"
-          />
-        </NuxtLink>
-      </UTooltip>
-      <UTooltip :popper="{ placement: 'right' }" text="Inbox" :ui="{ background: 'dark:bg-black', color: 'dark:text-white', ring: 'dark:ring-black' }">
-        <NuxtLink :to="{ name: 'pochoclos' }">
-          <UButton
-            icon="i-heroicons-envelope"
             size="xl"
             :ui="{ rounded: 'rounded-full' }"
             :color="isHighlighted('profile') ? 'yellow' : 'gray'"

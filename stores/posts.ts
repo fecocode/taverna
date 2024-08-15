@@ -15,8 +15,6 @@ export const usePostsStore = defineStore({
 
     loadingMainFeed: false,
     loadingUsersPosts: false,
-
-    needsRefetch: false,
   }),
   actions: {
     addNewCreatedPost(post: IPost) {
@@ -59,18 +57,12 @@ export const usePostsStore = defineStore({
           this.mainFeed = response.map((rawPost) => {
             return new Post(rawPost)
           })
-
-          this.needsRefetch = true
         } else {
-          if (this.mainFeed.length === 0 || this.needsRefetch) {
-            const response = await $fetch<RAW_USER_POST_RESPONSE_DATA[]>('/api/posts')
-    
-            this.mainFeed = response.map((rawPost) => {
-              return new Post(rawPost)
-            })
-
-            this.needsRefetch = false
-          }
+          const response = await $fetch<RAW_USER_POST_RESPONSE_DATA[]>('/api/posts')
+  
+          this.mainFeed = response.map((rawPost) => {
+            return new Post(rawPost)
+          })          
         }
 
         this.setRefreshInterval()

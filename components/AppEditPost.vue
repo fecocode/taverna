@@ -32,8 +32,6 @@ import CharacterCount from '@tiptap/extension-character-count'
 import DOMPurify from 'dompurify'
 
 import { useSession } from 'vue-clerk'
-import type { RAW_CREATE_USER_POST_REQUEST_BODY, RAW_USER_POST_RESPONSE_DATA } from '~/types/api-spec.types'
-import { Post } from '~/classes/post.class'
 
 const { session } = useSession()
 const toast = useToast()

@@ -25,7 +25,7 @@
       :post="postToReply"
       readonly
     />
-    <AppNewPost :post-to-reply="postToReply.id" />
+    <AppNewPost :post-to-reply="postToReply.id"/>
   </div>
 </template>
 

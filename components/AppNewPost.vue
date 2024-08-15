@@ -45,6 +45,7 @@ const modalStore = useModalsStore()
 
 const userImage = computed(() => session.value?.user.imageUrl || '')
 const userName = computed(() => session.value?.user.username || '')
+const replyStore = useReplyStore()
 
 const publishing = ref(false)
 
@@ -118,6 +119,10 @@ async function publishPost() {
           title: 'Se publicó tu chisme',
         })
       } else {
+        if (replyStore.postToReply?.replies) {
+          const reply = new Post(response.data.value!)
+          replyStore.postToReply?.replies?.unshift(reply)
+        }
         modalStore.closeReplyModal()
         toast.add({
           color: 'green',
