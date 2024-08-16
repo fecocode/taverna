@@ -79,12 +79,13 @@ export default defineEventHandler(async (event) => {
 
         author = {
           username: authorClerkData.username!,
-          avatar: authorClerkData.imageUrl,
+          avatar: authorClerkData.imageUrl!,
         }
 
         await redis.set(`author:${postObject.user_id}`, JSON.stringify(author), 'EX', 60*60)
       } else {
         author = JSON.parse(catchedAuthor)
+        console.log(author)
       }
 
       // FAVS DATA
@@ -137,7 +138,7 @@ export default defineEventHandler(async (event) => {
         replies_count: repliesCount,
         author: {
           username: author.username!,
-          avatar: author.imageUrl,
+          avatar: author.avatar!,
         }
       }
 
