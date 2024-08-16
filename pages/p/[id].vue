@@ -72,9 +72,9 @@ import type { IPost } from '~/types/post.interface';
 
 const route = useRoute()
 const router = useRouter()
-const post = ref()
+const post = ref<IPost>()
 const showFullDiscussion = ref(false)
-const editStore = useEditStore()
+const triggerStore = useTriggerStore()
 
 useAsyncData(async () => {
   const postId = route.params.id
@@ -90,8 +90,44 @@ useAsyncData(async () => {
 })
 
 onMounted(() => {
-  editStore.$subscribe((e) => {
-    console.log(e)
+  triggerStore.$subscribe(() => {
+    if (!post.value) {
+      return
+    }
+
+    const [lastTrigger] = triggerStore.triggers.slice(-1)
+    
+    if (lastTrigger.name === 'delete-post') {
+      if (post.value.id === lastTrigger.data.postId) {
+        router.push({ name: 'index' })
+        return
+      }
+
+      if (post.value.replies) {
+        const deletedPostIndexOnRepliesArray = post.value.replies.findIndex((reply) => reply.id === lastTrigger.data.postId)
+
+        if (deletedPostIndexOnRepliesArray !== -1) {
+          post.value.replies.splice(deletedPostIndexOnRepliesArray, 1)
+        }
+      }
+    }
+
+    if (lastTrigger.name === 'update-post') {
+      if (post.value.id === lastTrigger.data.postId) {
+        post.value.text = lastTrigger.data.newPostData.text
+        post.value.updated_at = lastTrigger.data.newPostData.updated_at
+        return
+      }
+
+      if (post.value.replies) {
+        const editedPostIndexOnRepliesArray = post.value.replies.findIndex((reply) => reply.id === lastTrigger.data.postId)
+
+        if (editedPostIndexOnRepliesArray !== -1) {
+          post.value.replies[editedPostIndexOnRepliesArray].text = lastTrigger.data.newPostData.text
+          post.value.replies[editedPostIndexOnRepliesArray].updated_at = lastTrigger.data.newPostData.updated_at
+        }
+      }
+    }
   })
 })
 

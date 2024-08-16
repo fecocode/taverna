@@ -37,6 +37,7 @@ export const useEditStore = defineStore({
       const favsStore = useFavsStore()
       const postsStore = usePostsStore()
       const modalsStore = useModalsStore()
+      const triggerStore = useTriggerStore()
 
       try {
         this.deleting = true
@@ -47,6 +48,13 @@ export const useEditStore = defineStore({
 
         favsStore.removeFavPost(this.postToDelete)
         postsStore.removePost(this.postToDelete)
+
+        triggerStore.addNewTrigger({
+          name: 'delete-post',
+          data: {
+            postId: this.postToDelete.id
+          }
+        })
 
         this.postToDelete = null
 
@@ -80,6 +88,7 @@ export const useEditStore = defineStore({
       const favsStore = useFavsStore()
       const postsStore = usePostsStore()
       const modalsStore = useModalsStore()
+      const triggerStore = useTriggerStore()
 
       try {
         this.updating = true
@@ -96,9 +105,18 @@ export const useEditStore = defineStore({
         favsStore.updateRecentEditedFavPost(this.postToEdit)
         postsStore.updateRecentEditedPost(this.postToEdit)
 
+        triggerStore.addNewTrigger({
+          name: 'update-post',
+          data: {
+            postId: this.postToEdit.id,
+            newPostData: this.postToEdit
+          }
+        })
+
         this.postToEdit = null
 
         modalsStore.closeEditPostModal()
+
 
         toast.add({
           color: 'green',

@@ -32,8 +32,6 @@ definePageMeta({
   colorMode: 'dark',
 })
 
-console.log('HERE!')
-
 const isSignedIn = computed(() => auth.isSignedIn.value)
 
 watch(isSignedIn, async (value) => {
