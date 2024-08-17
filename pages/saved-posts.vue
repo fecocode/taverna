@@ -16,7 +16,16 @@
         </template>
         <div v-else-if="posts.length === 0" class="users-fav__empty">
           <IconLineMdCoffeeHalfEmptyTwotoneLoop class="icon" />
-          <p>No se encontraron resultados</p>
+          <p>Nothing here</p>
+          <NuxtLink :to="{ name: 'index' }">
+            <UButton
+              class="mt-3"
+              icon="i-heroicons-home"
+              label="Go to home"
+              color="black"
+              size="xs"
+            />
+          </NuxtLink>
         </div>
         <AppPost v-else
           v-for="post in posts"
@@ -100,10 +109,11 @@ onMounted(async () => {
     p {
       max-width: 350px;
       text-align: center;
+      font-size: 1.25rem;
     }
 
     .icon {
-      font-size: 5rem;
+      font-size: 6rem;
     }
   }
 }

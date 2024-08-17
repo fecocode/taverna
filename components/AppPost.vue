@@ -266,8 +266,12 @@ const showParentPost = computed(() => {
   return props.enableShowParentPost && !!parentPostId.value
 })
 
-function handleGoToPostPage() {
+function handleGoToPostPage(e: any) {
   if (props.readonly) {
+    return
+  }
+
+  if (e.target.tagName.toLowerCase() === 'a')  {
     return
   }
 
@@ -369,6 +373,15 @@ function handleEditPostClick(closePopoverFunction: Function) {
 
   &__content {
     font-size: 0.9rem;
+
+    &::v-deep a {
+      font-weight: 600;
+      color: #bfdbfe;
+      cursor: pointer;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
   }
 
   &:hover {

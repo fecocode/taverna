@@ -99,8 +99,8 @@ watch(isSignUpModalOpen, (isOpen) => {
   </AppScrollbarWrapper>
   <UButton
     v-if="thereAreNewPosts"
-    label="Nuevos chismes"
-    color="indigo"
+    label="New posts"
+    color="yellow"
     class="refresh-button"
     icon="i-heroicons-arrow-small-up"
     size="xs"

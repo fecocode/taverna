@@ -29,6 +29,7 @@ import { EditorContent, getText, useEditor } from '@tiptap/vue-3'
 import StarterKit from '@tiptap/starter-kit'
 import Placeholder from '@tiptap/extension-placeholder'
 import CharacterCount from '@tiptap/extension-character-count'
+import Link from '@tiptap/extension-link'
 import DOMPurify from 'dompurify'
 
 import { useSession } from 'vue-clerk'
@@ -62,6 +63,10 @@ const editor = useEditor({
     CharacterCount.configure({
       limit: limit,
     }),
+    Link.configure({
+      openOnClick: true,
+      linkOnPaste: true,
+    })
   ],
   content: '<p></p>',
 })

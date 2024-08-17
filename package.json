@@ -16,6 +16,7 @@
     "@clerk/types": "^4.6.1",
     "@nuxtjs/google-fonts": "^3.2.0",
     "@tiptap/extension-character-count": "^2.4.0",
+    "@tiptap/extension-link": "^2.6.4",
     "@tiptap/extension-placeholder": "^2.4.0",
     "@tiptap/starter-kit": "^2.4.0",
     "@tiptap/vue-3": "^2.4.0",
