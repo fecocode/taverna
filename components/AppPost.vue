@@ -373,6 +373,7 @@ function handleEditPostClick(closePopoverFunction: Function) {
 
   &__content {
     font-size: 0.9rem;
+    max-width: 100%;
 
     &::v-deep a {
       font-weight: 600;
@@ -381,6 +382,12 @@ function handleEditPostClick(closePopoverFunction: Function) {
       &:hover {
         text-decoration: underline;
       }
+    }
+
+    &::v-deep * {
+      text-wrap: wrap;
+      max-width: 100%;
+      word-wrap: break-word;
     }
   }
 

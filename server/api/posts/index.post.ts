@@ -57,7 +57,7 @@ export default defineEventHandler(async (event) => {
 
       const authorDataToSaveOnCache = {
         username: author.username!,
-        imageUrl: author.imageUrl
+        avatar: author.imageUrl
       }
 
       await redis.set(`author:${userId}`, JSON.stringify(authorDataToSaveOnCache), 'EX', 60*60)
@@ -110,7 +110,7 @@ export default defineEventHandler(async (event) => {
       parent_post_id: newPost.parent_post_id || undefined,
       author: {
         username: author.username!,
-        avatar: author.imageUrl,
+        avatar: author.avatar!,
       }
     }
   

@@ -84,19 +84,11 @@
         <template #panel="{ close }">
           <div class="ellipsis-menu">
             <UButton
-              icon="i-heroicons-question-mark-circle"
-              size="sm"
-              color="gray"
-              variant="link"
-              label="Botón de arrepentimiento"
-              @click="handleShowRepentanceEllipsisMenuClick(close)"
-            />
-            <UButton
               icon="i-heroicons-book-open"
               size="sm"
               color="gray"
               variant="link"
-              label="Términos y condiciones"
+              label="Terms and conditions"
               @click="handleShowTermsAndConditionsEllipsisMenuClick(close)"
             />
             <UButton
@@ -104,7 +96,7 @@
               size="sm"
               color="gray"
               variant="link"
-              label="Políticas de privacidad"
+              label="Privacy policy"
               @click="handleShowPrivacyPolicyEllipsisMenuClick(close)"
             />
             <UButton
@@ -112,7 +104,7 @@
               size="sm"
               color="gray"
               variant="link"
-              label="Código de conducta"
+              label="Code of conduct"
               @click="handleShowRulesEllipsisMenuClick(close)"
             />
           </div>

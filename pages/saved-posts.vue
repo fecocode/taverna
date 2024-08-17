@@ -22,7 +22,8 @@
               class="mt-3"
               icon="i-heroicons-home"
               label="Go to home"
-              color="black"
+              color="gray"
+              variant="outline"
               size="xs"
             />
           </NuxtLink>
