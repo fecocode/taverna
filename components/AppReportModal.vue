@@ -2,7 +2,7 @@
   <UCard>
     <template #header>
       <div class="app-report-modal__header">
-        <span>Reportar</span>
+        <span>Report post</span>
         <UButton
           size="xs"
           :ui="{ rounded: 'rounded-full' }"
@@ -14,18 +14,27 @@
         </UButton>
       </div>
     </template>
-    <div class="app-report-modal">
+    <div class="app-report-modal space-y-5">
       <p>
-        Actualmente estoy trabajando en un sistema de reporte de posts automatizado e integrado a la app para que sea más eficiente.
+        Please select the reason for your report:
       </p>
-      <br>
-      <p>
-        Por el momento, por favor escribime a <a href="mailto:apps@fecocode.com">apps@fecocode.com</a> con el link del post que te resultó ofensivo, de mal gusto o que violaba el código de conducta y te daré respuesta en la mayor brevedad posible.
-      </p>
-      <br>
-      <p>
-        <u>Importante:</u> Para obtener el link del post, podés utilizar el botón <b>Copiar link</b> o <b>Compartir</b>.
-      </p>
+      <USelect
+        :options="reasonsArray"
+        v-model="reason"
+        placeholder="Reason for your report"
+      />
+      <UInput
+        v-if="reason === 'Other'"
+        placeholder="Other reason"
+        v-model="otherReason"
+      />
+      <div class="flex justify-end">
+        <UButton
+          label="Send report"
+          color="black"
+          icon="i-heroicons-paper-airplane"
+        />
+      </div>
     </div>
   </UCard>
 </template>
@@ -33,7 +42,19 @@
 <script lang="ts" setup>
 const modalsStore = useModalsStore()
 
+const reason = ref()
+const otherReason = ref('')
+
 defineEmits(['close'])
+
+const reasonsArray = ['Spam',
+  'Inappropriate content',
+  'Harassment or bullying',
+  'False information',
+  'Other'
+]
+
+
 </script>
 
 <style lang="scss" scoped>

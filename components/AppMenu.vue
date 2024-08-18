@@ -15,17 +15,6 @@
           />
         </NuxtLink>
       </UTooltip>
-      <UTooltip :popper="{ placement: 'right' }" text="Notifications" :ui="{ background: 'dark:bg-black', color: 'dark:text-white', ring: 'dark:ring-black' }">
-        <NuxtLink :to="{ name: 'index' }">
-          <UButton
-            icon="i-heroicons-bell"
-            size="xl"
-            :ui="{ rounded: 'rounded-full' }"
-            :color="isHighlighted('notifications') ? 'yellow' : 'gray'"
-            variant="ghost"
-          />
-        </NuxtLink>
-      </UTooltip>
       <UTooltip :popper="{ placement: 'right' }" text="Saved posts" :ui="{ background: 'dark:bg-black', color: 'dark:text-white', ring: 'dark:ring-black' }">
         <NuxtLink :to="{ name: 'saved-posts' }">
           <UButton
@@ -33,17 +22,6 @@
             size="xl"
             :ui="{ rounded: 'rounded-full' }"
             :color="isHighlighted('saved-posts') ? 'yellow' : 'gray'"
-            variant="ghost"
-          />
-        </NuxtLink>
-      </UTooltip>
-      <UTooltip :popper="{ placement: 'right' }" text="Profile" :ui="{ background: 'dark:bg-black', color: 'dark:text-white', ring: 'dark:ring-black' }">
-        <NuxtLink :to="{ name: 'saved-posts' }">
-          <UButton
-            icon="i-heroicons-user"
-            size="xl"
-            :ui="{ rounded: 'rounded-full' }"
-            :color="isHighlighted('profile') ? 'yellow' : 'gray'"
             variant="ghost"
           />
         </NuxtLink>

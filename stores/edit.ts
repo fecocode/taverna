@@ -63,7 +63,7 @@ export const useEditStore = defineStore({
         toast.add({
           color: 'green',
           icon: 'i-heroicons-check',
-          title: 'Se eliminó tu chisme',
+          title: 'Post deleted',
         })
       } catch (_) {
         modalsStore.closeDeletePostModal()
@@ -71,8 +71,8 @@ export const useEditStore = defineStore({
         toast.add({
           color: 'red',
           icon: 'i-heroicons-x-mark',
-          title: 'Ocurrió un error al eliminar',
-          description: 'Intenta nuevamente en unos minutos'
+          title: 'An error ocurred while deleting the post',
+          description: 'Please, try again in a few minutes'
         })
       } finally {
         this.deleting = false

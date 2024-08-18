@@ -1,11 +1,11 @@
 <template>
   <UAlert
     :actions="[
-      { variant: 'solid', color: 'red', label: 'Si, eliminar', click: handleConfirmClick, loading: loading },
-      { variant: 'link', color: 'gray', label: 'No, cancelar', click: handleCancelClick }
+      { variant: 'solid', color: 'red', label: 'Yes, delete', click: handleConfirmClick, loading: loading },
+      { variant: 'link', color: 'gray', label: 'No, cancel', click: handleCancelClick }
     ]"
-    title="Estás eliminando tu chisme"
-    description="¿Estás completamente seguro/a que querés eliminar este chisme?"
+    title="You are deleting your post"
+    description="Are you sure?"
   />
 </template>
 

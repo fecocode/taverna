@@ -8,7 +8,15 @@ const router = useRouter()
 const modalStore = useModalsStore()
 
 const showGoBackComponent = computed(() => {
-  return route.name === 'p-id'
+  return route.name === 'p-id' || route.name === 'a-id'
+})
+
+const goBackComponentText = computed(() => {
+  if (route.name === 'p-id') {
+    return 'Post'
+  } else if (route.name === 'a-id') {
+    return 'Profile'
+  }
 })
 
 function handleGoBackClick() {
@@ -28,7 +36,7 @@ function handleGoBackClick() {
           variant="ghost"
           @click="handleGoBackClick"
         />
-        <span class="h-fit text-lg font-semibold">Post</span>
+        <span class="h-fit text-lg font-semibold">{{ goBackComponentText }}</span>
       </div>
       <NuxtLink v-else :to="{ name: 'index' }">
         <span class="name"><b>Solopreneurs</b>.space</span>

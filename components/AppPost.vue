@@ -308,15 +308,15 @@ function copyUrlToClipboard() {
       toast.add({
         color: 'green',
         icon: 'i-heroicons-check',
-        title: 'Se copió la URL al portapapeles',
+        title: 'URL copied to clipboard',
       })
     })
     .catch((err) => {
       toast.add({
         color: 'red',
         icon: 'i-heroicons-x-mark',
-        title: 'No se pudo copiar la url del chisme',
-        description: 'Intentalo nuevamente en unos minutos'
+        title: `Can't copy the post URL to clipboard`,
+        description: 'Try again in a few seconds'
       })
     })
 }

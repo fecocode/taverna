@@ -67,7 +67,7 @@ export const useModalsStore = defineStore({
       this.isRepentanceModalOpen = false
     },
     closeReportModal(){
-      this.isRepentanceModalOpen = false
+      this.isReportModalOpen = false
     },
     closePrivacyPolicyModal(){
       this.isPrivacyPolicyModalOpen = false

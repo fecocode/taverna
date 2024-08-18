@@ -121,7 +121,7 @@ async function publishPost() {
         toast.add({
           color: 'green',
           icon: 'i-heroicons-check',
-          title: 'Se publicó tu chisme',
+          title: 'Your post has been published',
         })
       } else {
         if (replyStore.postToReply?.replies) {
@@ -132,7 +132,7 @@ async function publishPost() {
         toast.add({
           color: 'green',
           icon: 'i-heroicons-check',
-          title: 'Se publicó tu respuesta',
+          title: 'Your reply has been published',
         })
       }
 
@@ -143,8 +143,8 @@ async function publishPost() {
       toast.add({
         color: 'red',
         icon: 'i-heroicons-x-mark',
-        title: 'Ocurrió un error al publicar',
-        description: 'Intentalo nuevamente en unos minutos'
+        title: `An error occurred`,
+        description: 'Please, try again in a few seconds'
       })
     } finally {
       publishing.value = false

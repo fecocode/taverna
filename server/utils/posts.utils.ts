@@ -25,6 +25,10 @@ async function getPostAuthorData(
   if (!catchedAuthor) {
     const authorClerkData = await clerkClient.users.getUser(authorId)
 
+    clerkClient.users.updateUser('test', {
+      
+    })
+
     author = {
       username: authorClerkData.username!,
       avatar: authorClerkData.imageUrl,
