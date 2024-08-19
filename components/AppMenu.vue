@@ -26,6 +26,17 @@
           />
         </NuxtLink>
       </UTooltip>
+      <UTooltip :popper="{ placement: 'right' }" text="Profile" :ui="{ background: 'dark:bg-black', color: 'dark:text-white', ring: 'dark:ring-black' }">
+        <NuxtLink :to="{ name: 'profile' }">
+          <UButton
+            icon="i-heroicons-user"
+            size="xl"
+            :ui="{ rounded: 'rounded-full' }"
+            :color="isHighlighted('profile') ? 'yellow' : 'gray'"
+            variant="ghost"
+          />
+        </NuxtLink>
+      </UTooltip>
       <UDivider class="mb-2"/>
       <SignedIn>
         <UTooltip :popper="{ placement: 'right' }" text="New post" :ui="{ background: 'dark:bg-black', color: 'dark:text-white', ring: 'dark:ring-black' }">
@@ -140,13 +151,13 @@ function isHighlighted(routeName: string) {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  background-color: #070707;
+  background-color: #1f1f23;
   height: 100%;
   padding: 1rem;
   padding-right: 2rem;
   margin-right: -1rem;
   border-radius: 1rem 0 0 1rem;
-  border: 1px solid #121212;
+  border: 1px solid #333;
   @media (max-width: 768px) {
     padding: 0.75rem 0.5rem;
     padding-right: 1.5rem;

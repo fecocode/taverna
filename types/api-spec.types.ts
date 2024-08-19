@@ -51,3 +51,10 @@ export type RAW_UNFAV_RESPONSE = {
   fav_count: number,
   id: string,
 }
+
+export type RAW_AUTHOR_RESPONSE_DATA = {
+  id: string;
+  username: string;
+  avatar: string;
+  posts: RAW_USER_POST_RESPONSE_DATA[],
+}

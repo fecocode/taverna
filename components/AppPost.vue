@@ -393,11 +393,11 @@ function handleEditPostClick(closePopoverFunction: Function) {
 
   &:hover {
     cursor: pointer;
-    background: #cccccc05;
+    background: #24242922;
   }
 
   &.highlighted {
-    background: #4b461b11;
+    background: #242429;
   }
 
   &__ellipsis {
@@ -420,9 +420,9 @@ function handleEditPostClick(closePopoverFunction: Function) {
     justify-content: center;
     position: absolute;
     left: 0.75rem;
-    top: 0;
-    height: 100%;
-    background: #252525;
+    top: -1px;
+    height: calc(100% + 1px);
+    background: #eee2;
     padding-top: 1.5rem;
     width: 2px;
 
@@ -449,8 +449,8 @@ function handleEditPostClick(closePopoverFunction: Function) {
 
   &:last-of-type {
     .app-post__thread-indicator {
-      top: 0rem;
-      height: 1.5rem;
+      top: -1px;
+      height: calc(1.5rem + 1px);
     }
   }
 

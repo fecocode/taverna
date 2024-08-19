@@ -13,7 +13,7 @@ function parseFirestoreTimeStampFormatToDate(firestoreFormatedDate: {_seconds: n
   }
 }
 
-async function getPostAuthorData(
+export async function getPostAuthorData(
   authorId: string,
   clerkClient: ClerkClient,
   redis: Redis,
@@ -24,10 +24,6 @@ async function getPostAuthorData(
 
   if (!catchedAuthor) {
     const authorClerkData = await clerkClient.users.getUser(authorId)
-
-    clerkClient.users.updateUser('test', {
-      
-    })
 
     author = {
       username: authorClerkData.username!,
@@ -80,6 +76,7 @@ async function getRepliesCountData(
     const repliesQuerySnapshot = await admin.firestore()
       .collection('user-posts')
       .where('parent_post_id', '==', postId)
+      .where('deleted', '!=', true)
       .get()
 
     repliesCount = repliesQuerySnapshot.size
@@ -237,4 +234,29 @@ export async function getPostById(
     author: await getPostAuthorData(postObject.user_id, clerkClient, redis),
     parent_post_id: postObject.parent_post_id
   }
+}
+
+export async function getLastAuthorPosts(authorId: string, clerk: ClerkClient, redis: Redis): Promise<RAW_USER_POST_RESPONSE_DATA[]> {
+  const POST_LIMIT = 50
+  const posts: RAW_USER_POST_RESPONSE_DATA[] = []
+
+
+  const lastAuthorPostsIdsQuerySnapshot = await admin
+    .firestore()
+    .collection('user-posts')
+    .orderBy('created_at', 'desc')
+    .where('user_id', '==', authorId)
+    .where('deleted', '!=', true)
+    .limit(POST_LIMIT)
+    .get()
+
+  for (let savedAuthorPost of lastAuthorPostsIdsQuerySnapshot.docs) {
+    const post = await getPostById(savedAuthorPost.id, clerk, redis)
+
+    if (post && !post.deleted) {
+      posts.push(post)
+    }
+  }
+
+  return posts
 }

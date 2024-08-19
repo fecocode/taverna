@@ -58,7 +58,7 @@ watch(isSignedIn, async (value) => {
     border: 1px solid #333;
     height: 100%;
     background-color: #1f1f23;
-    border-radius: 1rem;
+    border-radius: 0 1rem 1rem 0;
     display: flex;
     flex-direction: column;
     overflow: hidden;

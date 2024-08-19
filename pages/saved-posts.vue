@@ -6,9 +6,6 @@
         <span>Saved posts</span>
       </h3>
       <SignedIn>
-        <div class="users-fav__loading-indicator" v-if="favsStore.loadingFavs">
-          <IconSvgSpinners3DotsScale />
-        </div>
         <template v-if="isLoading">
           <AppSkeletonPost />
           <AppSkeletonPost />
@@ -46,8 +43,8 @@
       <SignedOut>
         <div class="users-fav__signed-out">
           <IconLineMdAlertCircle class="icon" />
-          <p>Si querés guardar chismes para pochoclear, necesitás una cuenta de <strong>Solopreneurs</strong></p>
-          <UButton color="indigo" size="xl" label="Crear cuenta" @click="modalStore.openSignUpModal()" />
+          <p>To save posts, you need an account.</p>
+          <UButton color="black" size="xl" label="Create my account" @click="modalStore.openSignUpModal()" />
         </div>
       </SignedOut>
     </div>
