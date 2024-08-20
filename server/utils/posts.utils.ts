@@ -13,6 +13,32 @@ function parseFirestoreTimeStampFormatToDate(firestoreFormatedDate: {_seconds: n
   }
 }
 
+export async function getAuthorUserIdByUsername(
+  username: string,
+  clerkClient: ClerkClient,
+  redis: Redis,
+): Promise<string | null> {
+  const catchedAuthorId = await redis.get(`username-id:${username}`)
+
+  if (!catchedAuthorId) {
+    const clerkSearchResults = await clerkClient.users.getUserList({
+      username: [username],
+    })
+
+    const [ clerkUser ] = clerkSearchResults.data
+
+    if (clerkUser) {
+      await redis.set(`username-id:${username}`, clerkUser.id, 'EX', 60*60*24*15)
+      return clerkUser.id
+    } else {
+      return null
+    }
+  } else {
+    return catchedAuthorId
+  }
+}
+
+
 export async function getPostAuthorData(
   authorId: string,
   clerkClient: ClerkClient,

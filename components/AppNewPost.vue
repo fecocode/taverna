@@ -4,6 +4,22 @@
       <UAvatar :src="userImage" size="xs" />
       <span><b>@{{ userName }}</b></span>
     </div>
+    <div class="flex space-x-1">
+      <UButton
+        color="gray"
+        variant="ghost"
+        label="Add category"
+        icon="i-heroicons-tag-16-solid"
+        size="2xs"
+      />
+      <UButton
+        color="gray"
+        variant="ghost"
+        label="Add picture"
+        icon="i-heroicons-photo-16-solid"
+        size="2xs"
+      />
+    </div>
     <div class="app-new-post__editor">
       <editor-content :editor="editor" class="editor-content" />
     </div>
@@ -173,6 +189,16 @@ async function publishPost() {
   gap: 1rem;
   padding: 1.5rem;
   background-color: #242429;
+  border-bottom: 1px solid #333;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &:only-child {
+    border-radius: 0.5rem;
+    border: 1px solid #333;
+  }
 
   &__profile {
     display: flex;

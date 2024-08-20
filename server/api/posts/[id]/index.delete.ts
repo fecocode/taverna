@@ -78,6 +78,10 @@ export default defineEventHandler(async (event) => {
 
     await redis.del(`post:${postId}`)
     await redis.lrem('recent_posts', 0, postId!);
+
+    if (postData.parent_post_id) {
+      await redis.lrem(`post:${postData.parent_post_id}:replies`, 0, postId!)
+    }
     
     return { ok: true }
   } catch (error) {

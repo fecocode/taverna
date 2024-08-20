@@ -1,7 +1,7 @@
 <template>
   <AppScrollbarWrapper class="scroll-bar">
     <div class="users-fav">
-      <h3 class="flex space-x-3 items-center">
+      <h3 class="flex space-x-3 items-center border-b border-zinc-700">
         <UIcon name="i-heroicons-bookmark" class="text-yellow-400" />
         <span>Saved posts</span>
       </h3>

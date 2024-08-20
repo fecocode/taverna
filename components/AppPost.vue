@@ -47,12 +47,12 @@
     </div>
     <div v-if="showParentPost" class="flex items-center space-x-2 text-xs py-1" @click.stop>
       <IconamoonComment class="text-yellow-400" /> 
-      <span>Reply to <NuxtLink :to="{ name: 'p-id', params: { id: parentPostId } }" class="text-blue-400">This post</NuxtLink></span>
+      <span>Replying to <NuxtLink :to="{ name: 'p-id', params: { id: parentPostId } }" class="text-blue-400">This post</NuxtLink></span>
     </div>
     <div class="app-post__profile">
       <UAvatar :src="authorAvatar" size="xs" />
       <span>
-        <b>@{{authorUsername}} <small v-if="isCurrentUserPostOwner" class="text-stone-200">(you)</small></b>
+        <b>@{{authorUsername}} <small v-if="isCurrentUserPostOwner" class="text-zinc-400">(you)</small></b>
         <span v-show="timeAgo"> · {{ timeAgo }}</span>
       </span>
     </div>
@@ -137,7 +137,7 @@ function getTimeAgo(date: Date) {
   if (seconds < 60) {
     return 'Ahora';
   } else if (minutes < 60) {
-      return `${Math.floor(minutes)} ${Math.floor(minutes) === 1 ? 'minutes' : 'minutes'}`;
+      return `${Math.floor(minutes)} ${Math.floor(minutes) === 1 ? 'minute' : 'minutes'}`;
   } else if (hours < 24) {
       return `${Math.floor(hours)} ${Math.floor(hours) === 1 ? 'hour' : 'hours'}`;
   } else if (days < 30) {
@@ -175,7 +175,7 @@ const isCurrentUserPostOwner = computed(() => {
 })
 
 const repliesCount = computed(() => {
-  return abbreviateNumber(props.post.replies?.length || props.post.replies_count)
+  return abbreviateNumber(props.post.replies ? props.post.replies.length : props.post.replies_count)
 })
 
 
@@ -368,7 +368,7 @@ function handleEditPostClick(closePopoverFunction: Function) {
   position: relative;
 
   &:first-of-type {
-    border-top: 1px solid #333;
+    border-top: none;
   }
 
   &__content {

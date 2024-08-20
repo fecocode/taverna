@@ -27,12 +27,12 @@
         </NuxtLink>
       </UTooltip>
       <UTooltip :popper="{ placement: 'right' }" text="Profile" :ui="{ background: 'dark:bg-black', color: 'dark:text-white', ring: 'dark:ring-black' }">
-        <NuxtLink :to="{ name: 'profile' }">
+        <NuxtLink :to="profilePageRouterObject">
           <UButton
             icon="i-heroicons-user"
             size="xl"
             :ui="{ rounded: 'rounded-full' }"
-            :color="isHighlighted('profile') ? 'yellow' : 'gray'"
+            :color="isCurrentRouteUserProfile ? 'yellow' : 'gray'"
             variant="ghost"
           />
         </NuxtLink>
@@ -113,10 +113,36 @@
 
 <script lang="ts" setup>
 import { useModalsStore } from '~/stores/modals';
-import { SignedIn, SignedOut} from 'vue-clerk'
+import { SignedIn, SignedOut, useSession } from 'vue-clerk'
 
 const modalsStore = useModalsStore()
 const route = useRoute()
+const { session } = useSession()
+
+const profilePageRouterObject = computed(() => {
+  const currentUsername = session.value?.user?.username
+
+  if (currentUsername) {
+    return {
+      name: 'a-username',
+      params: {
+        username: currentUsername,
+      }
+    }
+  } else {
+    return {
+      name: 'index'
+    }
+  }
+})
+
+const isCurrentRouteUserProfile = computed(() => {
+  const currentUsername = session.value?.user?.username
+
+  if (!currentUsername) return false 
+
+  return route.name === 'a-username' && route.params.username === currentUsername
+})
 
 function handleShowTermsAndConditionsEllipsisMenuClick(closePopoverFunction: Function) {
   closePopoverFunction()
@@ -143,6 +169,7 @@ function isHighlighted(routeName: string) {
 
   return routeName === currentRouteName
 }
+
 </script>
 
 <style lang="scss" scoped>

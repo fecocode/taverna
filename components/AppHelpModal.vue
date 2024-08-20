@@ -19,7 +19,6 @@
         variant="soft"
         icon="i-heroicons-envelope"
         title="Contact me"
-        :ui="{ icon: { base: 'text-sky-500' } }"
       >
         <template #description>
           Need help? You can contact me by email at <a href="mailto:hola@fecocode.com">hola@fecocode.com</a>, and I'll try to get back to you as soon as possible.

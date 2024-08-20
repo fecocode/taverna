@@ -3,7 +3,7 @@ import { RAW_AUTHOR_RESPONSE_DATA } from "~/types/api-spec.types.js";
 import admin from 'firebase-admin';
 import { initializeApp } from 'firebase-admin/app';
 import RedisSingleton from "~/classes/redis-singletone.class"
-import { getPostAuthorData, getLastAuthorPosts } from '~/server/utils/posts.utils'
+import { getPostAuthorData, getLastAuthorPosts, getAuthorUserIdByUsername } from '~/server/utils/posts.utils'
 
 export default defineEventHandler(async (event) => {
   const runtimeConfig = useRuntimeConfig()
@@ -24,13 +24,13 @@ export default defineEventHandler(async (event) => {
     publishableKey: runtimeConfig.public.CLERK_PUBLISHABLE_KEY!,
   })
 
-  const authorId = getRouterParam(event, 'id')
+  const authorUsername = getRouterParam(event, 'username')
 
-  if (!authorId) {
+  if (!authorUsername) {
     setResponseStatus(event, 400)
 
     return {
-      error: 'No authorId'
+      error: 'No authorUsername'
     }
   }
 
@@ -42,6 +42,15 @@ export default defineEventHandler(async (event) => {
 
       return {
         error: 'Unauthorized'
+      }
+    }
+
+    const authorId = await getAuthorUserIdByUsername(authorUsername, clerk, redis)
+    
+    if (!authorId) {
+      setResponseStatus(event, 404)
+      return {
+        error: 'Author not found'
       }
     }
 

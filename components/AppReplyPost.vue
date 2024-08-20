@@ -46,16 +46,14 @@ function handleCloseClick() {
   background-color: #1f1f23;
   border-radius: 0.5rem;
   position: relative;
+  overflow: hidden;
+  border: 1px solid #333;
 
   .close-button {
     position: absolute;
     top: 0.5rem;
     right: 0.5rem;
     z-index: 10;
-  }
-
-  @media (max-width: 768px) {
-    border-radius: 0;
   }
 
   &__profile {
