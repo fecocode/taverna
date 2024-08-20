@@ -63,7 +63,7 @@ export default defineEventHandler(async (event) => {
           deleted: storedPostOnDatabase.deleted,
         }
 
-        await redis.set(`post:${postId}`, JSON.stringify(parsedFoundedPost), 'EX', 60*60*24)
+        await redis.set(`post:${postId}`, JSON.stringify(parsedFoundedPost), 'EX', 60*60*24*7)
         postObject = parsedFoundedPost
       } else {
         postObject = JSON.parse(rawCatchedPost)
@@ -82,7 +82,7 @@ export default defineEventHandler(async (event) => {
           avatar: authorClerkData.imageUrl!,
         }
 
-        await redis.set(`author:${postObject.user_id}`, JSON.stringify(author), 'EX', 60*60)
+        await redis.set(`author:${postObject.user_id}`, JSON.stringify(author), 'EX', 60*60*24*15)
       } else {
         author = JSON.parse(catchedAuthor)
       }

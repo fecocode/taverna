@@ -60,7 +60,7 @@ export default defineEventHandler(async (event) => {
         avatar: author.imageUrl
       }
 
-      await redis.set(`author:${userId}`, JSON.stringify(authorDataToSaveOnCache), 'EX', 60*60)
+      await redis.set(`author:${userId}`, JSON.stringify(authorDataToSaveOnCache), 'EX', 60*60*24*15)
     }
 
     const firestore = admin.firestore()
@@ -91,7 +91,7 @@ export default defineEventHandler(async (event) => {
     await firestore.collection('user-posts').doc(newPostId).set(newPost)
 
     // Save on cache
-    await redis.set(`post:${newPostId}`, JSON.stringify(newPost), 'EX', 60*60*24) // One day of expiration on cache
+    await redis.set(`post:${newPostId}`, JSON.stringify(newPost), 'EX', 60*60*24*7) // One day of expiration on cache
 
     if (newPost.parent_post_id) {
       await redis.lpush(`post:${newPost.parent_post_id}:replies`, newPostId)

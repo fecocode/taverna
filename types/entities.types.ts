@@ -15,3 +15,10 @@ export type STORABLE_FAV_USER_POST_RELATIONSHIP = {
   post_id: string;
   created_at: Date;
 }
+
+export type STORABLE_FOLLOW_RELATIONSHIP = {
+  id: string;
+  follower_user_id: string;
+  followed_user_id: string;
+  created_at: Date;
+}

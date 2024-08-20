@@ -56,5 +56,6 @@ export type RAW_AUTHOR_RESPONSE_DATA = {
   id: string;
   username: string;
   avatar: string;
+  followers: number;
   posts: RAW_USER_POST_RESPONSE_DATA[],
 }

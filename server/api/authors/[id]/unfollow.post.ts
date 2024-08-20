@@ -1,10 +1,8 @@
 import { createClerkClient } from "@clerk/clerk-sdk-node"
-import { RAW_AUTHOR_RESPONSE_DATA } from "~/types/api-spec.types.js";
 import admin from 'firebase-admin';
 import { initializeApp } from 'firebase-admin/app';
 import RedisSingleton from "~/classes/redis-singletone.class"
-import { getPostAuthorData, getLastAuthorPosts, getAuthorUserIdByUsername } from '~/server/utils/posts.utils'
-import { countFollowersOfAnAuthor } from '~/server/utils/authors.utils'
+import { removeFollowingRelationship, setFollowingRelationship } from "~/server/utils/authors.utils";
 
 export default defineEventHandler(async (event) => {
   const runtimeConfig = useRuntimeConfig()
@@ -25,13 +23,13 @@ export default defineEventHandler(async (event) => {
     publishableKey: runtimeConfig.public.CLERK_PUBLISHABLE_KEY!,
   })
 
-  const authorUsername = getRouterParam(event, 'username')
+  const userIdToUnfollow = getRouterParam(event, 'id')
 
-  if (!authorUsername) {
+  if (!userIdToUnfollow) {
     setResponseStatus(event, 400)
 
     return {
-      error: 'No authorUsername'
+      error: 'No user to unfollow'
     }
   }
 
@@ -46,26 +44,9 @@ export default defineEventHandler(async (event) => {
       }
     }
 
-    const authorId = await getAuthorUserIdByUsername(authorUsername, clerk, redis)
-    
-    if (!authorId) {
-      setResponseStatus(event, 404)
-      return {
-        error: 'Author not found'
-      }
-    }
+    const { userId } = verifiedSession.toAuth()
 
-    const storedAuthorData = await getPostAuthorData(authorId, clerk, redis)
-
-    const authorData: RAW_AUTHOR_RESPONSE_DATA = {
-      id: authorId,
-      username: storedAuthorData.username,
-      avatar: storedAuthorData.avatar,
-      followers: await countFollowersOfAnAuthor(authorId, redis),
-      posts: await getLastAuthorPosts(authorId, clerk, redis)
-    }
-
-    return authorData
+    await removeFollowingRelationship(userId, userIdToUnfollow, redis)
   } catch(error) {
     console.error(error)
     setResponseStatus(event, 500)

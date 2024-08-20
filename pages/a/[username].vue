@@ -1,10 +1,19 @@
 <template>
   <AppScrollbarWrapper class="scroll-bar">
+    <template v-if="loading">
+      <AppSkeletonAuthor />
+      <AppSkeletonPost />
+      <AppSkeletonPost />
+      <AppSkeletonPost />
+    </template>
     <div class="profile-page" v-if="authorData">
-    <div class="profile-page__author">
-      <div class="profile-page__author__data">
+      <div class="profile-page__author">
+        <div class="profile-page__author__data">
           <UAvatar :src="authorData.avatar" size="3xl" />
           <h3>{{ authorData.username }}</h3>
+          <div class="text-xs">
+            {{ followersText }}
+          </div>
         </div>
       </div>
     </div>
@@ -28,21 +37,76 @@
 <script lang="ts" setup>
 import type { RAW_AUTHOR_RESPONSE_DATA } from '@/types/api-spec.types'
 import { Post } from '~/classes/post.class';
+import type { IPost } from '~/types/post.interface';
 
 const authorData = ref<RAW_AUTHOR_RESPONSE_DATA>()
 const route = useRoute()
+const triggerStore = useTriggerStore()
+const posts = ref<IPost[]>([])
+const loading = ref(false)
 useAsyncData(async() => {
+  loading.value = true
   const username = route.params.username
+  try {
+    if (username) {
+      authorData.value = await $fetch(`/api/authors/${username}`)
+      if (!authorData.value) return
+      posts.value = authorData.value?.posts.map((rawPost) => new Post(rawPost))
+    }
+  } catch(_) {
 
-  if (username) {
-    authorData.value = await $fetch(`/api/authors/${username}`)
+  } finally {
+    loading.value = false
   }
 })
 
-const posts = computed(() => {
-  return authorData.value?.posts.map((rawPost) => new Post(rawPost))
+const followersText = computed(() => {
+  if (!authorData.value) return ''
+
+  return `${abbreviateNumber(authorData.value.followers)} ${authorData.value.followers === 1 ? 'Follower' : 'Followers'}`
 })
 
+onMounted(() => {
+  triggerStore.$subscribe(() => {
+    const [lastTrigger] = triggerStore.triggers.slice(-1)
+
+    if (lastTrigger.name === 'delete-post') {
+      const deletedPostInUserPosts = posts.value.findIndex((post) => post.id === lastTrigger.data.postId)
+
+      if (deletedPostInUserPosts !== -1) {
+        const postToDelete = posts.value[deletedPostInUserPosts]
+
+        if (postToDelete.parent_post_id) {
+          const foundedParentPost = posts.value.find((p) => p.id === postToDelete.parent_post_id)
+
+          if (foundedParentPost) {
+            foundedParentPost.replies_count --
+          }
+        }
+        posts.value.splice(deletedPostInUserPosts, 1)
+      }
+    }
+
+    if (lastTrigger.name === 'update-post') {
+      const editedPostIndexInUserPostsArray = posts.value.findIndex((post) => post.id === lastTrigger.data.postId)
+
+      if (editedPostIndexInUserPostsArray !== -1) {
+        posts.value[editedPostIndexInUserPostsArray].text = lastTrigger.data.newPostData.text
+        posts.value[editedPostIndexInUserPostsArray].updated_at = lastTrigger.data.newPostData.updated_at
+      }
+    }
+  })
+})
+
+function abbreviateNumber(value:number) {
+  if (value >= 1e6) {
+    return (value / 1e6).toFixed(1).replace(/\.0$/, '') + 'M';
+  }
+  if (value >= 1e3) {
+    return (value / 1e3).toFixed(1).replace(/\.0$/, '') + 'K';
+  }
+  return value?.toString() || '';
+}
 
 </script>
 

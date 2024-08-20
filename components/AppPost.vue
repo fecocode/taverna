@@ -49,7 +49,7 @@
       <IconamoonComment class="text-yellow-400" /> 
       <span>Replying to <NuxtLink :to="{ name: 'p-id', params: { id: parentPostId } }" class="text-blue-400">This post</NuxtLink></span>
     </div>
-    <div class="app-post__profile">
+    <div class="app-post__profile" @click.stop="goToAuthorProfile">
       <UAvatar :src="authorAvatar" size="xs" />
       <span>
         <b>@{{authorUsername}} <small v-if="isCurrentUserPostOwner" class="text-zinc-400">(you)</small></b>
@@ -285,6 +285,17 @@ function handleGoToPostPage(e: any) {
     name: 'p-id',
     params: {
       id: props.id
+    }
+  })
+}
+
+function goToAuthorProfile() {
+  const authorUsername = props.post.author.username
+
+  router.push({
+    name: 'a-username',
+    params: {
+      username: authorUsername
     }
   })
 }

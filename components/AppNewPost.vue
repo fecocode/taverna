@@ -6,6 +6,7 @@
     </div>
     <div class="flex space-x-1">
       <UButton
+        v-if="!postToReply"
         color="gray"
         variant="ghost"
         label="Add category"

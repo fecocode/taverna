@@ -56,7 +56,7 @@ export async function getPostAuthorData(
       avatar: authorClerkData.imageUrl,
     }
 
-    await redis.set(`author:${authorId}`, JSON.stringify(author), 'EX', 60*60)
+    await redis.set(`author:${authorId}`, JSON.stringify(author), 'EX', 60*60*24*15)
   } else {
     author = JSON.parse(catchedAuthor)
   }
