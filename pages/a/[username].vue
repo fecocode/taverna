@@ -8,9 +8,21 @@
     </template>
     <div class="profile-page" v-if="authorData">
       <div class="profile-page__author">
+        <UButton
+          v-if="showFollowButton"
+          class="profile-page__author__follow-button"
+          color="black"
+          :variant="isFollowing ? 'outline' : 'solid'"
+          :label="isFollowing ? 'Unfollow' : 'Follow'"
+          :loading="followingLoading"
+          @click="handleFollowButtonClick"
+        />
         <div class="profile-page__author__data">
           <UAvatar :src="authorData.avatar" size="3xl" />
-          <h3>{{ authorData.username }}</h3>
+          <div class="flex space-x-2 items-center">
+            <h3>{{ authorData.username }}</h3>
+            <UBadge v-if="authorData.follow_me" size="xs" color="gray">Follows you</UBadge>
+          </div>
           <div class="text-xs">
             {{ followersText }}
           </div>
@@ -38,12 +50,14 @@
 import type { RAW_AUTHOR_RESPONSE_DATA } from '@/types/api-spec.types'
 import { Post } from '~/classes/post.class';
 import type { IPost } from '~/types/post.interface';
+import { useSession } from 'vue-clerk';
 
 const authorData = ref<RAW_AUTHOR_RESPONSE_DATA>()
 const route = useRoute()
 const triggerStore = useTriggerStore()
 const posts = ref<IPost[]>([])
 const loading = ref(false)
+const followingLoading = ref(false)
 useAsyncData(async() => {
   loading.value = true
   const username = route.params.username
@@ -64,6 +78,18 @@ const followersText = computed(() => {
   if (!authorData.value) return ''
 
   return `${abbreviateNumber(authorData.value.followers)} ${authorData.value.followers === 1 ? 'Follower' : 'Followers'}`
+})
+
+const isFollowing = computed(() => {
+  return authorData.value?.following
+})
+
+const showFollowButton = computed(() => {
+  const { session } = useSession()
+
+  if (!session.value?.user || !route.params.username) return false 
+
+  return route.params.username !== session.value?.user?.username
 })
 
 onMounted(() => {
@@ -108,6 +134,39 @@ function abbreviateNumber(value:number) {
   return value?.toString() || '';
 }
 
+async function handleFollowButtonClick() {
+  if (!authorData.value) return
+
+  if (isFollowing.value) {
+    try {
+      followingLoading.value = true
+      await useFetch(`/api/authors/${authorData.value.id}/unfollow`, {
+        method: 'post'
+      })
+
+      authorData.value.followers --
+      authorData.value.following = false
+    } catch(_) {
+
+    } finally {
+      followingLoading.value = false
+    }
+  } else {
+    try {
+      followingLoading.value = true
+      await useFetch(`/api/authors/${authorData.value.id}/follow`, {
+        method: 'post'
+      })
+      authorData.value.followers ++
+      authorData.value.following = true
+    } catch(_) {
+
+    } finally {
+      followingLoading.value = false
+    }
+  }
+}
+
 </script>
 
 <style lang="scss" scoped>
@@ -125,9 +184,15 @@ function abbreviateNumber(value:number) {
     background-color: #242429;
     position: relative;
     border-bottom: 1px solid #333;
+    &__follow-button {
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+    }
     &__data {
       display: flex;
       flex-direction: column;
+      align-items: flex-start;
       gap: 1rem;
       padding: 1.5rem;
       h3 {

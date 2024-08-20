@@ -30,8 +30,8 @@ export async function setFollowingRelationship(followerId: string, followedId: s
 
   // Saving on cache
 
-  await redis.lpush(`author:${followedId}:followers`, followerId)
-  await redis.lpush(`author:${followerId}:follows`, followedId)
+  await redis.sadd(`author:${followedId}:followers`, followerId)
+  await redis.sadd(`author:${followerId}:follows`, followedId)
 }
 
 export async function removeFollowingRelationship(followerId: string, followedId: string, redis: Redis) {
@@ -57,11 +57,15 @@ export async function removeFollowingRelationship(followerId: string, followedId
       .delete() 
   }
 
-  await redis.lrem(`author:${followedId}:followers`, 0, followerId)
-  await redis.lrem(`author:${followerId}:follows`, 0, followedId)
+  await redis.srem(`author:${followedId}:followers`, followerId)
+  await redis.srem(`author:${followerId}:follows`, followedId)
 }
 
 export async function checkIfFollowRelationshipExist(followerId: string, followedId: string, redis: Redis): Promise<boolean> {
+  if (followedId === followerId) {
+    return false
+  }
+
   const isFollowingRelationshipOnCache = await redis.sismember(`author:${followedId}:followers`, followerId)
 
   if (isFollowingRelationshipOnCache) {
@@ -74,12 +78,19 @@ export async function checkIfFollowRelationshipExist(followerId: string, followe
       .where('followed_user_id', '==', followedId)
       .get()
     
-    return savedOnDatabaseFollowRelationshipQuerySnapshot.size > 0
+    const existRelationship = savedOnDatabaseFollowRelationshipQuerySnapshot.size > 0
+
+    if (existRelationship) {
+      await redis.sadd(`author:${followedId}:followers`, followerId)
+      await redis.sadd(`author:${followerId}:follows`, followedId)
+    }
+
+    return existRelationship
   }
 }
 
 export async function countFollowersOfAnAuthor(authorId: string, redis: Redis): Promise<number> {
-  const followersCount = await redis.llen(`author:${authorId}:followers`)
+  const followersCount = await redis.scard(`author:${authorId}:followers`)
 
   return followersCount
 }

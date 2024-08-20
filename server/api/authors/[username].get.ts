@@ -1,10 +1,10 @@
 import { createClerkClient } from "@clerk/clerk-sdk-node"
 import { RAW_AUTHOR_RESPONSE_DATA } from "~/types/api-spec.types.js";
-import admin from 'firebase-admin';
+import admin, { auth } from 'firebase-admin';
 import { initializeApp } from 'firebase-admin/app';
 import RedisSingleton from "~/classes/redis-singletone.class"
 import { getPostAuthorData, getLastAuthorPosts, getAuthorUserIdByUsername } from '~/server/utils/posts.utils'
-import { countFollowersOfAnAuthor } from '~/server/utils/authors.utils'
+import { checkIfFollowRelationshipExist, countFollowersOfAnAuthor } from '~/server/utils/authors.utils'
 
 export default defineEventHandler(async (event) => {
   const runtimeConfig = useRuntimeConfig()
@@ -46,6 +46,8 @@ export default defineEventHandler(async (event) => {
       }
     }
 
+    const { userId } = verifiedSession.toAuth()
+
     const authorId = await getAuthorUserIdByUsername(authorUsername, clerk, redis)
     
     if (!authorId) {
@@ -62,6 +64,8 @@ export default defineEventHandler(async (event) => {
       username: storedAuthorData.username,
       avatar: storedAuthorData.avatar,
       followers: await countFollowersOfAnAuthor(authorId, redis),
+      following: await checkIfFollowRelationshipExist(userId, authorId, redis),
+      follow_me: await checkIfFollowRelationshipExist(authorId, userId, redis),
       posts: await getLastAuthorPosts(authorId, clerk, redis)
     }
 
