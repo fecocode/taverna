@@ -17,7 +17,5 @@ export interface IPost {
   parent_post_id?: string;
   deleted?: boolean;
   deleted_at?: Date;
-
-  toUpdate(): RAW_EDIT_USER_POST_REQUEST_BODY;
-  toDelete(): RAW_DELETE_USER_POST_REQUEST_BODY;
+  picture_url?: string;
 }

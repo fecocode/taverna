@@ -1,5 +1,5 @@
 <template>
-  <div class="default-layout dark">
+  <div class="default-layout">
     <AppModalsManager />
     <AppWaitingOverlay v-if="!isLive"/>
     <ClerkLoading v-if="isLive">
@@ -41,24 +41,21 @@ watch(isSignedIn, async (value) => {
 })
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .default-layout {
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  padding: 1rem;
   box-sizing: border-box;
   height: 100vh;
-  @media (max-width: 768px) {
-    padding: 0;
-  }
+  background-color: #1f1f23;
   &__wrapper {
     width: var(--max-layout-width);
     max-width: 100vw;
-    border: 1px solid #333;
+    border-left: 1px solid #333;
+    border-right: 1px solid #333;
     height: 100%;
     background-color: #1f1f23;
-    border-radius: 0 1rem 1rem 0;
     display: flex;
     flex-direction: column;
     overflow: hidden;

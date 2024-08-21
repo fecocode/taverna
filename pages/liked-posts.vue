@@ -2,8 +2,8 @@
   <AppScrollbarWrapper class="scroll-bar">
     <div class="users-fav">
       <h3 class="flex space-x-3 items-center border-b border-zinc-700">
-        <UIcon name="i-heroicons-bookmark" class="text-yellow-400" />
-        <span>Saved posts</span>
+        <UIcon name="i-heroicons-heart-20-solid" class="text-yellow-400" />
+        <span>Liked posts</span>
       </h3>
       <SignedIn>
         <template v-if="isLoading">

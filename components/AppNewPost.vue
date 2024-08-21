@@ -5,6 +5,7 @@
       <span><b>@{{ userName }}</b></span>
     </div>
     <div class="flex space-x-1">
+      <UInput type="file" class="hidden" v-model="fileInputValue" ref="fileInput" accept="image/*" @change="handleFileUploadChange" />
       <UButton
         v-if="!postToReply"
         color="gray"
@@ -14,15 +15,30 @@
         size="2xs"
       />
       <UButton
+        v-if="!imagePreview"
         color="gray"
         variant="ghost"
         label="Add picture"
         icon="i-heroicons-photo-16-solid"
         size="2xs"
+        @click="handleUploadImageClick"
       />
     </div>
     <div class="app-new-post__editor">
       <editor-content :editor="editor" class="editor-content" />
+    </div>
+    <div class="app-new-post__image-preview" v-if="imagePreview" ref="previewImageElement" :style="maxPreviewImageHeightStyle">
+      <UTooltip class="close-button" :popper="{ placement: 'left'}" text="Remove">
+        <UButton
+          size="xs"
+          :ui="{ rounded: 'rounded-full' }"
+          color="gray"
+          variant="soft"
+          icon="i-heroicons-x-mark-solid"
+          @click="handleRemoveImage"
+        />
+      </UTooltip>
+      <img :src="imagePreview" :onload="handlePreviewLoad" />
     </div>
     <div class="app-new-post__actions">
       <div class="app-new-post__actions__characters-counter">
@@ -70,6 +86,8 @@ const publishing = ref(false)
 const limit = 5000;
 
 const postsStore = usePostsStore()
+const fileToUpload = ref()
+const fileInputValue = ref()
 
 const editor = useEditor({
   extensions: [
@@ -88,6 +106,12 @@ const editor = useEditor({
   content: '<p></p>',
 })
 
+const imagePreview = ref()
+const fileInput = ref()
+const previewImageElement = ref()
+const maxPreviewImageHeight = ref('')
+
+
 const characterCount = computed(() => {
   const characters = editor.value?.storage.characterCount.characters() || 0
 
@@ -102,9 +126,55 @@ const publishButtonText = computed(() => {
   return props.postToReply ? 'Reply' : 'Post'
 })
 
+const maxPreviewImageHeightStyle = computed(() => {
+  return `--preview-image-max-height: ${maxPreviewImageHeight.value}px;`
+})
+
 onUnmounted(() => {
   editor.value?.destroy()
 })
+
+function handlePreviewLoad() {
+  const {width} = previewImageElement.value.getBoundingClientRect()
+
+  maxPreviewImageHeight.value = `${16 * width / 9}`
+}
+
+function handleFileUploadChange(fileList: FileList) {
+  const [file] = fileList
+
+  if (file && file.type.startsWith('image/')) {
+    if(file.size / 1024 / 1024 > 5) {
+      toast.add({
+        color: 'red',
+        icon: 'i-heroicons-x-mark',
+        title: `File Size Exceeds Limit`,
+        description: 'Please upload a file smaller than 5 MB.'
+      })
+
+      return
+    }
+
+    fileToUpload.value = file
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      imagePreview.value = e.target?.result;
+    };
+    reader.readAsDataURL(file);
+  } 
+}
+
+function handleRemoveImage() {
+  fileInputValue.value = null
+  imagePreview.value = null
+  fileToUpload.value = null
+}
+
+function handleUploadImageClick() {
+  if (fileInput.value?.input) {
+    fileInput.value.input.click()
+  }
+}
 
 async function publishPost() {
   if(!canSave) {
@@ -114,22 +184,23 @@ async function publishPost() {
   if (editor.value) {
     try {
       publishing.value = true
-      
-      // const sanitizedContent = DOMPurify.sanitize(editor.value.getHTML(), {
-      //   ALLOWED_TAGS: ['b', 'i', 'em', 'strong', 'a', 'p', 'br'],
-      //   ALLOWED_ATTR: ['href', 'target'],
-      // });
 
-      const requestBody: RAW_CREATE_USER_POST_REQUEST_BODY = {
-        text: editor.value.getHTML(),
-        parent_post_id: props.postToReply || undefined,
+      const formData = new FormData()
+
+      formData.append('text', editor.value.getHTML())
+
+      if (props.postToReply) {
+        formData.append('parent_post_id', props.postToReply)
+      }
+
+      if (fileToUpload.value) {
+        formData.append('picture', fileToUpload.value)
       }
   
       const response = await useFetch<RAW_USER_POST_RESPONSE_DATA>('/api/posts', {
         method: 'POST',
-        body: requestBody,
+        body: formData,
       })
-
       
       if (!props.postToReply) {
         const newPost = new Post(response.data.value!)
@@ -199,6 +270,30 @@ async function publishPost() {
   &:only-child {
     border-radius: 0.5rem;
     border: 1px solid #333;
+  }
+
+  &__image-preview {
+    --preview-image-max-height: 0;
+    display: flex;
+    max-width: 450px;
+    width: 100%;
+    margin: 1rem auto;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 1rem -0.5rem #111;
+    background-color: #111;
+    position: relative;
+    max-height: var(--preview-image-max-height);
+    img {
+      width: 100%;
+    }
+    .close-button {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+    }
   }
 
   &__profile {

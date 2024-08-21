@@ -15,6 +15,7 @@ export class Post implements IPost {
   replies?: IPost[] | undefined;
   parent_post?: IPost | undefined;
   parent_post_id?: string | undefined;
+  picture_url?: string | undefined;
 
   constructor(rawPost: RAW_USER_POST_RESPONSE_DATA) {
     this.id = rawPost.id
@@ -39,17 +40,9 @@ export class Post implements IPost {
     if (rawPost.parent_post) {
       this.parent_post = new Post(rawPost.parent_post)
     }
-  }
 
-  toUpdate(): RAW_EDIT_USER_POST_REQUEST_BODY {
-    return {
-      text: this.text,
-      id: this.id
-    }
-  }
-  toDelete(): RAW_DELETE_USER_POST_REQUEST_BODY {
-    return {
-      id: this.id
+    if (rawPost.picture_url) {
+      this.picture_url = rawPost.picture_url
     }
   }
 }

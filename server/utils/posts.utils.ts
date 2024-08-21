@@ -228,7 +228,7 @@ export async function getPostById(
         deleted: storedPostOnDatabase.deleted,
         fav_count: 0,
         replies_count: 0,
-        author: await getPostAuthorData(storedPostOnDatabase.user_id, clerkClient, redis)
+        author: await getPostAuthorData(storedPostOnDatabase.user_id, clerkClient, redis),
       }
     }
 
@@ -241,6 +241,7 @@ export async function getPostById(
       user_id: storedPostOnDatabase.user_id,
       deleted: storedPostOnDatabase.deleted,
       parent_post_id: storedPostOnDatabase.parent_post_id,
+      picture_url: storedPostOnDatabase.picture_url,
     }
 
     await redis.set(`post:${postId}`, JSON.stringify(parsedFoundedPost), 'EX', 60*60*24)
@@ -258,7 +259,8 @@ export async function getPostById(
     fav_count: await getFavCountData(postId, redis),
     replies_count: await getRepliesCountData(postId, redis),
     author: await getPostAuthorData(postObject.user_id, clerkClient, redis),
-    parent_post_id: postObject.parent_post_id
+    parent_post_id: postObject.parent_post_id,
+    picture_url: postObject.picture_url
   }
 }
 

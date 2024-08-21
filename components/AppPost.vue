@@ -58,6 +58,16 @@
     </div>
     <p v-if="post.deleted" class="text-stone-400"><i>This post has been deleted.</i></p>
     <p v-else v-html="sanitizedContent" class="app-post__content"></p>
+    <div
+      class="app-post__image-preview"
+      v-if="pictureUrl && !readonly"
+      ref="previewImageElement"
+      :style="maxPreviewImageHeightStyle"
+      @click.stop
+    >
+      <USkeleton v-if="!imageLoaded" class="h-[300px] w-full" :ui="{ background: 'bg-zinc-100 dark:bg-zinc-900' }" />
+      <img :class="{ invisible: !imageLoaded }" :src="pictureUrl" :onload="handlePreviewLoad" />
+    </div>
     <div class="app-post__fav-count-display" v-if="updatedAt">
       <span>Edited</span>
     </div>
@@ -66,7 +76,8 @@
         <UButton :color="favButtonColor" :label="abbreviateFavCount" :variant="isInUserFavList ? 'ghost' : 'ghost'" :loading="favLoading" @click.stop="handleFavClick" :ui="{ rounded: 'rounded-full' }" size="md">
           <template #leading>
             <IconSvgSpinners3DotsScale v-if="favLoading" />
-            <UIcon v-else name="i-heroicons-bookmark" />
+            <UIcon v-else-if="isInUserFavList" name="i-heroicons-heart-20-solid" />
+            <UIcon v-else name="i-heroicons-heart" />
           </template>
         </UButton>
       </UTooltip>
@@ -123,6 +134,9 @@ const props = defineProps<{
 const timeAgo = ref('')
 const timeAgoRefreshInterval = ref()
 const favLoading = ref(false)
+const maxPreviewImageHeight = ref()
+const previewImageElement = ref()
+const imageLoaded = ref(false)
 
 function getTimeAgo(date: Date) {
   const now = moment();
@@ -147,6 +161,18 @@ function getTimeAgo(date: Date) {
   } else {
       return `${Math.floor(years)} ${Math.floor(years) === 1 ? 'year' : 'years'}`;
   }
+}
+
+const maxPreviewImageHeightStyle = computed(() => {
+  return `--preview-image-max-height: ${maxPreviewImageHeight.value}px;`
+})
+
+function handlePreviewLoad() {
+  imageLoaded.value = true
+
+  const {width} = previewImageElement?.value.getBoundingClientRect() || 0
+
+  maxPreviewImageHeight.value = 16 * width / 9
 }
 
 onMounted(() => {
@@ -178,6 +204,9 @@ const repliesCount = computed(() => {
   return abbreviateNumber(props.post.replies ? props.post.replies.length : props.post.replies_count)
 })
 
+const pictureUrl = computed(() => {
+  return props.post.picture_url
+})
 
 const navigatorHasClipboard = computed(() => {
   return !!navigator.clipboard
@@ -218,9 +247,9 @@ const favButtonLabel = computed(() => {
   if (favLoading.value) {
     return ''
   } else if (isInUserFavList.value) {
-    return 'Unsave'
+    return 'Unlike'
   } else {
-    return 'Save'
+    return 'Like'
   }
 })
 
@@ -377,6 +406,25 @@ function handleEditPostClick(closePopoverFunction: Function) {
   padding: 1rem 2rem;
   gap: 1rem;
   position: relative;
+
+  &__image-preview {
+    --preview-image-max-height: 0;
+    display: flex;
+    max-width: 450px;
+    width: 100%;
+    margin: 1rem auto;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 1rem -0.5rem #111;
+    background-color: #111;
+    position: relative;
+    max-height: var(--preview-image-max-height);
+    img {
+      width: 100%;
+    }
+  }
 
   &:first-of-type {
     border-top: none;

@@ -27,6 +27,7 @@ export default defineAppConfig({
       color: {
         gray: {
           ghost: 'text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white hover:bg-zinc-50 dark:hover:bg-zinc-800 focus-visible:ring-inset focus-visible:ring-2 focus-visible:ring-zinc-500 dark:focus-visible:ring-zink-400',
+          soft: 'text-gray-700 dark:text-gray-200 dark:bg-zinc-800 hover:text-gray-900 dark:hover:text-white hover:bg-zinc-50 dark:hover:bg-zinc-900 focus-visible:ring-inset focus-visible:ring-2 focus-visible:ring-zinc-500 dark:focus-visible:ring-zink-400',
         },
         yellow: {
           ghost: 'text-yellow-800 dark:text-yellow-400 hover:text-yellow-900 dark:hover:text-yellow-500 hover:bg-zinc-50 dark:hover:bg-zinc-800 focus-visible:ring-inset focus-visible:ring-2 focus-visible:ring-zinc-500 dark:focus-visible:ring-zink-400',
@@ -39,6 +40,17 @@ export default defineAppConfig({
           solid: 'text-gray-900 dark:text-white bg-white dark:bg-zinc-900 ring-1 ring-gray-200 dark:ring-zinc-800',
         }
       }
-    }
+    },
+    badge: {
+      color: {
+        gray: {
+          solid: 'ring-1 ring-inset ring-zinc-300 dark:ring-zinc-700 text-gray-700 dark:text-gray-200 bg-zinc-50 dark:bg-zinc-900',
+        },
+      }
+    },
+    notification: {
+      background: 'bg-white dark:bg-zinc-900',
+      ring: 'ring-1 ring-zinc-200 dark:ring-zinc-800',
+    },
   }
 })

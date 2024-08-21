@@ -20,6 +20,9 @@ export default defineNuxtConfig({
     FIREBASE_ADMIN_KEY: process.env.FIREBASE_ADMIN_KEY!,
     FIREBASE_DATABASE_ID: process.env.FIREBASE_DATABASE_ID!,
     REDIS_URL: process.env.REDIS_URL!,
+    CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME!,
+    CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY!,
+    CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET!,
   },
 
   css: ['~/assets/styles/main.css'],

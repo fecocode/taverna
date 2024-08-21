@@ -26,11 +26,11 @@ const modalStore = useModalsStore()
   flex-direction: column;
   gap: 0.5rem;
   span {
-    font-size: 0.8rem;
+    font-size: 0.65rem;
     text-wrap: wrap;
     a {
       color: #fff;
-      font-weight: 600;
+      font-weight: 400;
       &:hover {
         cursor: pointer;
         text-decoration: underline;

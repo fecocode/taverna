@@ -6,6 +6,7 @@ import { initializeApp } from 'firebase-admin/app';
 import RedisSingleton from "~/classes/redis-singletone.class"
 import DOMPurify from 'dompurify'
 import { JSDOM } from 'jsdom'
+import { uploadStaticImage } from "~/server/utils/statics.utils";
 
 export default defineEventHandler(async (event) => {
   const runtimeConfig = useRuntimeConfig()
@@ -26,13 +27,17 @@ export default defineEventHandler(async (event) => {
     publishableKey: runtimeConfig.public.CLERK_PUBLISHABLE_KEY!,
   })
 
-  const requestBody:RAW_CREATE_USER_POST_REQUEST_BODY = await readBody(event)
+  const requestFormData = await readMultipartFormData(event)
 
-  if (!requestBody.text?.length) {
+  const postText = requestFormData?.find((f) => f.name === 'text')?.data.toString('utf-8') || ''
+  const postParentId = requestFormData?.find((f) => f.name === 'parent_post_id')?.data.toString('utf-8') || undefined
+  const pictureFile = requestFormData?.find((f) => f.name === 'picture')?.data
+  const pictureFileName = requestFormData?.find((f) => f.name === 'picture')?.filename
+
+  if (!postText?.length) {
     setResponseStatus(event, 400)
     return { error: 'No text' }
   }
-
 
   try {
     const verifiedSession = await clerk.authenticateRequest(request)
@@ -71,10 +76,26 @@ export default defineEventHandler(async (event) => {
     const window = new JSDOM('').window
     const purify = DOMPurify(window)
 
-    const sanitizedContent = purify.sanitize(requestBody.text, {
+    const sanitizedContent = purify.sanitize(postText, {
       ALLOWED_TAGS: ['b', 'i', 'em', 'strong', 'a', 'p', 'br'],
       ALLOWED_ATTR: ['href', 'target'],
     });
+
+    let pictureUrl = null
+
+    if (pictureFile && pictureFileName) {
+      const pictureExtension = pictureFileName.split('.').pop()
+
+      if (!pictureExtension) return
+
+      if (pictureExtension.toLowerCase() ===  'gif') {
+        pictureUrl = await uploadStaticImage(runtimeConfig, pictureFile, `posts/${newPostId}`, 'gif')
+      } else {
+        pictureUrl = await uploadStaticImage(runtimeConfig, pictureFile, `posts/${newPostId}`, 'webp')
+      }
+    }
+
+    console.log(pictureUrl)
 
     const newPost: STOREABLE_POST = {
       id: newPostId,
@@ -84,7 +105,8 @@ export default defineEventHandler(async (event) => {
       deleted_at: null,
       user_id: userId,
       deleted: false,
-      parent_post_id: requestBody.parent_post_id || null,
+      parent_post_id: postParentId || null,
+      picture_url: pictureUrl || null,
     }
 
     // Save on Database
@@ -102,12 +124,13 @@ export default defineEventHandler(async (event) => {
 
     const response: RAW_USER_POST_RESPONSE_DATA = {
       id: newPostId,
-      text: requestBody.text,
+      text: postText,
       created_at: createdAt,
       user_id: userId,
       fav_count: 0,
       replies_count: 0,
       parent_post_id: newPost.parent_post_id || undefined,
+      picture_url: pictureUrl || undefined,
       author: {
         username: author.username!,
         avatar: author.avatar!,

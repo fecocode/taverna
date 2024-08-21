@@ -37,6 +37,7 @@ export type RAW_USER_POST_RESPONSE_DATA = {
   parent_post_id?: string;
   replies?: RAW_USER_POST_RESPONSE_DATA[],
   parent_post?: RAW_USER_POST_RESPONSE_DATA,
+  picture_url?: string;
 }
 
 export type RAW_NEW_FAV_STORED_RESPONSE = {

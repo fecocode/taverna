@@ -61,6 +61,7 @@ export default defineEventHandler(async (event) => {
           deleted_at: parseFirestoreTimeStampFormatToDate(storedPostOnDatabase.deleted_at),
           user_id: storedPostOnDatabase.user_id,
           deleted: storedPostOnDatabase.deleted,
+          picture_url: storedPostOnDatabase.picture_url,
         }
 
         await redis.set(`post:${postId}`, JSON.stringify(parsedFoundedPost), 'EX', 60*60*24*7)
@@ -135,6 +136,7 @@ export default defineEventHandler(async (event) => {
         user_id: postObject.user_id,
         fav_count: favCount,
         replies_count: repliesCount,
+        picture_url: postObject.picture_url,
         author: {
           username: author.username!,
           avatar: author.avatar!,
