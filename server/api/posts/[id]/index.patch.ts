@@ -4,13 +4,23 @@ import { initializeApp } from 'firebase-admin/app';
 import RedisSingleton from "~/classes/redis-singletone.class"
 import DOMPurify from 'dompurify'
 import { JSDOM } from 'jsdom'
+import { PARTIAL_RAW_USER_POST_UPDATED_DATA } from "~/types/api-spec.types";
 
 
 export default defineEventHandler(async (event) => {
   const runtimeConfig = useRuntimeConfig()
-
-  const body = await readBody(event)
   
+  const requestFormData = await readMultipartFormData(event)
+
+  const postText = requestFormData?.find((f) => f.name === 'text')?.data.toString('utf-8') || ''
+  const pictureFile = requestFormData?.find((f) => f.name === 'picture')?.data
+  const pictureFileName = requestFormData?.find((f) => f.name === 'picture')?.filename
+  const emptyImageField = requestFormData?.find((f) => f.name === 'empty_image_field')?.data
+
+  if (!postText?.length) {
+    setResponseStatus(event, 400)
+    return { error: 'No text' }
+  }
 
   if (!admin.apps.length) {  
     initializeApp({
@@ -78,19 +88,36 @@ export default defineEventHandler(async (event) => {
     const window = new JSDOM('').window
     const purify = DOMPurify(window)
 
-    const sanitizedContent = purify.sanitize(body.text, {
+    let pictureUrl = null
+
+    if (pictureFile && pictureFileName) {
+      const pictureExtension = pictureFileName.split('.').pop()
+
+      if (!pictureExtension) return
+
+      if (pictureExtension.toLowerCase() ===  'gif') {
+        pictureUrl = await uploadStaticImage(runtimeConfig, pictureFile, `posts/${postId}`, 'gif')
+      } else {
+        pictureUrl = await uploadStaticImage(runtimeConfig, pictureFile, `posts/${postId}`, 'webp')
+      }
+    }
+
+    const sanitizedContent = purify.sanitize(postText, {
       ALLOWED_TAGS: ['b', 'i', 'em', 'strong', 'a', 'p', 'br'],
       ALLOWED_ATTR: ['href', 'target'],
     });
-    
-    await documentReference.update({
+  
+    const updateObject: PARTIAL_RAW_USER_POST_UPDATED_DATA = {
       text: sanitizedContent,
+      picture_url: pictureUrl ? pictureUrl : emptyImageField ? '' : undefined,
       updated_at: new Date(),
-    })
+    }
+
+    await documentReference.update(updateObject)
 
     await redis.del(`post:${postId}`)
 
-    return { ok: true }
+    return updateObject
     
   } catch (error) {
     console.error(error)

@@ -1,5 +1,15 @@
 <template>
   <div class="app-new-post">
+    <UButton
+      v-if="showCloseButton"
+      class="close-edition-modal-button"
+      size="sm"
+      :ui="{ rounded: 'rounded-full' }"
+      color="gray"
+      variant="ghost"
+      icon="i-heroicons-x-mark-solid"
+      @click="modalStore.closeNewPostModal()"
+    />
     <div class="app-new-post__profile">
       <UAvatar :src="userImage" size="xs" />
       <span><b>@{{ userName }}</b></span>
@@ -28,7 +38,7 @@
       <editor-content :editor="editor" class="editor-content" />
     </div>
     <div class="app-new-post__image-preview" v-if="imagePreview" ref="previewImageElement" :style="maxPreviewImageHeightStyle">
-      <UTooltip class="close-button" :popper="{ placement: 'left'}" text="Remove">
+      <UTooltip class="close-button" :popper="{ placement: 'right'}" text="Remove">
         <UButton
           size="xs"
           :ui="{ rounded: 'rounded-full' }"
@@ -71,6 +81,7 @@ import { Post } from '~/classes/post.class'
 
 const props = defineProps<{
   postToReply?: string,
+  showCloseButton?: boolean,
 }>()
 
 const { session } = useSession()
@@ -263,6 +274,12 @@ async function publishPost() {
   background-color: #242429;
   border-bottom: 1px solid #333;
 
+  .close-edition-modal-button {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+  }
+
   &:last-child {
     border-bottom: none;
   }
@@ -292,7 +309,7 @@ async function publishPost() {
     .close-button {
       position: absolute;
       top: 0.5rem;
-      right: 0.5rem;
+      left: 0.5rem;
     }
   }
 

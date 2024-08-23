@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import type { IPost } from '~/types/post.interface'
+import type { PARTIAL_RAW_USER_POST_UPDATED_DATA } from '~/types/api-spec.types'
 
 export const useEditStore = defineStore({
   id: 'editStore',
@@ -79,7 +80,7 @@ export const useEditStore = defineStore({
       }
     },
 
-    async saveEditedPost(newContent: string) {
+    async saveEditedPost(newContent: string, newImage?: File) {
       if (!this.postToEdit) {
         return
       }
@@ -93,14 +94,27 @@ export const useEditStore = defineStore({
       try {
         this.updating = true
 
-        await $fetch(`/api/posts/${this.postToEdit.id}`, {
+        const formData = new FormData()
+
+        formData.append('text', newContent)
+
+        if (newImage) {
+          formData.append('picture', newImage)
+        }
+
+        if (!newImage || !this.postToEdit.picture_url) {
+          formData.append('empty_image_field', 'true')
+        }
+
+
+        const resultOfUpdate: PARTIAL_RAW_USER_POST_UPDATED_DATA =  await $fetch(`/api/posts/${this.postToEdit.id}`, {
           method: 'PATCH',
-          body: {
-            text: newContent,
-          }
+          body: formData
         })
 
-        this.postToEdit.text = newContent
+        this.postToEdit.text = resultOfUpdate.text
+        this.postToEdit.picture_url = resultOfUpdate.picture_url
+        this.postToEdit.updated_at = resultOfUpdate.updated_at
 
         favsStore.updateRecentEditedFavPost(this.postToEdit)
         postsStore.updateRecentEditedPost(this.postToEdit)
@@ -121,7 +135,7 @@ export const useEditStore = defineStore({
         toast.add({
           color: 'green',
           icon: 'i-heroicons-check',
-          title: 'Se guardó tu chisme',
+          title: 'Your post has been saved successfully',
         })
       } catch (_) {
         modalsStore.closeEditPostModal()
@@ -129,8 +143,8 @@ export const useEditStore = defineStore({
         toast.add({
           color: 'red',
           icon: 'i-heroicons-x-mark',
-          title: 'Ocurrió un error al guardar',
-          description: 'Intenta nuevamente en unos minutos'
+          title: `An error occurred`,
+          description: 'Please, try again in a few seconds'
         })
       } finally {
         this.updating = false

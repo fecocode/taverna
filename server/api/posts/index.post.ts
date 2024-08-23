@@ -95,8 +95,6 @@ export default defineEventHandler(async (event) => {
       }
     }
 
-    console.log(pictureUrl)
-
     const newPost: STOREABLE_POST = {
       id: newPostId,
       text: sanitizedContent,

@@ -19,7 +19,7 @@
       <AppSignUpModal />
     </UModal>
     <UModal v-model="modalsStore.isNewPostModalOpen" :ui="{ background: 'bg-transparent dark:bg-transparent', width: 'var(--max-layout-width)' }">
-      <AppNewPost />
+      <AppNewPost show-close-button />
     </UModal>
     <UModal v-model="modalsStore.isRickRollModalOpen" :ui="{ background: 'bg-transparent dark:bg-transparent', width: 'var(--max-layout-width)' }">
       <AppRickRoll />

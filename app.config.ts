@@ -20,6 +20,7 @@ export default defineAppConfig({
     },
     modal: {
       overlay: {
+        base: 'fixed inset-0 transition-opacity backdrop-blur-sm',
         background: 'bg-zinc-200/75 dark:bg-zinc-950/75'
       }
     },

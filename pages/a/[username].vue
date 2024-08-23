@@ -118,6 +118,7 @@ onMounted(() => {
 
       if (editedPostIndexInUserPostsArray !== -1) {
         posts.value[editedPostIndexInUserPostsArray].text = lastTrigger.data.newPostData.text
+        posts.value[editedPostIndexInUserPostsArray].picture_url = lastTrigger.data.newPostData.picture_url
         posts.value[editedPostIndexInUserPostsArray].updated_at = lastTrigger.data.newPostData.updated_at
       }
     }

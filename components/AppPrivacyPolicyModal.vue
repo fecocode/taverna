@@ -1,7 +1,17 @@
 <template>
   <UCard>
     <template #header>
-      <UButton label="Cerrar" icon="i-heroicons-x-mark-solid" color="black" size="xs" @click="$emit('close')"/>
+      <div class="flex justify-end">
+        <UButton
+          size="sm"
+          :ui="{ rounded: 'rounded-full' }"
+          color="gray"
+          variant="soft"
+          icon="i-heroicons-x-mark-solid"
+          class="close-button"
+          @click="$emit('close')"
+        />
+      </div>
     </template>
     <h2 class="text-2xl font-semibold mb-4">Política de Privacidad de Solopreneurs</h2>
     <p class="mb-4">En Solopreneurs, valoramos tu privacidad y nos comprometemos a proteger tus datos personales. Esta política de privacidad describe cómo recopilamos, utilizamos y compartimos tus datos cuando utilizas nuestra aplicación móvil y sitio web ("la App").</p>

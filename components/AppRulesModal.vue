@@ -1,7 +1,17 @@
 <template>
   <UCard>
     <template #header>
-      <UButton label="Cerrar" icon="i-heroicons-x-mark-solid" color="black" size="xs" @click="$emit('close')"/>
+      <div class="flex justify-end">
+        <UButton
+          size="sm"
+          :ui="{ rounded: 'rounded-full' }"
+          color="gray"
+          variant="soft"
+          icon="i-heroicons-x-mark-solid"
+          class="close-button"
+          @click="$emit('close')"
+        />
+      </div>
     </template>
     <h2 class="text-2xl font-semibold mb-4">Código de conducta de Solopreneurs</h2>
     <p class="text-base font-semibold mb-2">1. Respeto y Consideración</p>

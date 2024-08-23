@@ -40,6 +40,12 @@ export type RAW_USER_POST_RESPONSE_DATA = {
   picture_url?: string;
 }
 
+export type PARTIAL_RAW_USER_POST_UPDATED_DATA = {
+  text: string;
+  picture_url?: string;
+  updated_at: Date;
+}
+
 export type RAW_NEW_FAV_STORED_RESPONSE = {
   created_at: Date,
   post_id: string,

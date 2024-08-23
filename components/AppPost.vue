@@ -63,9 +63,9 @@
       v-if="pictureUrl && !readonly"
       ref="previewImageElement"
       :style="maxPreviewImageHeightStyle"
-      @click.stop
+      @click.stop="showImageViewerModal = true"
     >
-      <USkeleton v-if="!imageLoaded" class="h-[300px] w-full" :ui="{ background: 'bg-zinc-100 dark:bg-zinc-900' }" />
+      <USkeleton v-if="!imageLoaded" class="absolute inset-0" :ui="{ background: 'bg-zinc-100 dark:bg-zinc-900' }" />
       <img :class="{ invisible: !imageLoaded }" :src="pictureUrl" :onload="handlePreviewLoad" />
     </div>
     <div class="app-post__fav-count-display" v-if="updatedAt">
@@ -98,6 +98,12 @@
       </UTooltip>
     </div>
   </div>
+  <UModal
+    v-if="post.picture_url" v-model="showImageViewerModal"
+    :ui="{ background: 'bg-transparent dark:bg-transparent', container: 'flex min-h-full items-center justify-center text-center', width: 'w-full sm:max-w-screen-lg' }"
+  >
+    <AppPostImageViewer :image-src="post.picture_url" @close="showImageViewerModal = false" />
+  </UModal>
 </template>
 
 <script lang="ts" setup>
@@ -137,6 +143,7 @@ const favLoading = ref(false)
 const maxPreviewImageHeight = ref()
 const previewImageElement = ref()
 const imageLoaded = ref(false)
+const showImageViewerModal = ref(false)
 
 function getTimeAgo(date: Date) {
   const now = moment();
