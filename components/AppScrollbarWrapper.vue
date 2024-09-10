@@ -8,7 +8,7 @@
   </component>
 </template>
 
-<script lang="ts" scoped>
+<script scoped>
 import Simplebar from 'simplebar-vue'
 import 'simplebar-vue/dist/simplebar.min.css'
 
@@ -35,6 +35,11 @@ export default {
       default: false,
     },
   },
+  data() {
+    return {
+      scrollXPosition: 0,
+    }
+  },
   computed: {
     themeClassName() {
       return `app-scrollbar-container--${this.theme}-theme`
@@ -58,6 +63,9 @@ export default {
   --track-margin-bottom: 0px;
 
   :deep {
+    .simplebar-track {
+      display: none;
+    }
     .simplebar-track.simplebar-vertical {
       padding: 0;
       margin-top: calc(4px + var(--track-margin-top));
@@ -70,7 +78,7 @@ export default {
     }
     .simplebar-scrollbar::before {
       background-color: #333;
-      opacity: 1 !important;
+      opacity: 0 !important;
       width: 4px;
       border-radius: 4px;
 

@@ -15,6 +15,7 @@
       </div>
       <AppFooter class="desktop-footer" />
     </div>
+    <AppSidebar class="hidden lg:block" />
     <UNotifications v-if="isLive"/>
   </div>
 </template>

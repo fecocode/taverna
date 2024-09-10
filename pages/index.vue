@@ -18,6 +18,7 @@ function removeActionParam() {
 
 const isSignInModalOpen = computed(() => modalsStore.isSignInModalOpen)
 const isSignUpModalOpen = computed(() => modalsStore.isSignUpModalOpen)
+const showSearchModal = ref(false)
 
 const posts = computed(() => postsStore.mainFeed)
 const isLoading = computed(() => postsStore.loadingMainFeed)
@@ -75,6 +76,17 @@ watch(isSignUpModalOpen, (isOpen) => {
       <SignedIn>
         <AppNewPost />
       </SignedIn>
+      <div class="posts-wrapper__filters lg:hidden">
+        <UButton
+          icon=i-heroicons-adjustments-horizontal-solid
+          label="Filter by category"
+          color="gray"
+          size="xs"
+          variant="ghost"
+          :ui="{ rounded: 'rounded-full' }"
+          @click="showSearchModal = true"
+        />
+      </div>
       <template v-if="isLoading">
         <AppSkeletonPost />
         <AppSkeletonPost />
@@ -106,6 +118,9 @@ watch(isSignUpModalOpen, (isOpen) => {
     size="xs"
     @click="postsStore.updateMainFeedPostList()"
   />
+  <UModal v-model="showSearchModal" :ui="{ container: 'flex min-h-full items-start lg:items-start justify-center text-center', width: 'w-full sm:max-w-screen-lg' }">
+    <AppCategoryFilterModal @close="showSearchModal = false"/>
+  </UModal>
 </template>
 
 <style lang="scss" scoped>
@@ -129,5 +144,20 @@ watch(isSignUpModalOpen, (isOpen) => {
   flex-direction: column;
   padding: 0;
   position: relative;
+
+  &__filters {
+    position: sticky;
+    top: -2px;
+    background-color: #1f1f23;
+    border-bottom: 1px solid #333;
+    z-index: 10;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    display: flex;
+    justify-content: flex-end;
+    @media (min-width: 1024px) {
+      display: none; 
+    }
+  }
 }
 </style>

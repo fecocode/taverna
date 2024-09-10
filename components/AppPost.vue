@@ -177,7 +177,7 @@ const maxPreviewImageHeightStyle = computed(() => {
 function handlePreviewLoad() {
   imageLoaded.value = true
 
-  const {width} = previewImageElement?.value.getBoundingClientRect() || 0
+  const {width} = previewImageElement?.value?.getBoundingClientRect() || 0
 
   maxPreviewImageHeight.value = 16 * width / 9
 }

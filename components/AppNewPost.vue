@@ -14,14 +14,14 @@
       <UAvatar :src="userImage" size="xs" />
       <span><b>@{{ userName }}</b></span>
     </div>
-    <div class="flex space-x-1">
+    <div class="flex space-x-0">
       <UInput type="file" class="hidden" v-model="fileInputValue" ref="fileInput" accept="image/*" @change="handleFileUploadChange" />
       <UButton
         v-if="!postToReply"
         color="gray"
         variant="ghost"
         label="Add category"
-        icon="i-heroicons-tag-16-solid"
+        icon="i-heroicons-hashtag-16-solid"
         size="2xs"
       />
       <UButton
@@ -146,7 +146,7 @@ onUnmounted(() => {
 })
 
 function handlePreviewLoad() {
-  const {width} = previewImageElement.value.getBoundingClientRect()
+  const {width} = previewImageElement?.value?.getBoundingClientRect() || 0
 
   maxPreviewImageHeight.value = `${16 * width / 9}`
 }

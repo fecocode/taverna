@@ -15,6 +15,17 @@
           />
         </NuxtLink>
       </UTooltip>
+      <UTooltip :popper="{ placement: 'right'}" text="Notifications">
+        <NuxtLink :to="{ name: 'index' }">
+          <UButton
+            icon="i-heroicons-bell"
+            size="xl"
+            :ui="{ rounded: 'rounded-full' }"
+            :color="isHighlighted('lalal') ? 'yellow' : 'gray'"
+            variant="ghost"
+          />
+        </NuxtLink>
+      </UTooltip>
       <UTooltip :popper="{ placement: 'right' }" text="Liked posts">
         <NuxtLink :to="{ name: 'liked-posts' }">
           <UButton
@@ -33,6 +44,18 @@
             size="xl"
             :ui="{ rounded: 'rounded-full' }"
             :color="isCurrentRouteUserProfile ? 'yellow' : 'gray'"
+            variant="ghost"
+          />
+        </NuxtLink>
+      </UTooltip>
+      <UDivider />
+      <UTooltip :popper="{ placement: 'right'}" text="Community products">
+        <NuxtLink :to="{ name: 'index' }">
+          <UButton
+            icon="i-heroicons-squares-plus"
+            size="xl"
+            :ui="{ rounded: 'rounded-full' }"
+            :color="isHighlighted('lelal') ? 'yellow' : 'gray'"
             variant="ghost"
           />
         </NuxtLink>
@@ -181,11 +204,8 @@ function isHighlighted(routeName: string) {
   background-color: #1f1f23;
   height: 100%;
   padding: 1rem;
-  padding-right: 2rem;
-  margin-right: -1rem;
   @media (max-width: 768px) {
     padding: 0.75rem 0.5rem;
-    padding-right: 1.5rem;
   }
   &__main, &__bottom {
     display: flex;

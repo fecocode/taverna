@@ -19,7 +19,7 @@
         color="gray"
         variant="ghost"
         label="Add category"
-        icon="i-heroicons-tag-16-solid"
+        icon="i-heroicons-hashtag-16-solid"
         size="2xs"
       />
       <UButton
@@ -168,7 +168,7 @@ function handleUploadImageClick() {
 }
 
 function handlePreviewLoad() {
-  const {width} = previewImageElement.value.getBoundingClientRect()
+  const {width} = previewImageElement?.value?.getBoundingClientRect() || 0
 
   maxPreviewImageHeight.value = `${16 * width / 9}`
 }
