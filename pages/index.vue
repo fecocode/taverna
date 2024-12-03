@@ -109,7 +109,7 @@ watch(() => route.query, async () => {
         />
         <div v-if="posts.length === 0" class="flex justify-center items-center space-x-3 text-zinc-400  py-12">
           <UIcon name="i-heroicons-exclamation-triangle-solid" class="text-3xl" />
-          <span>No posts yet</span>
+          <span>Aún no hay nada por acá</span>
         </div>
       </template>
     </div>

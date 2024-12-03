@@ -119,6 +119,7 @@ import moment from 'moment'
 import { useAuth } from 'vue-clerk'
 import type { IPost } from '@/types/post.interface'
 import DOMPurify from 'dompurify'
+import { getCategoryOfRoute } from '~/constants/supported-post-categories.constants';
 
 const toast = useToast()
 const favsStore = useFavsStore()
@@ -244,7 +245,13 @@ const abbreviateFavCount = computed(() => {
 })
 
 const postCategory = computed(() => {
-  return props.post.category || ''
+
+  const categoryRoute = props.post.category
+  if (categoryRoute) {
+    return getCategoryOfRoute(categoryRoute) || ''
+  }
+
+  return ''
 })
 
 

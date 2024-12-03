@@ -9,6 +9,8 @@
         color="sky"
         size="xs"
         label="Ver el repositorio"
+        to="https://github.com/fecocode/Hackgento"
+        target="_blank"
       >
         <template #leading>
           <IconGithubBox />

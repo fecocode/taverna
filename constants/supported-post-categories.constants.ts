@@ -33,4 +33,8 @@ export function getRouteOfCategory(category: string) {
   return categoriesData.find(c => c.name === category)?.route || ''
 }
 
+export function getCategoryOfRoute(route: string) {
+  return categoriesData.find(c => c.route === route)?.name || undefined
+}
+
 export default categoriesData
