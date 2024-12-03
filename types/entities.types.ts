@@ -4,6 +4,7 @@ export type STOREABLE_POST = {
   updated_at: Date | null;
   deleted_at: Date | null;
   text: string;
+  category: string | null;
   user_id: string;
   deleted: boolean;
   parent_post_id: string | null;

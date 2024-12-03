@@ -4,6 +4,7 @@ import admin from 'firebase-admin';
 import { initializeApp } from 'firebase-admin/app';
 import { RAW_USER_POST_RESPONSE_DATA } from "~/types/api-spec.types";
 import { createClerkClient } from "@clerk/clerk-sdk-node"
+import { getPostsByCategory } from "~/server/utils/posts.utils";
 
 function parseFirestoreTimeStampFormatToDate(firestoreFormatedDate: {_seconds: number, _nanoseconds: number} | null) {
   if (firestoreFormatedDate) {
@@ -32,7 +33,15 @@ export default defineEventHandler(async (event) => {
     publishableKey: runtimeConfig.public.CLERK_PUBLISHABLE_KEY!,
   })
 
+  const { category } = getQuery(event);
+
+
+
   try {
+    if (category && typeof category === 'string') {
+      return await getPostsByCategory(category, clerk, redis)
+    }
+
     const recentPostIds = await redis.lrange('recent_posts', 0, 99);
     const recentPostsObjects = []
 
@@ -56,6 +65,7 @@ export default defineEventHandler(async (event) => {
         const parsedFoundedPost = {
           id: storedPostOnDatabase.id,
           text: storedPostOnDatabase.text,
+          category: storedPostOnDatabase.category,
           created_at: parseFirestoreTimeStampFormatToDate(storedPostOnDatabase.created_at),
           updated_at: parseFirestoreTimeStampFormatToDate(storedPostOnDatabase.updated_at),
           deleted_at: parseFirestoreTimeStampFormatToDate(storedPostOnDatabase.deleted_at),
@@ -131,6 +141,7 @@ export default defineEventHandler(async (event) => {
       const postFormatedForFrontend: RAW_USER_POST_RESPONSE_DATA = {
         id: postObject.id,
         text: postObject.text,
+        category: postObject.category,
         created_at: postObject.created_at,
         updated_at: postObject.updated_at,
         user_id: postObject.user_id,

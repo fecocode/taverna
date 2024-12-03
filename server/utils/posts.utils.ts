@@ -3,7 +3,7 @@ import { RAW_USER_POST_RESPONSE_DATA } from "~/types/api-spec.types";
 import { ClerkClient } from "@clerk/clerk-sdk-node";
 import Redis from "ioredis";
 
-function parseFirestoreTimeStampFormatToDate(firestoreFormatedDate: {_seconds: number, _nanoseconds: number} | null) {
+export function parseFirestoreTimeStampFormatToDate(firestoreFormatedDate: {_seconds: number, _nanoseconds: number} | null) {
   if (firestoreFormatedDate) {
     return new Date(
       firestoreFormatedDate._seconds * 1000 + firestoreFormatedDate._nanoseconds / 1000000
@@ -235,6 +235,7 @@ export async function getPostById(
     const parsedFoundedPost = {
       id: storedPostOnDatabase.id,
       text: storedPostOnDatabase.text,
+      category: storedPostOnDatabase.category,
       created_at: parseFirestoreTimeStampFormatToDate(storedPostOnDatabase.created_at),
       updated_at: parseFirestoreTimeStampFormatToDate(storedPostOnDatabase.updated_at),
       deleted_at: parseFirestoreTimeStampFormatToDate(storedPostOnDatabase.deleted_at),
@@ -253,6 +254,7 @@ export async function getPostById(
   return {
     id: postObject.id,
     text: postObject.text,
+    category: postObject.category,
     created_at: postObject.created_at,
     updated_at: postObject.updated_at,
     user_id: postObject.user_id,
@@ -283,6 +285,43 @@ export async function getLastAuthorPosts(authorId: string, clerk: ClerkClient, r
 
     if (post && !post.deleted) {
       posts.push(post)
+    }
+  }
+
+  return posts
+}
+
+export async function getPostsByCategory(category: string, clerk: ClerkClient, redis: Redis): Promise<RAW_USER_POST_RESPONSE_DATA[]> {
+  const POST_LIMIT = 100
+  const posts: RAW_USER_POST_RESPONSE_DATA[] = []
+
+  const storedPostsIdsOnCache = await redis.zrevrange(`category:${category}:posts`, 0, POST_LIMIT - 1)
+
+  for (let cachedPostId of storedPostsIdsOnCache) {
+    const post = await getPostById(cachedPostId, clerk, redis)
+    if (post) {
+      posts.push(post)
+    }
+  }
+
+  if (posts.length < POST_LIMIT) {
+    const storedPostsOnDatabase = await admin
+      .firestore()
+      .collection('user-posts')
+      .orderBy('created_at', 'desc')
+      .where('deleted', '!=', true)
+      .where('category', '==', category)
+      .get()
+
+    const filteredPosts = storedPostsOnDatabase.docs.filter(
+      (doc) => !storedPostsIdsOnCache.includes(doc.id)
+    )
+    
+    for (let savedOnDatabasePostId of filteredPosts) {
+      const savedOnDatabasePost = await getPostById(savedOnDatabasePostId.id, clerk, redis)
+      if (savedOnDatabasePost) {
+        posts.push(savedOnDatabasePost)
+      }
     }
   }
 

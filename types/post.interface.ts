@@ -18,4 +18,5 @@ export interface IPost {
   deleted?: boolean;
   deleted_at?: Date;
   picture_url?: string;
+  category?: string;
 }

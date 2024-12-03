@@ -6,7 +6,7 @@ const router = useRouter()
 const modalsStore = useModalsStore()
 const postsStore = usePostsStore()
 
-const { action, shared } = route.query
+const { action, category } = route.query
 
 const auth = useAuth()
 
@@ -22,7 +22,6 @@ const showSearchModal = ref(false)
 
 const posts = computed(() => postsStore.mainFeed)
 const isLoading = computed(() => postsStore.loadingMainFeed)
-const thereAreNewPosts = computed(() => postsStore.newPosts.length > 0)
 
 const scrollbarKey = computed(() => postsStore.mainFeed[0]?.id || 'scrollbar')
 
@@ -46,15 +45,9 @@ onMounted(async () => {
     }
   }
 
-  if (shared) {
-    await postsStore.fetchMainFeed(`${shared}`)
-  } else {
-    await postsStore.fetchMainFeed()
-  }
-})
+  const parsedCategoryName = category ? `${category}` : undefined
 
-onUnmounted(() => {
-  postsStore.clearRefreshInterval()
+  await postsStore.fetchMainFeed(parsedCategoryName)
 })
 
 watch(isSignInModalOpen, (isOpen) => {
@@ -67,6 +60,14 @@ watch(isSignUpModalOpen, (isOpen) => {
   if (!isOpen && action === 'sign-up') {
     removeActionParam()
   }
+})
+
+watch(() => route.query, async () => {
+  const { category } = route.query
+
+  const parsedCategoryName = category ? `${category}` : undefined
+
+  await postsStore.fetchMainFeed(parsedCategoryName)
 })
 </script>
 
@@ -106,18 +107,13 @@ watch(isSignUpModalOpen, (isOpen) => {
           :fav-count="post.fav_count"
           :post="post"
         />
+        <div v-if="posts.length === 0" class="flex justify-center items-center space-x-3 text-zinc-400  py-12">
+          <UIcon name="i-heroicons-exclamation-triangle-solid" class="text-3xl" />
+          <span>No posts yet</span>
+        </div>
       </template>
     </div>
   </AppScrollbarWrapper>
-  <UButton
-    v-if="thereAreNewPosts"
-    label="New posts"
-    color="yellow"
-    class="refresh-button"
-    icon="i-heroicons-arrow-small-up"
-    size="xs"
-    @click="postsStore.updateMainFeedPostList()"
-  />
   <UModal v-model="showSearchModal" :ui="{ container: 'flex min-h-full items-start lg:items-start justify-center text-center', width: 'w-full sm:max-w-screen-lg' }">
     <AppCategoryFilterModal @close="showSearchModal = false"/>
   </UModal>

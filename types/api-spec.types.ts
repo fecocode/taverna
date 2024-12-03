@@ -27,6 +27,7 @@ export type RAW_USER_POST_RESPONSE_DATA = {
   deleted_at?: Date;
   deleted?: boolean;
   text: string;
+  category?: string;
   user_id: string;
   author: {
     username: string;
@@ -43,6 +44,7 @@ export type RAW_USER_POST_RESPONSE_DATA = {
 export type PARTIAL_RAW_USER_POST_UPDATED_DATA = {
   text: string;
   picture_url?: string;
+  category?: string | null;
   updated_at: Date;
 }
 

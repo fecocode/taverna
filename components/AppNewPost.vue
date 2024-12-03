@@ -17,13 +17,27 @@
     <div class="flex space-x-0">
       <UInput type="file" class="hidden" v-model="fileInputValue" ref="fileInput" accept="image/*" @change="handleFileUploadChange" />
       <UButton
-        v-if="!postToReply"
+        v-if="showCategorySelectorButton"
         color="gray"
         variant="ghost"
         label="Add category"
         icon="i-heroicons-hashtag-16-solid"
         size="2xs"
+        @click="showSelectCategoryModal = true"
       />
+      <UButton
+        v-else-if="postSelectedCategory"
+        color="yellow"
+        variant="soft"
+        :label="postSelectedCategory"
+        icon="i-heroicons-hashtag-16-solid"
+        size="2xs"
+        @click="postSelectedCategory = undefined"
+      >
+        <template #trailing>
+          <UIcon name="i-heroicons-x-mark-solid" class="text-white font-sm ml-2" />
+        </template>
+      </UButton>
       <UButton
         v-if="!imagePreview"
         color="gray"
@@ -65,6 +79,9 @@
       </UButton>
     </div>
   </div>
+  <UModal v-model="showSelectCategoryModal" :ui="{ container: 'flex min-h-full items-start lg:items-start justify-center text-center', width: 'w-full sm:max-w-screen-lg' }">
+    <AppCategorySelectorModal @close="showSelectCategoryModal = false" @select="handleSelectCategory" />
+  </UModal>
 </template>
 
 <script lang="ts" setup>
@@ -78,6 +95,7 @@ import DOMPurify from 'dompurify'
 import { useSession } from 'vue-clerk'
 import type { RAW_CREATE_USER_POST_REQUEST_BODY, RAW_USER_POST_RESPONSE_DATA } from '~/types/api-spec.types'
 import { Post } from '~/classes/post.class'
+import { getRouteOfCategory } from '~/constants/supported-post-categories.constants'
 
 const props = defineProps<{
   postToReply?: string,
@@ -96,6 +114,8 @@ const publishing = ref(false)
 
 const limit = 5000;
 
+const showSelectCategoryModal = ref(false)
+const postSelectedCategory = ref()
 const postsStore = usePostsStore()
 const fileToUpload = ref()
 const fileInputValue = ref()
@@ -127,6 +147,10 @@ const characterCount = computed(() => {
   const characters = editor.value?.storage.characterCount.characters() || 0
 
   return `${characters} / ${limit}`
+})
+
+const showCategorySelectorButton = computed(() => {
+  return !props.postToReply && !postSelectedCategory.value
 })
 
 const canSave = computed(() => {
@@ -175,6 +199,11 @@ function handleFileUploadChange(fileList: FileList) {
   } 
 }
 
+function handleSelectCategory(category: string) {
+  postSelectedCategory.value = category
+  showSelectCategoryModal.value = false
+}
+
 function handleRemoveImage() {
   fileInputValue.value = null
   imagePreview.value = null
@@ -206,6 +235,10 @@ async function publishPost() {
 
       if (fileToUpload.value) {
         formData.append('picture', fileToUpload.value)
+      }
+
+      if (postSelectedCategory.value) {
+        formData.append('category', postSelectedCategory.value ? getRouteOfCategory(postSelectedCategory.value) : '')
       }
   
       const response = await useFetch<RAW_USER_POST_RESPONSE_DATA>('/api/posts', {

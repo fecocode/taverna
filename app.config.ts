@@ -32,6 +32,7 @@ export default defineAppConfig({
         },
         yellow: {
           ghost: 'text-yellow-800 dark:text-yellow-400 hover:text-yellow-900 dark:hover:text-yellow-500 hover:bg-zinc-50 dark:hover:bg-zinc-800 focus-visible:ring-inset focus-visible:ring-2 focus-visible:ring-zinc-500 dark:focus-visible:ring-zink-400',
+          soft: 'text-yellow-800 dark:text-yellow-400 hover:text-yellow-900 dark:hover:text-yellow-500 bg-zinc-50 dark:bg-zinc-800 focus-visible:ring-inset focus-visible:ring-2 focus-visible:ring-zinc-500 dark:focus-visible:ring-zink-400',
         }
       }
     },

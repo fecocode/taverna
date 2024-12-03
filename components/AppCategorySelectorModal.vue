@@ -2,7 +2,7 @@
   <UCard>
     <template #header>
       <div class="flex justify-between">
-        <h3 class="font-semibold text-xl">Filter by category</h3>
+        <h3 class="font-semibold text-xl">Select post category</h3>
         <UButton
           size="sm"
           :ui="{ rounded: 'rounded-full' }"
@@ -33,28 +33,27 @@
         </template>
       </UInput>
       <div class="flex flex-wrap items-center justify-start gap-x-1 gap-y-2">
-        <NuxtLink :to="{ name: 'index', query: {category: getRouteOfCategory(category)} }" v-for="category in categories">
-          <UButton
-            icon="i-heroicons-hashtag-16-solid"
-            :label="category"
-            color="gray"
-            size="md"
-            variant="soft"
-            :ui="{ rounded: 'rounded-full' }"
-            @click="$emit('close')"
-          />
-        </NuxtLink>
+        <UButton
+          v-for="category in categories"
+          icon="i-heroicons-hashtag-16-solid"
+          :label="category"
+          color="gray"
+          size="md"
+          variant="soft"
+          :ui="{ rounded: 'rounded-full' }"
+          @click="$emit('select', category)"
+        />
       </div>
     </div>
   </UCard>
 </template>
 
 <script lang="ts" setup>
-import supportedPostCategories, { getRouteOfCategory } from '~/constants/supported-post-categories.constants';
+import supportedPostCategories from '~/constants/supported-post-categories.constants';
 
 const textSearch = ref('')
 
-defineEmits(['close'])
+defineEmits(['close', 'select'])
 
 const categories = computed(() => {
   const categoriesNames = supportedPostCategories.map((c) => c.name)

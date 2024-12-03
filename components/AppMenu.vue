@@ -15,7 +15,7 @@
           />
         </NuxtLink>
       </UTooltip>
-      <UTooltip :popper="{ placement: 'right'}" text="Notifications">
+      <!-- <UTooltip :popper="{ placement: 'right'}" text="Notifications">
         <NuxtLink :to="{ name: 'index' }">
           <UButton
             icon="i-heroicons-bell"
@@ -25,7 +25,7 @@
             variant="ghost"
           />
         </NuxtLink>
-      </UTooltip>
+      </UTooltip> -->
       <UTooltip :popper="{ placement: 'right' }" text="Liked posts">
         <NuxtLink :to="{ name: 'liked-posts' }">
           <UButton
@@ -49,7 +49,7 @@
         </NuxtLink>
       </UTooltip>
       <UDivider />
-      <UTooltip :popper="{ placement: 'right'}" text="Community products">
+      <!-- <UTooltip :popper="{ placement: 'right'}" text="Community products">
         <NuxtLink :to="{ name: 'index' }">
           <UButton
             icon="i-heroicons-squares-plus"
@@ -60,7 +60,7 @@
           />
         </NuxtLink>
       </UTooltip>
-      <UDivider class="mb-2"/>
+      <UDivider class="mb-2"/> -->
       <SignedIn>
         <UTooltip :popper="{ placement: 'right' }" text="New post">
           <UButton

@@ -41,7 +41,7 @@ export const usePostsStore = defineStore({
         post.fav_count = favCount
       }
     },
-    async fetchMainFeed(sharedPostId?: string) {
+    async fetchMainFeed(category?: string) {
       if (this.loadingMainFeed) {
         return
       }
@@ -51,8 +51,8 @@ export const usePostsStore = defineStore({
       try {
         this.loadingMainFeed = true
 
-        if (sharedPostId) {
-          const response = await $fetch<RAW_USER_POST_RESPONSE_DATA[]>(`/api/posts/${sharedPostId}`)
+        if (category) {
+          const response = await $fetch<RAW_USER_POST_RESPONSE_DATA[]>(`/api/posts?category=${category}`)
 
           this.mainFeed = response.map((rawPost) => {
             return new Post(rawPost)
@@ -62,10 +62,8 @@ export const usePostsStore = defineStore({
   
           this.mainFeed = response.map((rawPost) => {
             return new Post(rawPost)
-          })          
+          })
         }
-
-        this.setRefreshInterval()
 
       } catch {
         toast.add({
@@ -78,43 +76,9 @@ export const usePostsStore = defineStore({
         this.loadingMainFeed = false
       }
     },
-    async refreshMainFeed() {
-      const toast = useToast()
-
-      try {
-        const response = await $fetch<RAW_USER_POST_RESPONSE_DATA[]>('/api/posts')
-
-        const parsedPosts = response.map((rawPost) => new Post(rawPost))
-
-        const currentPostsIds = this.mainFeed.map((post) => post.id)
-        const removedPostsIds = this.removedPosts.map((post) => post.id)
-
-        this.newPosts = parsedPosts
-          .filter((newPost) => !currentPostsIds.includes(newPost.id))
-          .filter((newPost) => !removedPostsIds.includes(newPost.id))
-      } catch (_) {}
-    },
     updateMainFeedPostList() {
       this.mainFeed = [...this.newPosts, ...this.mainFeed]
       this.newPosts = []
-    },
-    fetchUsersPosts() {
-
-    },
-
-    setRefreshInterval() {
-      if (!!this.refreshPostsInterval) {
-        return
-      }
-
-      this.refreshPostsInterval = setInterval(async () => {
-        await this.refreshMainFeed()
-      }, 1000*60) // One minute
-    },
-    clearRefreshInterval() {
-      if (this.refreshPostsInterval) {
-        clearInterval(this.refreshPostsInterval)
-      }
     }
   }
 })

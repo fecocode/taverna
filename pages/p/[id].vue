@@ -116,6 +116,7 @@ onMounted(() => {
       if (post.value.id === lastTrigger.data.postId) {
         post.value.text = lastTrigger.data.newPostData.text
         post.value.picture_url = lastTrigger.data.newPostData.picture_url
+        post.value.category = lastTrigger.data.newPostData.category
         post.value.updated_at = lastTrigger.data.newPostData.updated_at
         return
       }
@@ -126,6 +127,7 @@ onMounted(() => {
         if (editedPostIndexOnRepliesArray !== -1) {
           post.value.replies[editedPostIndexOnRepliesArray].text = lastTrigger.data.newPostData.text
           post.value.replies[editedPostIndexOnRepliesArray].picture_url = lastTrigger.data.newPostData.picture_url
+          post.value.replies[editedPostIndexOnRepliesArray].category = lastTrigger.data.newPostData.category
           post.value.replies[editedPostIndexOnRepliesArray].updated_at = lastTrigger.data.newPostData.updated_at
         }
       }

@@ -16,12 +16,27 @@
     <div class="flex space-x-1">
       <UInput type="file" class="hidden" v-model="fileInputValue" ref="fileInput" accept="image/*" @change="handleFileUploadChange" />
       <UButton
+        v-if="showCategorySelectorButton"
         color="gray"
         variant="ghost"
         label="Add category"
         icon="i-heroicons-hashtag-16-solid"
         size="2xs"
+        @click="showSelectCategoryModal = true"
       />
+      <UButton
+        v-else-if="postSelectedCategory"
+        color="yellow"
+        variant="soft"
+        :label="postSelectedCategory"
+        icon="i-heroicons-hashtag-16-solid"
+        size="2xs"
+        @click="postSelectedCategory = undefined"
+      >
+        <template #trailing>
+          <UIcon name="i-heroicons-x-mark-solid" class="text-white font-sm ml-2" />
+        </template>
+      </UButton>
       <UButton
         v-if="!imagePreview"
         color="gray"
@@ -62,6 +77,9 @@
       />
     </div>
   </div>
+  <UModal v-model="showSelectCategoryModal" :ui="{ container: 'flex min-h-full items-start lg:items-start justify-center text-center', width: 'w-full sm:max-w-screen-lg' }">
+    <AppCategorySelectorModal @close="showSelectCategoryModal = false" @select="handleSelectCategory" />
+  </UModal>
 </template>
 
 <script lang="ts" setup>
@@ -73,6 +91,7 @@ import Link from '@tiptap/extension-link'
 import DOMPurify from 'dompurify'
 
 import { useSession } from 'vue-clerk'
+import { getRouteOfCategory } from '~/constants/supported-post-categories.constants'
 
 const { session } = useSession()
 const toast = useToast()
@@ -112,6 +131,8 @@ const imagePreview = ref()
 const fileInput = ref()
 const previewImageElement = ref()
 const maxPreviewImageHeight = ref('')
+const showSelectCategoryModal = ref(false)
+const postSelectedCategory = ref()
 
 const characterCount = computed(() => {
   const characters = editor.value?.storage.characterCount.characters() || 0
@@ -126,6 +147,16 @@ const canSave = computed(() => {
 const maxPreviewImageHeightStyle = computed(() => {
   return `--preview-image-max-height: ${maxPreviewImageHeight.value}px;`
 })
+
+
+const showCategorySelectorButton = computed(() => {
+  return !postToEdit.value?.parent_post_id && !postSelectedCategory.value
+})
+
+function handleSelectCategory(category: string) {
+  postSelectedCategory.value = category
+  showSelectCategoryModal.value = false
+}
 
 function handleFileUploadChange(fileList: FileList) {
   const [file] = fileList
@@ -180,6 +211,9 @@ onMounted(() => {
     if (postToEdit.value.picture_url) {
       imagePreview.value = postToEdit.value.picture_url
     }
+    if (postToEdit.value.category) {
+      postSelectedCategory.value = postToEdit.value.category
+    }
   } else {
     toast.add({
       color: 'red',
@@ -206,8 +240,9 @@ async function publishPost() {
       ALLOWED_ATTR: ['href', 'target'],
     });
 
+    const categoryToSave =  postSelectedCategory.value ? getRouteOfCategory(postSelectedCategory.value) : ''
 
-    await editStore.saveEditedPost(sanitizedContent, fileToUpload.value)
+    await editStore.saveEditedPost(sanitizedContent, fileToUpload.value, categoryToSave)
   }
 }
 </script>

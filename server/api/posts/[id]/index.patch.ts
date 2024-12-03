@@ -5,6 +5,8 @@ import RedisSingleton from "~/classes/redis-singletone.class"
 import DOMPurify from 'dompurify'
 import { JSDOM } from 'jsdom'
 import { PARTIAL_RAW_USER_POST_UPDATED_DATA } from "~/types/api-spec.types";
+import supportedPostCategoriesConstants from "~/constants/supported-post-categories.constants";
+import { parseFirestoreTimeStampFormatToDate } from "~/server/utils/posts.utils";
 
 
 export default defineEventHandler(async (event) => {
@@ -14,12 +16,20 @@ export default defineEventHandler(async (event) => {
 
   const postText = requestFormData?.find((f) => f.name === 'text')?.data.toString('utf-8') || ''
   const pictureFile = requestFormData?.find((f) => f.name === 'picture')?.data
+  const category = requestFormData?.find((f) => f.name === 'category')?.data.toString('utf-8') || undefined
   const pictureFileName = requestFormData?.find((f) => f.name === 'picture')?.filename
   const emptyImageField = requestFormData?.find((f) => f.name === 'empty_image_field')?.data
 
   if (!postText?.length) {
     setResponseStatus(event, 400)
     return { error: 'No text' }
+  }
+
+  const supportedPostCategoriesRoutes = supportedPostCategoriesConstants.map((c) => c.route)
+
+  if (category && !supportedPostCategoriesRoutes.includes(category)) {
+    setResponseStatus(event, 400)
+    return { error: 'Not supported category' }
   }
 
   if (!admin.apps.length) {  
@@ -109,11 +119,27 @@ export default defineEventHandler(async (event) => {
   
     const updateObject: PARTIAL_RAW_USER_POST_UPDATED_DATA = {
       text: sanitizedContent,
-      picture_url: pictureUrl ? pictureUrl : emptyImageField ? '' : undefined,
+      category: category || null,
+      picture_url: pictureUrl ? pictureUrl : emptyImageField ? '' : postData.picture_url,
       updated_at: new Date(),
     }
 
     await documentReference.update(updateObject)
+
+    if (category && category !== postData.category && postId) {
+      // Remove from prev category
+      await redis.zrem(`category:${postData.category}:posts`, postId)
+      // Add in new category
+      const createdAtTimestamp = parseFirestoreTimeStampFormatToDate(postData.created_at)
+
+      if (createdAtTimestamp) {
+        await redis.zadd(`category:${category}:posts`, createdAtTimestamp.valueOf(), postId)
+        await redis.zremrangebyrank(`category:${category}:posts`, 0, -101)
+      }
+    } else if (!category && postData.category && postId) {
+      // Remove from prev category
+      await redis.zrem(`category:${postData.category}:posts`, postId)
+    }
 
     await redis.del(`post:${postId}`)
 

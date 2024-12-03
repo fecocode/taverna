@@ -80,7 +80,7 @@ export const useEditStore = defineStore({
       }
     },
 
-    async saveEditedPost(newContent: string, newImage?: File) {
+    async saveEditedPost(newContent: string, newImage?: File, category?: string) {
       if (!this.postToEdit) {
         return
       }
@@ -102,10 +102,13 @@ export const useEditStore = defineStore({
           formData.append('picture', newImage)
         }
 
-        if (!newImage || !this.postToEdit.picture_url) {
+        if (!newImage && !this.postToEdit.picture_url) {
           formData.append('empty_image_field', 'true')
         }
 
+        if (category) {
+          formData.append('category', category)
+        }
 
         const resultOfUpdate: PARTIAL_RAW_USER_POST_UPDATED_DATA =  await $fetch(`/api/posts/${this.postToEdit.id}`, {
           method: 'PATCH',
@@ -115,6 +118,7 @@ export const useEditStore = defineStore({
         this.postToEdit.text = resultOfUpdate.text
         this.postToEdit.picture_url = resultOfUpdate.picture_url
         this.postToEdit.updated_at = resultOfUpdate.updated_at
+        this.postToEdit.category = resultOfUpdate.category || undefined
 
         favsStore.updateRecentEditedFavPost(this.postToEdit)
         postsStore.updateRecentEditedPost(this.postToEdit)

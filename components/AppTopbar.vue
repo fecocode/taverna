@@ -8,7 +8,7 @@ const router = useRouter()
 const modalStore = useModalsStore()
 
 const showGoBackComponent = computed(() => {
-  return route.name === 'p-id' || route.name === 'a-id'
+  return route.name === 'p-id' || route.name === 'a-id' || !!route.query.category
 })
 
 const goBackComponentText = computed(() => {
@@ -16,6 +16,10 @@ const goBackComponentText = computed(() => {
     return 'Post'
   } else if (route.name === 'a-id') {
     return 'Profile'
+  }
+
+  if (route.query.category) {
+    return route.query.category
   }
 })
 

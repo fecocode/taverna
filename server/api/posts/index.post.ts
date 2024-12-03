@@ -7,6 +7,7 @@ import RedisSingleton from "~/classes/redis-singletone.class"
 import DOMPurify from 'dompurify'
 import { JSDOM } from 'jsdom'
 import { uploadStaticImage } from "~/server/utils/statics.utils";
+import supportedPostCategoriesConstants from "~/constants/supported-post-categories.constants";
 
 export default defineEventHandler(async (event) => {
   const runtimeConfig = useRuntimeConfig()
@@ -30,6 +31,7 @@ export default defineEventHandler(async (event) => {
   const requestFormData = await readMultipartFormData(event)
 
   const postText = requestFormData?.find((f) => f.name === 'text')?.data.toString('utf-8') || ''
+  const category = requestFormData?.find((f) => f.name === 'category')?.data.toString('utf-8') || undefined
   const postParentId = requestFormData?.find((f) => f.name === 'parent_post_id')?.data.toString('utf-8') || undefined
   const pictureFile = requestFormData?.find((f) => f.name === 'picture')?.data
   const pictureFileName = requestFormData?.find((f) => f.name === 'picture')?.filename
@@ -37,6 +39,13 @@ export default defineEventHandler(async (event) => {
   if (!postText?.length) {
     setResponseStatus(event, 400)
     return { error: 'No text' }
+  }
+
+  const supportedPostCategoriesRoutes = supportedPostCategoriesConstants.map((c) => c.route)
+
+  if (category && !supportedPostCategoriesRoutes.includes(category)) {
+    setResponseStatus(event, 400)
+    return { error: 'Not supported category' }
   }
 
   try {
@@ -99,6 +108,7 @@ export default defineEventHandler(async (event) => {
       id: newPostId,
       text: sanitizedContent,
       created_at: createdAt,
+      category: category || null,
       updated_at: null,
       deleted_at: null,
       user_id: userId,
@@ -111,18 +121,24 @@ export default defineEventHandler(async (event) => {
     await firestore.collection('user-posts').doc(newPostId).set(newPost)
 
     // Save on cache
-    await redis.set(`post:${newPostId}`, JSON.stringify(newPost), 'EX', 60*60*24*7) // One day of expiration on cache
+    await redis.set(`post:${newPostId}`, JSON.stringify(newPost), 'EX', 60*60*24*7)
 
     if (newPost.parent_post_id) {
       await redis.lpush(`post:${newPost.parent_post_id}:replies`, newPostId)
     } else {
       await redis.lpush('recent_posts', newPostId)
       await redis.ltrim('recent_posts', 0, 99)
+
+      if (category) {
+        await redis.zadd(`category:${category}:posts`, Date.now(), newPostId)
+        await redis.zremrangebyrank(`category:${category}:posts`, 0, -101)
+      }
     }
 
     const response: RAW_USER_POST_RESPONSE_DATA = {
       id: newPostId,
       text: postText,
+      category: category,
       created_at: createdAt,
       user_id: userId,
       fav_count: 0,

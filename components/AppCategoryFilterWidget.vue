@@ -2,7 +2,7 @@
   <div class="space-y-3 px-3 py-5">
     <h3 class="font-medium text-md">Explore posts by category</h3>
     <div class="flex flex-wrap items-center justify-start gap-x-1 gap-y-2">
-      <NuxtLink :to="{ name: 'index', query: {category: toKebabCase(category)} }" v-for="category in categories">
+      <NuxtLink :to="{ name: 'index', query: {category: getRouteOfCategory(category)} }" v-for="category in categories">
         <UButton
           icon="i-heroicons-hashtag-16-solid"
           :label="category"
@@ -30,14 +30,14 @@
 </template>
 
 <script lang="ts" setup>
-import supportedPostCategories from '~/constants/supported-post-categories.constants';
-import { toKebabCase } from '~/utils/strings.utilities';
+import supportedPostCategories, { getRouteOfCategory } from '~/constants/supported-post-categories.constants';
 
 const showSearchModal = ref(false)
 const categories = ref<string[]>([])
 
 onMounted(() => {
-  categories.value = shuffleArray(supportedPostCategories).slice(0, 7)
+  const categoriesNames = supportedPostCategories.map((c) => c.name)
+  categories.value = shuffleArray(categoriesNames).slice(0, 7)
 })
 
 function shuffleArray(array: Array<string>) {

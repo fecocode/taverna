@@ -49,6 +49,14 @@
       <IconamoonComment class="text-yellow-400" /> 
       <span>Replying to <NuxtLink :to="{ name: 'p-id', params: { id: parentPostId } }" class="text-blue-400">This post</NuxtLink></span>
     </div>
+    <div v-if="postCategory" class="flex items-center space-x-2 text-xs py-1" @click.stop>
+      <UBadge color="yellow" variant="soft" size="xs">
+        <div class="flex items-center space-x-1 opacity-90">
+          <UIcon name="i-heroicons-hashtag-16-solid" />
+          <span>{{ postCategory }}</span>
+        </div>
+      </UBadge>
+    </div>
     <div class="app-post__profile" @click.stop="goToAuthorProfile">
       <UAvatar :src="authorAvatar" size="xs" />
       <span>
@@ -161,9 +169,9 @@ function getTimeAgo(date: Date) {
       return `${Math.floor(minutes)} ${Math.floor(minutes) === 1 ? 'minute' : 'minutes'}`;
   } else if (hours < 24) {
       return `${Math.floor(hours)} ${Math.floor(hours) === 1 ? 'hour' : 'hours'}`;
-  } else if (days < 30) {
+  } else if (days < 60) {
       return `${Math.floor(days)} ${Math.floor(days) === 1 ? 'day' : 'days'}`;
-  } else if (months < 12) {
+  } else if (months < 24) {
       return `${Math.floor(months)} ${Math.floor(months) === 1 ? 'month' : 'months'}`;
   } else {
       return `${Math.floor(years)} ${Math.floor(years) === 1 ? 'year' : 'years'}`;
@@ -233,6 +241,10 @@ const isInUserFavList = computed(() => {
 
 const abbreviateFavCount = computed(() => {
   return abbreviateNumber(props.favCount)
+})
+
+const postCategory = computed(() => {
+  return props.post.category || ''
 })
 
 

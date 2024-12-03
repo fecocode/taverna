@@ -16,6 +16,7 @@ export class Post implements IPost {
   parent_post?: IPost | undefined;
   parent_post_id?: string | undefined;
   picture_url?: string | undefined;
+  category?: string | undefined;
 
   constructor(rawPost: RAW_USER_POST_RESPONSE_DATA) {
     this.id = rawPost.id
@@ -43,6 +44,10 @@ export class Post implements IPost {
 
     if (rawPost.picture_url) {
       this.picture_url = rawPost.picture_url
+    }
+
+    if (rawPost.category) {
+      this.category = rawPost.category
     }
   }
 }
