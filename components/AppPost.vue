@@ -60,7 +60,7 @@
     <div class="app-post__profile" @click.stop="goToAuthorProfile">
       <UAvatar :src="authorAvatar" size="xs" />
       <span>
-        <b>@{{authorUsername}} <small v-if="isCurrentUserPostOwner" class="text-zinc-400">(you)</small></b>
+        <b>@{{authorUsername}} <small v-if="isCurrentUserPostOwner" class="text-zinc-400">(vos)</small></b>
         <span v-show="timeAgo"> · {{ timeAgo }}</span>
       </span>
     </div>
