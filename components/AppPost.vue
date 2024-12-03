@@ -210,7 +210,7 @@ onUnmounted(() => {
   }
 })
 
-const shareUrl = computed(() => `${window.location.host}/?shared=${props.id}`)
+const shareUrl = computed(() => `${window.location.host}/p/${props.id}`)
 
 const isCurrentUserPostOwner = computed(() => {
   return props.userId === auth.userId.value
