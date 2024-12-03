@@ -69,7 +69,7 @@
       </div>
       <UButton
         color="black"
-        label="Save post"
+        label="Publicar edición"
         size="sm"
         :disabled="!canSave"
         :loading="publishing"
