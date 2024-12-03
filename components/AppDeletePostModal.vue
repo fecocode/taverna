@@ -1,11 +1,11 @@
 <template>
   <UAlert
     :actions="[
-      { variant: 'solid', color: 'red', label: 'Yes, delete', click: handleConfirmClick, loading: loading },
-      { variant: 'link', color: 'gray', label: 'No, cancel', click: handleCancelClick }
+      { variant: 'solid', color: 'red', label: 'Sí, borrar', click: handleConfirmClick, loading: loading },
+      { variant: 'link', color: 'gray', label: 'No, cancelar', click: handleCancelClick }
     ]"
-    title="You are deleting your post"
-    description="Are you sure?"
+    title="Estás eliminando tu post"
+    description="¿Querés continuar?"
   />
 </template>
 
