@@ -2,7 +2,7 @@
   <UCard>
     <template #header>
       <div class="app-help-modal__header">
-        <span>Help</span>
+        <span>Ayuda</span>
         <UButton
           size="xs"
           :ui="{ rounded: 'rounded-full' }"
@@ -18,10 +18,10 @@
       <UAlert
         variant="soft"
         icon="i-heroicons-envelope"
-        title="Contact me"
+        title="Contacto"
       >
         <template #description>
-          Need help? You can contact me by email at <a href="mailto:hola@fecocode.com">hola@fecocode.com</a>, and I'll try to get back to you as soon as possible.
+          ¿Necesitás ayuda? Escribime a <a href="mailto:apps@fecocode.com">apps@fecocode.com</a>, y trato de responderte en la mayor brevedad. ¡Gracias!
         </template>
       </UAlert>
     </div>

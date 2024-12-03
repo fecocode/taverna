@@ -20,14 +20,14 @@
         v-if="showCategorySelectorButton"
         color="gray"
         variant="ghost"
-        label="Add category"
+        label="Agregar categoría"
         icon="i-heroicons-hashtag-16-solid"
         size="2xs"
         @click="showSelectCategoryModal = true"
       />
       <UButton
         v-else-if="postSelectedCategory"
-        color="yellow"
+        color="sky"
         variant="soft"
         :label="postSelectedCategory"
         icon="i-heroicons-hashtag-16-solid"
@@ -42,7 +42,7 @@
         v-if="!imagePreview"
         color="gray"
         variant="ghost"
-        label="Add picture"
+        label="Agregar imagen"
         icon="i-heroicons-photo-16-solid"
         size="2xs"
         @click="handleUploadImageClick"
@@ -52,7 +52,7 @@
       <editor-content :editor="editor" class="editor-content" />
     </div>
     <div class="app-new-post__image-preview" v-if="imagePreview" ref="previewImageElement" :style="maxPreviewImageHeightStyle">
-      <UTooltip class="close-button" :popper="{ placement: 'right'}" text="Remove">
+      <UTooltip class="close-button" :popper="{ placement: 'right'}" text="Quitar">
         <UButton
           size="xs"
           :ui="{ rounded: 'rounded-full' }"
@@ -124,7 +124,7 @@ const editor = useEditor({
   extensions: [
     StarterKit,
     Placeholder.configure({
-      placeholder: props.postToReply ? 'Write your reply here...' : 'Write your post here...',
+      placeholder: props.postToReply ? 'Escribí tu respuesta acá...' : 'Escribí tu post acá...',
     }),
     CharacterCount.configure({
       limit: limit,
@@ -158,7 +158,7 @@ const canSave = computed(() => {
 })
 
 const publishButtonText = computed(() => {
-  return props.postToReply ? 'Reply' : 'Post'
+  return props.postToReply ? 'Responder' : 'Publicar'
 })
 
 const maxPreviewImageHeightStyle = computed(() => {
@@ -183,8 +183,8 @@ function handleFileUploadChange(fileList: FileList) {
       toast.add({
         color: 'red',
         icon: 'i-heroicons-x-mark',
-        title: `File Size Exceeds Limit`,
-        description: 'Please upload a file smaller than 5 MB.'
+        title: `El archivo excede el límite de tamaño`,
+        description: 'Por favor, subí archivos de menos de 5MB'
       })
 
       return
@@ -253,7 +253,7 @@ async function publishPost() {
         toast.add({
           color: 'green',
           icon: 'i-heroicons-check',
-          title: 'Your post has been published',
+          title: 'Se publicó tu post',
         })
       } else {
         if (replyStore.postToReply?.replies) {
@@ -264,7 +264,7 @@ async function publishPost() {
         toast.add({
           color: 'green',
           icon: 'i-heroicons-check',
-          title: 'Your reply has been published',
+          title: 'Se publicó tu respuesta',
         })
       }
 
@@ -275,8 +275,8 @@ async function publishPost() {
       toast.add({
         color: 'red',
         icon: 'i-heroicons-x-mark',
-        title: `An error occurred`,
-        description: 'Please, try again in a few seconds'
+        title: `Ocurrió un error`,
+        description: 'Intentalo en unos momentos'
       })
     } finally {
       publishing.value = false

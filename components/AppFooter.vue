@@ -7,7 +7,7 @@ const modalStore = useModalsStore()
 <template>
   <div class="app-footer">
     <span>
-      <a @click="modalStore.openPrivacyPolicyModal()">Privacy policy</a> · <a @click="modalStore.openTermsAndConditionsModal()">Terms and conditions</a> · <a @click="modalStore.openRulesModal()">Code of conduct</a>
+      <a @click="modalStore.openPrivacyPolicyModal()">Políticas de privacidad</a> · <a @click="modalStore.openTermsAndConditionsModal()">Términos y condiciones</a> · <a @click="modalStore.openRulesModal()">Código de conducta</a>
     </span>
   </div>
 </template>

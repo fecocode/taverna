@@ -1,20 +1,19 @@
 <template>
   <div class="space-y-4 px-3 py-5">
     <div class="space-y-1">
-      <h3 class="font-medium text-md">Become a Solopreneurs.space Sponsor</h3>
-      <p class="text-sm">Help me build a place where solopreneurs can connect, grow, and succeed.</p>
+      <h3 class="font-medium text-md">¡Hackgento es Opensource!</h3>
+      <p class="text-sm">Eu! Hackgento está construido con mucho amor, pero con poco tiempo. Si te animás a ordenar un poco del quilombo que armé, abrí un Issue o PR sin miedo.</p>
     </div>
     <div class="flex justify-start">
       <UButton
-        color="yellow"
+        color="sky"
         size="xs"
-        icon="i-heroicons-heart-20-solid"
-        label="Become a sponsor"
-      />
+        label="Ver el repositorio"
+      >
+        <template #leading>
+          <IconGithubBox />
+        </template>
+      </UButton>
     </div>
   </div>
 </template>
-
-<script lang="ts" setup>
-
-</script>

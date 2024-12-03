@@ -2,8 +2,8 @@
   <div class="app-loading-overlay">
     <UAvatar src="/logo.svg" size="3xl" />
     <div class="texts">
-      <span class="brand"><strong>Solopreneurs</strong>.space</span>
-      <span>Lanzamiento: Miércoles 17 de Julio del 2024</span>
+      <span class="brand"><strong>Hackgento</strong></span>
+      <span>Lanzamiento: Miércoles 3 de Diciembre del 2025</span>
     </div>
     <UButton label="¿Un regalito de bienvenida?" color="indigo" icon="i-heroicons-gift" size="xl" @click="handleGiftClick" />
   </div>

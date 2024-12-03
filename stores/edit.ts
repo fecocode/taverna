@@ -64,7 +64,7 @@ export const useEditStore = defineStore({
         toast.add({
           color: 'green',
           icon: 'i-heroicons-check',
-          title: 'Post deleted',
+          title: 'Se borró tu post',
         })
       } catch (_) {
         modalsStore.closeDeletePostModal()
@@ -72,8 +72,8 @@ export const useEditStore = defineStore({
         toast.add({
           color: 'red',
           icon: 'i-heroicons-x-mark',
-          title: 'An error ocurred while deleting the post',
-          description: 'Please, try again in a few minutes'
+          title: 'Ocurrió un error',
+          description: 'Intentalo nuevamente en algunos minutos'
         })
       } finally {
         this.deleting = false
@@ -139,7 +139,7 @@ export const useEditStore = defineStore({
         toast.add({
           color: 'green',
           icon: 'i-heroicons-check',
-          title: 'Your post has been saved successfully',
+          title: 'Se guardó tu post con éxito',
         })
       } catch (_) {
         modalsStore.closeEditPostModal()
@@ -147,8 +147,8 @@ export const useEditStore = defineStore({
         toast.add({
           color: 'red',
           icon: 'i-heroicons-x-mark',
-          title: `An error occurred`,
-          description: 'Please, try again in a few seconds'
+          title: `Ocurrió un error`,
+          description: 'Por favor, intentalo en unos minutos nuevamente'
         })
       } finally {
         this.updating = false

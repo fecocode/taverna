@@ -80,7 +80,7 @@ watch(() => route.query, async () => {
       <div class="posts-wrapper__filters lg:hidden">
         <UButton
           icon=i-heroicons-adjustments-horizontal-solid
-          label="Filter by category"
+          label="Filtrar por categoría"
           color="gray"
           size="xs"
           variant="ghost"

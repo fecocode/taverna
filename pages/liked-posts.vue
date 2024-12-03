@@ -2,8 +2,8 @@
   <AppScrollbarWrapper class="scroll-bar">
     <div class="users-fav">
       <h3 class="flex space-x-3 items-center border-b border-zinc-700">
-        <UIcon name="i-heroicons-heart-20-solid" class="text-yellow-400" />
-        <span>Liked posts</span>
+        <UIcon name="i-heroicons-heart-20-solid" class="text-sky-400" />
+        <span>Posts que te gustaron</span>
       </h3>
       <SignedIn>
         <template v-if="isLoading">
@@ -13,12 +13,12 @@
         </template>
         <div v-else-if="posts.length === 0" class="users-fav__empty">
           <IconLineMdCoffeeHalfEmptyTwotoneLoop class="icon" />
-          <p>Nothing here</p>
+          <p>Nada por aquí</p>
           <NuxtLink :to="{ name: 'index' }">
             <UButton
               class="mt-3"
               icon="i-heroicons-home"
-              label="Go to home"
+              label="Ir a la página principal"
               color="gray"
               variant="outline"
               size="xs"
@@ -43,8 +43,8 @@
       <SignedOut>
         <div class="users-fav__signed-out">
           <IconLineMdAlertCircle class="icon" />
-          <p>To save posts, you need an account.</p>
-          <UButton color="black" size="xl" label="Create my account" @click="modalStore.openSignUpModal()" />
+          <p>Necesitás una cuenta para indicar que un posts te gusta.</p>
+          <UButton color="black" size="xl" label="Crear cuenta" @click="modalStore.openSignUpModal()" />
         </div>
       </SignedOut>
     </div>

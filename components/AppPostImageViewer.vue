@@ -2,7 +2,7 @@
   <UButton
     size="lg"
     :ui="{ rounded: 'rounded-full' }"
-    label="Close"
+    label="Cerrar"
     color="gray"
     variant="soft"
     icon="i-heroicons-x-mark-solid"

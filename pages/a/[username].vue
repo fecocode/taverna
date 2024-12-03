@@ -13,7 +13,7 @@
           class="profile-page__author__follow-button"
           color="black"
           :variant="isFollowing ? 'outline' : 'solid'"
-          :label="isFollowing ? 'Unfollow' : 'Follow'"
+          :label="isFollowing ? 'Dejar de seguir' : 'Seguir'"
           :loading="followingLoading"
           @click="handleFollowButtonClick"
         />
@@ -21,7 +21,7 @@
           <UAvatar :src="authorData.avatar" size="3xl" />
           <div class="flex space-x-2 items-center flex-wrap">
             <h3>{{ authorData.username }}</h3>
-            <UBadge v-if="authorData.follow_me" size="xs" color="gray">Follows you</UBadge>
+            <UBadge v-if="authorData.follow_me" size="xs" color="gray">Te sigue</UBadge>
           </div>
           <div class="text-xs">
             {{ followersText }}
@@ -77,7 +77,7 @@ useAsyncData(async() => {
 const followersText = computed(() => {
   if (!authorData.value) return ''
 
-  return `${abbreviateNumber(authorData.value.followers)} ${authorData.value.followers === 1 ? 'Follower' : 'Followers'}`
+  return `${abbreviateNumber(authorData.value.followers)} ${authorData.value.followers === 1 ? 'Seguidor' : 'Seguidores'}`
 })
 
 const isFollowing = computed(() => {

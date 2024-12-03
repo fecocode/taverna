@@ -20,7 +20,7 @@
               size="2xs"
               color="gray"
               variant="link"
-              label="Edit post"
+              label="Editar"
               @click.stop="handleEditPostClick(close)"
             />
             <UButton
@@ -29,7 +29,7 @@
               size="2xs"
               color="red"
               variant="link"
-              label="Remove post"
+              label="Eliminar"
               @click.stop="handleDeletePostClick(close)"
             />
             <UButton
@@ -38,7 +38,7 @@
               size="2xs"
               color="gray"
               variant="link"
-              label="Report post"
+              label="Reportar"
               @click.stop="modalsStore.openReportModal()"
             />
           </div>
@@ -46,11 +46,11 @@
       </UPopover>
     </div>
     <div v-if="showParentPost" class="flex items-center space-x-2 text-xs py-1" @click.stop>
-      <IconamoonComment class="text-yellow-400" /> 
-      <span>Replying to <NuxtLink :to="{ name: 'p-id', params: { id: parentPostId } }" class="text-blue-400">This post</NuxtLink></span>
+      <IconamoonComment class="text-sky-400" /> 
+      <span>Respondiendo a <NuxtLink :to="{ name: 'p-id', params: { id: parentPostId } }" class="text-blue-400">Este post</NuxtLink></span>
     </div>
     <div v-if="postCategory" class="flex items-center space-x-2 text-xs py-1" @click.stop>
-      <UBadge color="yellow" variant="soft" size="xs">
+      <UBadge color="sky" variant="soft" size="xs">
         <div class="flex items-center space-x-1 opacity-90">
           <UIcon name="i-heroicons-hashtag-16-solid" />
           <span>{{ postCategory }}</span>
@@ -77,7 +77,7 @@
       <img :class="{ invisible: !imageLoaded }" :src="pictureUrl" :onload="handlePreviewLoad" />
     </div>
     <div class="app-post__fav-count-display" v-if="updatedAt">
-      <span>Edited</span>
+      <span>Editado</span>
     </div>
     <div v-if="showControls" class="app-post__actions">
       <UTooltip :popper="{ placement: 'bottom' }" :text="favButtonLabel">
@@ -89,7 +89,7 @@
           </template>
         </UButton>
       </UTooltip>
-      <UTooltip :popper="{ placement: 'bottom' }" text="Reply">
+      <UTooltip :popper="{ placement: 'bottom' }" text="Responder">
         <UButton color="gray" :label="repliesCount" variant="ghost" :loading="favLoading" @click.stop="handleReplyClick" :ui="{ rounded: 'rounded-full' }" size="md">
           <template #leading>
             <IconamoonComment />
@@ -166,15 +166,15 @@ function getTimeAgo(date: Date) {
   if (seconds < 60) {
     return 'Ahora';
   } else if (minutes < 60) {
-      return `${Math.floor(minutes)} ${Math.floor(minutes) === 1 ? 'minute' : 'minutes'}`;
+      return `${Math.floor(minutes)} ${Math.floor(minutes) === 1 ? 'minuto' : 'minutos'}`;
   } else if (hours < 24) {
-      return `${Math.floor(hours)} ${Math.floor(hours) === 1 ? 'hour' : 'hours'}`;
+      return `${Math.floor(hours)} ${Math.floor(hours) === 1 ? 'hora' : 'horas'}`;
   } else if (days < 60) {
-      return `${Math.floor(days)} ${Math.floor(days) === 1 ? 'day' : 'days'}`;
+      return `${Math.floor(days)} ${Math.floor(days) === 1 ? 'dia' : 'dias'}`;
   } else if (months < 24) {
-      return `${Math.floor(months)} ${Math.floor(months) === 1 ? 'month' : 'months'}`;
+      return `${Math.floor(months)} ${Math.floor(months) === 1 ? 'mes' : 'meses'}`;
   } else {
-      return `${Math.floor(years)} ${Math.floor(years) === 1 ? 'year' : 'years'}`;
+      return `${Math.floor(years)} ${Math.floor(years) === 1 ? 'año' : 'años'}`;
   }
 }
 
@@ -266,9 +266,9 @@ const favButtonLabel = computed(() => {
   if (favLoading.value) {
     return ''
   } else if (isInUserFavList.value) {
-    return 'Unlike'
+    return 'Ya no me gusta'
   } else {
-    return 'Like'
+    return 'Me gusta'
   }
 })
 
@@ -292,7 +292,7 @@ const favCountText = computed(() => {
 
 const favButtonColor = computed(() => {
   if (isInUserFavList.value) {
-    return 'yellow'
+    return 'sky'
   } else {
     return 'gray'
   }
@@ -300,9 +300,9 @@ const favButtonColor = computed(() => {
 
 const shareButtonText = computed(() => {
   if (navigatorCanShare.value) {
-    return 'Share'
+    return 'Compartir'
   } else {
-    return 'Copy post link'
+    return 'Copiar link'
   }
 })
 
@@ -367,15 +367,15 @@ function copyUrlToClipboard() {
       toast.add({
         color: 'green',
         icon: 'i-heroicons-check',
-        title: 'URL copied to clipboard',
+        title: 'Se copió la URL',
       })
     })
     .catch((err) => {
       toast.add({
         color: 'red',
         icon: 'i-heroicons-x-mark',
-        title: `Can't copy the post URL to clipboard`,
-        description: 'Try again in a few seconds'
+        title: `No se pudo copiar la URL`,
+        description: 'Intentalo nuevamente en unos minutos'
       })
     })
 }

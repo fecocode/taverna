@@ -7,7 +7,7 @@ export default defineNuxtConfig({
 
   app: {
     head: {
-      title: 'Solopreneurs.space | Solo, Not Alone'
+      title: 'Hackgento | Campeón del mundo'
     }
   },
 

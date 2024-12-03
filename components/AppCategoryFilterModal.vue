@@ -2,7 +2,7 @@
   <UCard>
     <template #header>
       <div class="flex justify-between">
-        <h3 class="font-semibold text-xl">Filter by category</h3>
+        <h3 class="font-semibold text-xl">Filtrar por categoría</h3>
         <UButton
           size="sm"
           :ui="{ rounded: 'rounded-full' }"
@@ -15,7 +15,7 @@
     </template>
     <div class="space-y-6">
       <UInput
-        placeholder="Search category"
+        placeholder="Buscar categoría"
         variant="none"
         icon="i-heroicons-magnifying-glass-16-solid"
         v-model="textSearch"

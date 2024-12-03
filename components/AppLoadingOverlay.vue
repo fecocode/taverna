@@ -1,8 +1,8 @@
 <template>
   <div class="app-loading-overlay">
-    <UAvatar src="/logo.svg" size="3xl" />
+    <UAvatar src="/logo.svg" size="3xl" :ui="{ rounded: 'rounded-sm' }" />
     <div class="texts">
-      <span class="brand"><strong>Solopreneurs</strong>.space</span>
+      <span class="brand"><strong>Hackgento</strong></span>
       <span>Cargando...</span>
     </div>
     <IconSvgSpinners3DotsScale />

@@ -1,6 +1,6 @@
 <template>
   <div class="space-y-3 px-3 py-5">
-    <h3 class="font-medium text-md">Explore posts by category</h3>
+    <h3 class="font-medium text-md">Explorar por categorías</h3>
     <div class="flex flex-wrap items-center justify-start gap-x-1 gap-y-2">
       <NuxtLink :to="{ name: 'index', query: {category: getRouteOfCategory(category)} }" v-for="category in categories">
         <UButton
@@ -17,7 +17,7 @@
       <UButton
         color="black"
         size="xs"
-        label="Show all categories"
+        label="Ver todas las categorías"
         variant="link"
         icon="i-heroicons-magnifying-glass-16-solid"
         @click="showSearchModal = true"

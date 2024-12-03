@@ -2,7 +2,7 @@
   <UCard>
     <template #header>
       <div class="app-report-modal__header">
-        <span>Report post</span>
+        <span>Reportar publicación</span>
         <UButton
           size="xs"
           :ui="{ rounded: 'rounded-full' }"
@@ -16,25 +16,10 @@
     </template>
     <div class="app-report-modal space-y-5">
       <p>
-        Please select the reason for your report:
+        Estoy trabajando en un sistema automatizado para reportar posts y/o usuarios. Mientras tanto... Enviame un correo electrónico a apps@fecocode.com y lo solucionamos en un corto plazo.<br>
+        <br>
+        Porfa, enviame el correo así mantenemos la comunidad lo más sana y agradable posible.
       </p>
-      <USelect
-        :options="reasonsArray"
-        v-model="reason"
-        placeholder="Reason for your report"
-      />
-      <UInput
-        v-if="reason === 'Other'"
-        placeholder="Other reason"
-        v-model="otherReason"
-      />
-      <div class="flex justify-end">
-        <UButton
-          label="Send report"
-          color="black"
-          icon="i-heroicons-paper-airplane"
-        />
-      </div>
     </div>
   </UCard>
 </template>

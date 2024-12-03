@@ -19,14 +19,14 @@
         v-if="showCategorySelectorButton"
         color="gray"
         variant="ghost"
-        label="Add category"
+        label="Agregar categoría"
         icon="i-heroicons-hashtag-16-solid"
         size="2xs"
         @click="showSelectCategoryModal = true"
       />
       <UButton
         v-else-if="postSelectedCategory"
-        color="yellow"
+        color="sky"
         variant="soft"
         :label="postSelectedCategory"
         icon="i-heroicons-hashtag-16-solid"
@@ -41,7 +41,7 @@
         v-if="!imagePreview"
         color="gray"
         variant="ghost"
-        label="Add picture"
+        label="Agregar imagen"
         icon="i-heroicons-photo-16-solid"
         size="2xs"
         @click="handleUploadImageClick"
@@ -51,7 +51,7 @@
       <editor-content :editor="editor" class="editor-content" />
     </div>
     <div class="app-edit-post__image-preview" v-if="imagePreview" ref="previewImageElement" :style="maxPreviewImageHeightStyle">
-      <UTooltip class="close-button" :popper="{ placement: 'right'}" text="Remove">
+      <UTooltip class="close-button" :popper="{ placement: 'right'}" text="Quitar">
         <UButton
           size="xs"
           :ui="{ rounded: 'rounded-full' }"
@@ -114,7 +114,7 @@ const editor = useEditor({
   extensions: [
     StarterKit,
     Placeholder.configure({
-      placeholder: 'Write your post here...',
+      placeholder: 'Escribí tu post acá...',
     }),
     CharacterCount.configure({
       limit: limit,
@@ -166,8 +166,8 @@ function handleFileUploadChange(fileList: FileList) {
       toast.add({
         color: 'red',
         icon: 'i-heroicons-x-mark',
-        title: `File Size Exceeds Limit`,
-        description: 'Please upload a file smaller than 5 MB.'
+        title: `El archivo es muy grande`,
+        description: 'Por favor subí un archivo de menos de 5 MB.'
       })
 
       return

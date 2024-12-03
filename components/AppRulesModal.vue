@@ -13,7 +13,7 @@
         />
       </div>
     </template>
-    <h2 class="text-2xl font-semibold mb-4">Código de conducta de Solopreneurs</h2>
+    <h2 class="text-2xl font-semibold mb-4">Código de conducta de Hackgento</h2>
     <p class="text-base font-semibold mb-2">1. Respeto y Consideración</p>
     <p class="mb-4">
       <span class="font-semibold">Trata a Todos con Respeto:</span> Es fundamental tratar a los demás con respeto. Queda prohibido el uso de lenguaje ofensivo, difamatorio o discriminatorio. Queremos que esta sea una comunidad segura para todos.<br>
@@ -22,7 +22,6 @@
 
     <p class="text-base font-semibold mb-2">2. Publicación de Contenido</p>
     <p class="mb-4">
-      <span class="font-semibold">Chismes Reales o Ficticios:</span> Podés publicar chismes tanto reales como ficticios, pero bajo ninguna circunstancia se permite incluir nombres propios ni datos que puedan difamar a alguien.<br>
       <span class="font-semibold">Contenido Prohibido:</span> No se permitirá contenido que promueva la violencia, el odio, la discriminación o cualquier actividad ilegal. Mantengamos este espacio divertido y seguro para todos.<br>
       <span class="font-semibold">Protección de Menores:</span> Está prohibido publicar cualquier contenido que incluya a menores de edad sin el consentimiento de sus padres o tutores legales.
     </p>

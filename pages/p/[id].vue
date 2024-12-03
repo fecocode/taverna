@@ -8,7 +8,7 @@
             size="sm"
             color="gray"
             variant="ghost"
-            label="Show full discussion"
+            label="Ver todo el hilo"
             @click="handleShowFullDiscussionClick"
           />
         </UChip>
@@ -45,8 +45,8 @@
         />
       </div>
       <h3 v-if="post.replies && post.replies.length" class="flex space-x-3 items-center">
-        <IconamoonComment class="text-yellow-400" /> 
-        <span>Replies</span>
+        <IconamoonComment class="text-sky-400" /> 
+        <span>Respuestas</span>
       </h3>
       <AppPost
         v-for="reply in post.replies"

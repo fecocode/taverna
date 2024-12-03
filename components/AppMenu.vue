@@ -2,15 +2,15 @@
   <div class="app-menu">
     <div class="app-menu__main">
       <NuxtLink :to="{ name: 'index' }">
-        <UAvatar src="/logo.svg" alt="Logo de Solopreneurs" class="logo" />
+        <UAvatar src="/logo.svg" alt="Logo de Hackgento" class="logo" :ui="{ rounded: 'rounded-sm' }"/>
       </NuxtLink>
-      <UTooltip :popper="{ placement: 'right'}" text="Home">
+      <UTooltip :popper="{ placement: 'right'}" text="Principal">
         <NuxtLink :to="{ name: 'index' }">
           <UButton
             icon="i-heroicons-home"
             size="xl"
             :ui="{ rounded: 'rounded-full' }"
-            :color="isHighlighted('index') ? 'yellow' : 'gray'"
+            :color="isHighlighted('index') ? 'sky' : 'gray'"
             variant="ghost"
           />
         </NuxtLink>
@@ -26,24 +26,24 @@
           />
         </NuxtLink>
       </UTooltip> -->
-      <UTooltip :popper="{ placement: 'right' }" text="Liked posts">
+      <UTooltip :popper="{ placement: 'right' }" text="Posts que te gustaron">
         <NuxtLink :to="{ name: 'liked-posts' }">
           <UButton
             icon="i-heroicons-heart"
             size="xl"
             :ui="{ rounded: 'rounded-full' }"
-            :color="isHighlighted('liked-posts') ? 'yellow' : 'gray'"
+            :color="isHighlighted('liked-posts') ? 'sky' : 'gray'"
             variant="ghost"
           />
         </NuxtLink>
       </UTooltip>
-      <UTooltip :popper="{ placement: 'right' }" text="Profile">
+      <UTooltip :popper="{ placement: 'right' }" text="Perfil">
         <NuxtLink :to="profilePageRouterObject">
           <UButton
             icon="i-heroicons-user"
             size="xl"
             :ui="{ rounded: 'rounded-full' }"
-            :color="isCurrentRouteUserProfile ? 'yellow' : 'gray'"
+            :color="isCurrentRouteUserProfile ? 'sky' : 'gray'"
             variant="ghost"
           />
         </NuxtLink>
@@ -62,7 +62,7 @@
       </UTooltip>
       <UDivider class="mb-2"/> -->
       <SignedIn>
-        <UTooltip :popper="{ placement: 'right' }" text="New post">
+        <UTooltip :popper="{ placement: 'right' }" text="Nuevo post">
           <UButton
             icon="i-heroicons-pencil-square"
             size="xl"
@@ -100,7 +100,7 @@
               size="sm"
               color="gray"
               variant="link"
-              label="Terms and conditions"
+              label="Términos y condiciones"
               @click="handleShowTermsAndConditionsEllipsisMenuClick(close)"
             />
             <UButton
@@ -108,7 +108,7 @@
               size="sm"
               color="gray"
               variant="link"
-              label="Privacy policy"
+              label="Políticas de privacidad"
               @click="handleShowPrivacyPolicyEllipsisMenuClick(close)"
             />
             <UButton
@@ -116,7 +116,7 @@
               size="sm"
               color="gray"
               variant="link"
-              label="Code of conduct"
+              label="Código de conducta"
               @click="handleShowRulesEllipsisMenuClick(close)"
             />
           </div>
