@@ -7,7 +7,7 @@ export default defineNuxtConfig({
 
   app: {
     head: {
-      title: 'Hackgento | Campeón del mundo'
+      title: 'Hackgento | Innovación criolla'
     }
   },
 
