@@ -112,7 +112,7 @@ const replyStore = useReplyStore()
 
 const publishing = ref(false)
 
-const limit = 5000;
+const limit = 1986;
 
 const showSelectCategoryModal = ref(false)
 const postSelectedCategory = ref()

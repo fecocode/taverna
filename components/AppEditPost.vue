@@ -104,7 +104,7 @@ const postToEdit = computed(() => editStore.postToEdit)
 
 const publishing = computed(() => editStore.updating)
 
-const limit = 5000;
+const limit = 1986;
 
 const postsStore = usePostsStore()
 const fileToUpload = ref()
