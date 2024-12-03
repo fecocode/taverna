@@ -73,7 +73,7 @@
         </UTooltip>
       </SignedIn>
       <SignedOut>
-        <UTooltip :popper="{ placement: 'right' }" text="Sign In">
+        <UTooltip :popper="{ placement: 'right' }" text="Ingresar">
           <UButton
             icon="i-heroicons-key"
             size="xl"
@@ -95,6 +95,20 @@
         />
         <template #panel="{ close }">
           <div class="ellipsis-menu">
+            <UButton
+              icon="i-heroicons-book-open"
+              size="sm"
+              color="sky"
+              variant="link"
+              label="Ir al repositorio"
+              to="https://github.com/fecocode/Hackgento"
+              target="_blank"
+            >
+              <template #leading>
+                <IconGithubBox />
+              </template>
+            </UButton>
+            <UDivider />
             <UButton
               icon="i-heroicons-book-open"
               size="sm"
