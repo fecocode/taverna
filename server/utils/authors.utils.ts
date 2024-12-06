@@ -1,5 +1,4 @@
 import Redis from "ioredis";
-import { ClerkClient } from "@clerk/clerk-sdk-node";
 import admin from 'firebase-admin';
 import { STORABLE_FOLLOW_RELATIONSHIP } from "~/types/entities.types";
 

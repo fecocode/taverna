@@ -1,7 +1,6 @@
 import { RuntimeConfig } from "nuxt/schema";
 import { v2 as cloudinary } from 'cloudinary';
 import { PassThrough } from 'stream';
-import sharp from 'sharp';
 
 export async function createCloudinaryClient(runtimeConfig: RuntimeConfig) {
   cloudinary.config({
