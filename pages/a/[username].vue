@@ -18,7 +18,7 @@
           @click="handleFollowButtonClick"
         />
         <div class="profile-page__author__data">
-          <UAvatar :src="authorData.avatar" size="3xl" />
+          <UAvatar :src="authorData.avatar" size="3xl" imgClass="w-full h-full object-cover" />
           <div class="flex space-x-2 items-center flex-wrap">
             <h3>{{ authorData.username }}</h3>
             <UBadge v-if="authorData.follow_me" size="xs" color="gray">Te sigue</UBadge>

@@ -58,7 +58,7 @@
       </UBadge>
     </div>
     <div class="app-post__profile" @click.stop="goToAuthorProfile">
-      <UAvatar :src="authorAvatar" size="xs" />
+      <UAvatar :src="authorAvatar" size="xs" imgClass="w-full h-full object-cover" />
       <span>
         <b>@{{authorUsername}} <small v-if="isCurrentUserPostOwner" class="text-zinc-400">(vos)</small></b>
         <span v-show="timeAgo"> · {{ timeAgo }}</span>

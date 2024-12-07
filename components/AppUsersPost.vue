@@ -1,7 +1,7 @@
 <template>
   <div class="app-users-post">
     <div class="app-users-post__profile">
-      <UAvatar :src="userImage" size="xs" />
+      <UAvatar :src="userImage" size="xs" imgClass="w-full h-full object-cover" />
       <span><b>@{{userName}}</b> · Hace 1 hora</span>
     </div>
     <p>

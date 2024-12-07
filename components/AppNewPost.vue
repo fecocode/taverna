@@ -11,7 +11,7 @@
       @click="modalStore.closeNewPostModal()"
     />
     <div class="app-new-post__profile">
-      <UAvatar :src="userImage" size="xs" />
+      <UAvatar :src="userImage" size="xs" imgClass="w-full h-full object-cover" />
       <span><b>@{{ userName }}</b></span>
     </div>
     <div class="flex space-x-0">
