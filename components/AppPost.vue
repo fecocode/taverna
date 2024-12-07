@@ -364,6 +364,11 @@ function handleShareClick() {
 }
 
 function handleReplyClick() {
+  if (!auth.isSignedIn.value) {
+    modalsStore.openSignUpModal()
+    return
+  }
+  
   replyStore.setPostToReply(props.post)
 }
 
