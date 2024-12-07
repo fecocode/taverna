@@ -21,13 +21,16 @@
 </template>
 
 <script lang="ts" setup>
-import { ClerkLoading, ClerkLoaded, useAuth } from 'vue-clerk'
+import { ClerkLoading, ClerkLoaded, useAuth, useClerk, useUser } from 'vue-clerk'
 
 const runtimeConfig = useRuntimeConfig()
 
 const isLive = computed(() => parseInt(runtimeConfig.public.LIVE))
 const auth = useAuth()
 const favsStore = useFavsStore()
+const clerk = useClerk()
+const { user } = useUser()
+const notificationsStore = useNotificationsStore()
 
 definePageMeta({
   colorMode: 'dark',
@@ -40,6 +43,21 @@ watch(isSignedIn, async (value) => {
     await favsStore.fetchUserFavsIds()
   }
 })
+
+onMounted(async () => {
+  const clerk = useClerk()
+  
+  if (clerk.loaded && isSignedIn.value) {
+    await notificationsStore.startNotificationsPolling(user.value)
+  }
+})
+
+watch([() => clerk.loaded, isSignedIn], async ([loaded, signedIn]) => {
+  if (loaded && signedIn) {
+    await notificationsStore.startNotificationsPolling(user.value)
+  }
+})
+
 </script>
 
 <style lang="scss">

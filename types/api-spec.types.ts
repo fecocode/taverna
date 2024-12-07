@@ -70,3 +70,12 @@ export type RAW_AUTHOR_RESPONSE_DATA = {
   follow_me: boolean;
   posts: RAW_USER_POST_RESPONSE_DATA[];
 }
+
+export type RAW_USER_NOTIFICATION_DATA = {
+  id: string;
+  user_id: string;
+  text: string;
+  created_at: Date;
+  link: string;
+  image_url: string;
+}

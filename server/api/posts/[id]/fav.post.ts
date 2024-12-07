@@ -39,6 +39,12 @@ export default defineEventHandler(async (event) => {
     const postId = getRouterParam(event, 'id')
     const favId = `${userId}:${postId}`
 
+    if (!postId) {
+      return {
+        error: 'postId is required'
+      }
+    }
+
     const storableFav: STORABLE_FAV_USER_POST_RELATIONSHIP = {
       id: favId,
       user_id: userId,
@@ -82,6 +88,19 @@ export default defineEventHandler(async (event) => {
       
       postFavsCount = querySnapshot.size
       await redis.set(postFavKey, postFavsCount)
+    }
+
+    const postAuthorUserId = await getAuthorUserIdByPostId(postId)
+
+    if (postAuthorUserId !== userId) {
+      const user = await clerk.users.getUser(userId)
+      
+      await createNewNotification({
+        text: `A <strong>${user.username!}</strong> le gustó tu post`,
+        image_url: user.imageUrl,
+        link: `/p/${postId}`,
+        user_id: postAuthorUserId
+      })
     }
 
     setResponseStatus(event, 201)

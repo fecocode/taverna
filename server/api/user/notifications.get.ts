@@ -1,8 +1,6 @@
 import { createClerkClient } from "@clerk/clerk-sdk-node"
 import admin from 'firebase-admin';
 import { initializeApp } from 'firebase-admin/app';
-import RedisSingleton from "~/classes/redis-singletone.class"
-import { setFollowingRelationship } from "~/server/utils/authors.utils";
 
 export default defineEventHandler(async (event) => {
   const runtimeConfig = useRuntimeConfig()
@@ -14,24 +12,12 @@ export default defineEventHandler(async (event) => {
     })
   }
 
-  const redis = RedisSingleton.getInstance(runtimeConfig)
-
   const request = toWebRequest(event);
 
   const clerk = createClerkClient({
     secretKey: runtimeConfig.CLERK_SECRET_KEY!,
     publishableKey: runtimeConfig.public.CLERK_PUBLISHABLE_KEY!,
   })
-
-  const userIdToFollow = getRouterParam(event, 'id')
-
-  if (!userIdToFollow) {
-    setResponseStatus(event, 400)
-
-    return {
-      error: 'No user to follow'
-    }
-  }
 
   try {
     const verifiedSession = await clerk.authenticateRequest(request)
@@ -46,20 +32,28 @@ export default defineEventHandler(async (event) => {
 
     const { userId } = verifiedSession.toAuth()
 
-    await setFollowingRelationship(userId, userIdToFollow, redis)
-    const user = await clerk.users.getUser(userId)
-    await createNewNotification({
-      text: `<strong>${user.username!}</strong> comenzó a seguirte`,
-      image_url: user.imageUrl,
-      link: `/a/${user.username!}`,
-      user_id: userIdToFollow
-    })
-  } catch(error) {
-    console.error(error)
-    setResponseStatus(event, 500)
+    const userNotifications = await admin
+      .firestore()
+      .collection('user-notifications')
+      .where('user_id', '==', userId)
+      .orderBy('created_at', 'desc')
+      .limit(50)
+      .get()
+    
+    return userNotifications.docs.map((doc) => {
+      const { text, created_at, link, image_url  } = doc.data()
 
+      return {
+        text,
+        link,
+        image_url,
+        created_at: parseFirestoreTimeStampFormatToDate(created_at)
+      }
+    })
+  } catch (error) {
+    console.error(error)
     return {
-      error: 'Unexpected error'
+      error: 'unexpected error'
     }
   }
 })

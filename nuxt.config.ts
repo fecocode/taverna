@@ -15,6 +15,7 @@ export default defineNuxtConfig({
     public: {
       CLERK_PUBLISHABLE_KEY: process.env.CLERK_PUBLISHABLE_KEY!,
       LIVE: process.env.LIVE!,
+      SITE_DOMAIN: process.env.SITE_DOMAIN!,
     },
     CLERK_SECRET_KEY: process.env.CLERK_SECRET_KEY!,
     FIREBASE_ADMIN_KEY: process.env.FIREBASE_ADMIN_KEY!,

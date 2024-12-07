@@ -12,15 +12,17 @@
           <AppSkeletonPost />
         </template>
         <div v-else-if="posts.length === 0" class="users-fav__empty">
-          <IconLineMdCoffeeHalfEmptyTwotoneLoop class="icon" />
-          <p>Nada por aquí</p>
+          <div v-if="posts.length === 0" class="flex justify-center items-center space-x-3 text-zinc-400 py-5">
+            <UIcon name="i-heroicons-exclamation-triangle-solid" class="text-3xl" />
+            <span>Aún no hay nada por acá</span>
+          </div>
           <NuxtLink :to="{ name: 'index' }">
             <UButton
               class="mt-3"
               icon="i-heroicons-home"
               label="Ir a la página principal"
               color="gray"
-              variant="outline"
+              variant="ghost"
               size="xs"
             />
           </NuxtLink>

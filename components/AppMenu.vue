@@ -15,17 +15,19 @@
           />
         </NuxtLink>
       </UTooltip>
-      <!-- <UTooltip :popper="{ placement: 'right'}" text="Notifications">
-        <NuxtLink :to="{ name: 'index' }">
-          <UButton
-            icon="i-heroicons-bell"
-            size="xl"
-            :ui="{ rounded: 'rounded-full' }"
-            :color="isHighlighted('lalal') ? 'yellow' : 'gray'"
-            variant="ghost"
-          />
+      <UTooltip :popper="{ placement: 'right'}" text="Notificaciones">
+        <NuxtLink :to="{ name: 'notifications' }">
+          <UChip color="red" :show="hasUnreadNotifications">
+            <UButton
+              icon="i-heroicons-bell"
+              size="xl"
+              :ui="{ rounded: 'rounded-full' }"
+              :color="isHighlighted('notifications') ? 'sky' : 'gray'"
+              variant="ghost"
+            />
+          </UChip>
         </NuxtLink>
-      </UTooltip> -->
+      </UTooltip>
       <UTooltip :popper="{ placement: 'right' }" text="Posts que te gustaron">
         <NuxtLink :to="{ name: 'liked-posts' }">
           <UButton
@@ -153,6 +155,7 @@ import { useModalsStore } from '~/stores/modals';
 import { SignedIn, SignedOut, useSession } from 'vue-clerk'
 
 const modalsStore = useModalsStore()
+const notificationsStore = useNotificationsStore()
 const route = useRoute()
 const { session } = useSession()
 
@@ -206,6 +209,8 @@ function isHighlighted(routeName: string) {
 
   return routeName === currentRouteName
 }
+
+const hasUnreadNotifications = computed(() => notificationsStore.hasUnreadNotifications)
 
 </script>
 

@@ -1,13 +1,15 @@
 import { createClerkClient } from "@clerk/clerk-sdk-node"
 import { RAW_CREATE_USER_POST_REQUEST_BODY, RAW_USER_POST_RESPONSE_DATA } from "~/types/api-spec.types.js";
 import { STOREABLE_POST } from "~/types/entities.types.js";
-import admin from 'firebase-admin';
+import admin, { auth } from 'firebase-admin';
 import { initializeApp } from 'firebase-admin/app';
 import RedisSingleton from "~/classes/redis-singletone.class"
 import DOMPurify from 'dompurify'
 import { JSDOM } from 'jsdom'
 import { uploadStaticImage } from "~/server/utils/statics.utils";
 import supportedPostCategoriesConstants from "~/constants/supported-post-categories.constants";
+import { createNewNotification } from "~/server/utils/notifications.utils";
+import { getAuthorUserIdByPostId } from "~/server/utils/posts.utils";
 
 export default defineEventHandler(async (event) => {
   const runtimeConfig = useRuntimeConfig()
@@ -133,6 +135,19 @@ export default defineEventHandler(async (event) => {
         await redis.zadd(`category:${category}:posts`, Date.now(), newPostId)
         await redis.zremrangebyrank(`category:${category}:posts`, 0, -101)
       }
+    }
+    
+    // Send notification
+
+    if (newPost.parent_post_id && newPost.parent_post_id !== userId) {
+      const parentPostAuthorUserId = await getAuthorUserIdByPostId(newPost.parent_post_id)
+
+      await createNewNotification({
+        text: `<strong>${author.username!}</strong> respondió a tu post`,
+        image_url: author.avatar,
+        link: `/p/${newPostId}`,
+        user_id: parentPostAuthorUserId
+      })
     }
 
     const response: RAW_USER_POST_RESPONSE_DATA = {

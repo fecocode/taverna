@@ -327,3 +327,14 @@ export async function getPostsByCategory(category: string, clerk: ClerkClient, r
 
   return posts
 }
+
+export async function getAuthorUserIdByPostId(postId: string) {
+  const postDoc = await admin.firestore().collection('user-posts').doc(postId).get()
+
+  if (!postDoc.exists) {
+    return null
+  }
+
+  const postData = postDoc.data()
+  return postData?.user_id || null
+}

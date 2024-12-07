@@ -24,3 +24,12 @@ export type STORABLE_FOLLOW_RELATIONSHIP = {
   followed_user_id: string;
   created_at: Date;
 }
+
+export type STORABLE_USER_NOTIFICATION = {
+  id: string;
+  user_id: string;
+  created_at: Date;
+  link: string;
+  text: string;
+  image_url: string;
+}
