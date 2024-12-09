@@ -31,7 +31,7 @@ export const useNotificationsStore = defineStore({
       }
     },
     async startNotificationsPolling(user: any) {
-      const POLLING_INTERVAL = 5 * 60 * 1000 // 5 minutes
+      const POLLING_INTERVAL = 60 * 60 * 1000 // 1 hour
       
       const poll = async () => {
         await this.fetchNotifications()
