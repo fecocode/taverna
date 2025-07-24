@@ -27,7 +27,7 @@
       />
       <UButton
         v-else-if="postSelectedCategory"
-        color="sky"
+        color="yellow"
         variant="soft"
         :label="postSelectedCategory"
         icon="i-heroicons-hashtag-16-solid"

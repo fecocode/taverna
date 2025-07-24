@@ -13,7 +13,7 @@
         />
       </div>
     </template>
-    <h2 class="text-2xl font-semibold mb-4">Código de conducta de Hackgento</h2>
+    <h2 class="text-2xl font-semibold mb-4">Código de conducta de Taverna</h2>
     <p class="text-base font-semibold mb-2">1. Respeto y Consideración</p>
     <p class="mb-4">
       <span class="font-semibold">Trata a Todos con Respeto:</span> Es fundamental tratar a los demás con respeto. Queda prohibido el uso de lenguaje ofensivo, difamatorio o discriminatorio. Queremos que esta sea una comunidad segura para todos.<br>

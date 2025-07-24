@@ -1,6 +1,6 @@
-# Hackgento
+# Taverna
 
-Red social para Indie Hackers argentos
+Red social para la BeerJS CBA
 
 ## En breve se podrá colaborar
 

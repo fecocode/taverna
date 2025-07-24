@@ -2,7 +2,7 @@
   <div class="app-menu">
     <div class="app-menu__main">
       <NuxtLink :to="{ name: 'index' }">
-        <UAvatar src="/logo.svg" alt="Logo de Hackgento" class="logo" :ui="{ rounded: 'rounded-sm' }"/>
+        <UAvatar src="/logo.png" alt="Logo de Taverna" class="logo" :ui="{ rounded: 'rounded-sm' }"/>
       </NuxtLink>
       <UTooltip :popper="{ placement: 'right'}" text="Principal">
         <NuxtLink :to="{ name: 'index' }">
@@ -10,7 +10,7 @@
             icon="i-heroicons-home"
             size="xl"
             :ui="{ rounded: 'rounded-full' }"
-            :color="isHighlighted('index') ? 'sky' : 'gray'"
+            :color="isHighlighted('index') ? 'yellow' : 'gray'"
             variant="ghost"
           />
         </NuxtLink>
@@ -22,7 +22,7 @@
               icon="i-heroicons-bell"
               size="xl"
               :ui="{ rounded: 'rounded-full' }"
-              :color="isHighlighted('notifications') ? 'sky' : 'gray'"
+              :color="isHighlighted('notifications') ? 'yellow' : 'gray'"
               variant="ghost"
             />
           </UChip>
@@ -34,7 +34,7 @@
             icon="i-heroicons-heart"
             size="xl"
             :ui="{ rounded: 'rounded-full' }"
-            :color="isHighlighted('liked-posts') ? 'sky' : 'gray'"
+            :color="isHighlighted('liked-posts') ? 'yellow' : 'gray'"
             variant="ghost"
           />
         </NuxtLink>
@@ -45,7 +45,7 @@
             icon="i-heroicons-user"
             size="xl"
             :ui="{ rounded: 'rounded-full' }"
-            :color="isCurrentRouteUserProfile ? 'sky' : 'gray'"
+            :color="isCurrentRouteUserProfile ? 'yellow' : 'gray'"
             variant="ghost"
           />
         </NuxtLink>
@@ -100,10 +100,10 @@
             <UButton
               icon="i-heroicons-book-open"
               size="sm"
-              color="sky"
+              color="yellow"
               variant="link"
               label="Ir al repositorio"
-              to="https://github.com/fecocode/Hackgento"
+              to="https://github.com/fecocode/taverna"
               target="_blank"
             >
               <template #leading>

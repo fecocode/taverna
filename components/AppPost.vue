@@ -46,11 +46,11 @@
       </UPopover>
     </div>
     <div v-if="showParentPost" class="flex items-center space-x-2 text-xs py-1" @click.stop>
-      <IconamoonComment class="text-sky-400" /> 
+      <IconamoonComment class="text-yellow-400" /> 
       <span>Respondiendo a <NuxtLink :to="{ name: 'p-id', params: { id: parentPostId } }" class="text-blue-400">Este post</NuxtLink></span>
     </div>
     <div v-if="postCategory" class="flex items-center space-x-2 text-xs py-1" @click.stop>
-      <UBadge color="sky" variant="soft" size="xs">
+      <UBadge color="yellow" variant="soft" size="xs">
         <div class="flex items-center space-x-1 opacity-90">
           <UIcon name="i-heroicons-hashtag-16-solid" />
           <span>{{ postCategory }}</span>
@@ -299,7 +299,7 @@ const favCountText = computed(() => {
 
 const favButtonColor = computed(() => {
   if (isInUserFavList.value) {
-    return 'sky'
+    return 'yellow'
   } else {
     return 'gray'
   }

@@ -1,7 +1,6 @@
 <template>
   <div class="default-layout">
     <AppModalsManager />
-    <AppWaitingOverlay v-if="!isLive"/>
     <ClerkLoading v-if="isLive">
       <AppLoadingOverlay />
     </ClerkLoading>

@@ -1,7 +1,7 @@
 <template>
   <AppScrollbarWrapper class="scroll-bar">
     <h3 class="flex space-x-3 items-center border-b border-zinc-700">
-      <UIcon name="i-heroicons-bell-solid" class="text-sky-400" />
+      <UIcon name="i-heroicons-bell-solid" class="text-yellow-400" />
       <span>Notificaciones</span>
     </h3>
     <AppNotification

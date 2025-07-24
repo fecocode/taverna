@@ -2,7 +2,7 @@
   <AppScrollbarWrapper class="scroll-bar">
     <div class="users-fav">
       <h3 class="flex space-x-3 items-center border-b border-zinc-700">
-        <UIcon name="i-heroicons-heart-20-solid" class="text-sky-400" />
+        <UIcon name="i-heroicons-heart-20-solid" class="text-yellow-400" />
         <span>Posts que te gustaron</span>
       </h3>
       <SignedIn>

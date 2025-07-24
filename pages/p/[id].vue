@@ -45,7 +45,7 @@
         />
       </div>
       <h3 v-if="post.replies && post.replies.length" class="flex space-x-3 items-center">
-        <IconamoonComment class="text-sky-400" /> 
+        <IconamoonComment class="text-yellow-400" /> 
         <span>Respuestas</span>
       </h3>
       <AppPost

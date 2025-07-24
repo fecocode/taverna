@@ -7,7 +7,7 @@ export default defineNuxtConfig({
 
   app: {
     head: {
-      title: 'Hackgento | Innovación criolla'
+      title: 'Taverna | BeerJS CBA'
     }
   },
 
