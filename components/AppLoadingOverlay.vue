@@ -2,7 +2,7 @@
   <div class="app-loading-overlay">
     <UAvatar src="/logo.png" size="3xl" :ui="{ rounded: 'rounded-sm' }" />
     <div class="texts">
-      <span class="brand"><strong>Taverna</strong></span>
+      <span class="brand"><strong>Taberna</strong></span>
       <span>Cargando...</span>
     </div>
     <IconSvgSpinners3DotsScale />

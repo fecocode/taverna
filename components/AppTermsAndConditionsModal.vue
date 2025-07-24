@@ -13,17 +13,17 @@
         />
       </div>
     </template>
-    <h2 class="text-2xl font-semibold mb-4">Términos y Condiciones de Uso de Taverna</h2>
+    <h2 class="text-2xl font-semibold mb-4">Términos y Condiciones de Uso de Taberna</h2>
 
-    <p class="mb-4">Bienvenido a Taverna. Al acceder y utilizar nuestra aplicación móvil y sitio web ("la App"), aceptas cumplir con estos términos y condiciones de uso ("Términos").</p>
+    <p class="mb-4">Bienvenido a Taberna. Al acceder y utilizar nuestra aplicación móvil y sitio web ("la App"), aceptas cumplir con estos términos y condiciones de uso ("Términos").</p>
 
     <h3 class="text-lg font-semibold mb-2">1. Uso de la App</h3>
     <p class="mb-4">La App está destinada para la creación, edición, eliminación y seguimiento de chismes entretenidos y de interés. Al utilizar la App, aceptas cumplir con nuestro código de conducta y todas las leyes locales aplicables.</p>
 
     <h3 class="text-lg font-semibold mb-2">2. Contenido y Propiedad Intelectual</h3>
     <ul class="list-disc pl-6 mb-4">
-        <li><span class="font-semibold">Propiedad del Contenido:</span> Los usuarios conservan los derechos de propiedad intelectual sobre el contenido que publican en Taverna.</li>
-        <li><span class="font-semibold">Licencia para Taverna:</span> Al publicar contenido en la App, los usuarios otorgan a Taverna una licencia mundial, no exclusiva, sublicenciable y transferible para usar, reproducir, distribuir y mostrar dicho contenido dentro de la App y para promocionar la App. Esta licencia permite a Taverna modificar, adaptar, traducir y crear obras derivadas del contenido con el fin de operar y promover la App.</li>
+        <li><span class="font-semibold">Propiedad del Contenido:</span> Los usuarios conservan los derechos de propiedad intelectual sobre el contenido que publican en Taberna.</li>
+        <li><span class="font-semibold">Licencia para Taberna:</span> Al publicar contenido en la App, los usuarios otorgan a Taberna una licencia mundial, no exclusiva, sublicenciable y transferible para usar, reproducir, distribuir y mostrar dicho contenido dentro de la App y para promocionar la App. Esta licencia permite a Taberna modificar, adaptar, traducir y crear obras derivadas del contenido con el fin de operar y promover la App.</li>
     </ul>
 
     <h3 class="text-lg font-semibold mb-2">3. Privacidad y Seguridad</h3>
@@ -39,7 +39,7 @@
     <p class="mb-4">Estos Términos se rigen e interpretan de acuerdo con las leyes de la República Argentina. Cualquier disputa que surja en relación con estos Términos estará sujeta a la jurisdicción exclusiva de los tribunales competentes en Argentina.</p>
 
     <h3 class="text-lg font-semibold mb-2">6. Limitación de Responsabilidad</h3>
-    <p class="mb-4">En la medida máxima permitida por la ley aplicable, Taverna no será responsable por ningún daño directo, indirecto, incidental, especial, emergente o punitivo que surja del uso de la App, incluso si se ha advertido sobre la posibilidad de tales daños.</p>
+    <p class="mb-4">En la medida máxima permitida por la ley aplicable, Taberna no será responsable por ningún daño directo, indirecto, incidental, especial, emergente o punitivo que surja del uso de la App, incluso si se ha advertido sobre la posibilidad de tales daños.</p>
   </UCard>
 </template>
 

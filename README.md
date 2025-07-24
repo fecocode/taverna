@@ -1,4 +1,4 @@
-# Taverna
+# Taberna
 
 Red social para la BeerJS CBA
 

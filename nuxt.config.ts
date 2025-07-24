@@ -7,7 +7,7 @@ export default defineNuxtConfig({
 
   app: {
     head: {
-      title: 'Taverna | BeerJS CBA'
+      title: 'Taberna | BeerJS CBA'
     }
   },
 

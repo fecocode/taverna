@@ -13,8 +13,8 @@
         />
       </div>
     </template>
-    <h2 class="text-2xl font-semibold mb-4">Política de Privacidad de Taverna</h2>
-    <p class="mb-4">En Taverna, valoramos tu privacidad y nos comprometemos a proteger tus datos personales. Esta política de privacidad describe cómo recopilamos, utilizamos y compartimos tus datos cuando utilizas nuestra aplicación móvil y sitio web ("la App").</p>
+    <h2 class="text-2xl font-semibold mb-4">Política de Privacidad de Taberna</h2>
+    <p class="mb-4">En Taberna, valoramos tu privacidad y nos comprometemos a proteger tus datos personales. Esta política de privacidad describe cómo recopilamos, utilizamos y compartimos tus datos cuando utilizas nuestra aplicación móvil y sitio web ("la App").</p>
 
     <h3 class="text-lg font-semibold mb-2">1. Datos Personales Recopilados</h3>
     <p class="mb-4">Recopilamos y almacenamos información personal limitada, que incluye:</p>
@@ -48,7 +48,7 @@
     <p class="mb-4">Los datos recopilados son los mínimos necesarios para el funcionamiento de la App. Sin embargo, los usuarios pueden solicitar la modificación, eliminación o envío de sus datos personales en cualquier momento. Para ello, deben enviar una solicitud al correo electrónico <a href="mailto:apps@fecocode.com" class="text-blue-500 hover:underline">apps@fecocode.com</a> y resolveremos la situación dentro de las 72 horas hábiles.</p>
 
     <h3 class="text-lg font-semibold mb-2">6. Retención de Datos</h3>
-    <p class="mb-4">Retenemos tus datos personales mientras mantengas una cuenta activa en Taverna. Si decides eliminar tu cuenta, eliminaremos todos tus datos personales de nuestros sistemas.</p>
+    <p class="mb-4">Retenemos tus datos personales mientras mantengas una cuenta activa en Taberna. Si decides eliminar tu cuenta, eliminaremos todos tus datos personales de nuestros sistemas.</p>
 
     <h3 class="text-lg font-semibold mb-2">7. Seguridad de los Datos</h3>
     <p class="mb-4">Nos comprometemos a proteger tus datos personales mediante medidas de seguridad adecuadas. Toda la información personal que recopilamos está cifrada para garantizar su protección.</p>

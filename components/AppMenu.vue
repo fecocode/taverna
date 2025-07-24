@@ -2,7 +2,7 @@
   <div class="app-menu">
     <div class="app-menu__main">
       <NuxtLink :to="{ name: 'index' }">
-        <UAvatar src="/logo.png" alt="Logo de Taverna" class="logo" :ui="{ rounded: 'rounded-sm' }"/>
+        <UAvatar src="/logo.png" alt="Logo de Taberna" class="logo" :ui="{ rounded: 'rounded-sm' }"/>
       </NuxtLink>
       <UTooltip :popper="{ placement: 'right'}" text="Principal">
         <NuxtLink :to="{ name: 'index' }">
@@ -103,7 +103,7 @@
               color="yellow"
               variant="link"
               label="Ir al repositorio"
-              to="https://github.com/fecocode/taverna"
+              to="https://github.com/fecocode/Taberna"
               target="_blank"
             >
               <template #leading>

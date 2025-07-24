@@ -43,7 +43,7 @@ function handleGoBackClick() {
         <span class="h-fit text-lg font-semibold">{{ goBackComponentText }}</span>
       </div>
       <NuxtLink v-else :to="{ name: 'index' }">
-        <span class="name"><b>Taverna</b></span>
+        <span class="name"><b>Taberna</b></span>
       </NuxtLink>
     </div>
     <div class="app-topbar__actions">
